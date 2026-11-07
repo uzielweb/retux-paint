@@ -21,7 +21,7 @@ O **Retux Paint** é uma recriação moderna, elegante e 100% responsiva para a 
 ### Principais Funcionalidades
 
 - 🖌️ **Ferramentas Clássicas de Desenho:**
-  - **Pincel (33 Formatos e Ajuste Livre de Tamanho):** Círculos (fino, médio, grosso, gigante), quadrado, triângulo, losango, estrelas (5 e 8 pontas), coração, cruz, mais, polígonos (pentágono, hexágono, octógono), florzinha, gotas/respingos, lua, raio, seta, caligrafia chanfrada (esquerda e direita), anel, círculo duplo, alvo, spray/aerógrafo, folha, patinha pet, sol radiante, nota musical, cerdas peludas, barras horizontal e vertical. Controle contínuo de tamanho (de 2px a 100px) com atalhos de tamanho rápido (P, M, G, GG).
+  - **Pincel (38 Formatos e Ajuste Livre de Tamanho):** Círculos (fino, médio, grosso, gigante), quadrado, triângulo, losango, estrelas (5 e 8 pontas), coração, Cruz Latina tradicional (✝), Sinal de Mais equilátero (+), polígonos (pentágono, hexágono, octógono), florzinha, gotas/respingos, lua, raio, seta, caligrafia chanfrada (esquerda e direita), anel, círculo duplo, alvo, spray/aerógrafo, folha, patinha pet, sol radiante, coleção musical completa (Nota Colcheia ♪, Notas Duplas ♫, Clave de Sol 𝄞, Sustenido ♯, Bemol ♭, Semínima ♩), cerdas peludas, barras horizontal e vertical. Controle contínuo de tamanho (de 2px a 100px) com atalhos de tamanho rápido (P, M, G, GG).
   - **Carimbos (79+ Assets):** Coleção vetorial em 8 categorias (*Coloríveis, Tux, Animais, Veículos, Natureza, Comidas, HQ/Fantasia e Emojis*).
   - **Carimbos Coloríveis:** Silhuetas que mudam de cor em tempo real de acordo com a paleta selecionada.
   - **Linhas Retas:** Desenho guiado com espessura variável.
@@ -65,7 +65,7 @@ O **Retux Paint** é uma recriação moderna, elegante e 100% responsiva para a 
 ### Key Features
 
 - 🖌️ **Classic Drawing Tools:**
-  - **Paint Brush (33 Shapes & Free Size Adjustment):** Circles (fine, medium, thick, huge), square, triangle, diamond, stars (5 and 8 points), heart, cross, plus, polygons (pentagon, hexagon, octagon), flower, splatters, moon, lightning, arrow, calligraphy chisel (left and right), ring, double ring, bullseye target, airbrush/spray, leaf, pet paw, sunburst, music note, bristle brush, horizontal and vertical bars. Continuous size slider (2px to 100px) with quick size presets (S, M, L, XL).
+  - **Paint Brush (38 Shapes & Free Size Adjustment):** Circles (fine, medium, thick, huge), square, triangle, diamond, stars (5 and 8 points), heart, traditional Latin Cross (✝), equilateral Plus sign (+), polygons (pentagon, hexagon, octagon), flower, splatters, moon, lightning, arrow, calligraphy chisel (left and right), ring, double ring, bullseye target, airbrush/spray, leaf, pet paw, sunburst, full musical notation set (Eighth Note ♪, Beamed Notes ♫, Treble Clef 𝄞, Sharp ♯, Flat ♭, Quarter Note ♩), bristle brush, horizontal and vertical bars. Continuous size slider (2px to 100px) with quick size presets (S, M, L, XL).
   - **Stamps (79+ Assets):** Curated vector stamps in 8 categories (*Colorable, Tux, Animals, Vehicles, Nature, Food, Comics, and Emojis*).
   - **Colorable Stamps:** Silhouette assets that react in real-time to the active color palette.
   - **Lines:** Guided straight lines with adjustable thickness.

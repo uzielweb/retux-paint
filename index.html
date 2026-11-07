@@ -3569,8 +3569,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'star5', name: 'Estrela 5 / Star 5', size: 24, icon: '<polygon points="16,3 20,11 29,12 22,18 24,27 16,22 8,27 10,18 3,12 12,11" fill="currentColor"/>' },
         { id: 'star8', name: 'Estrela 8 / Star 8', size: 26, icon: '<polygon points="16,3 18,11 25,7 21,14 29,16 21,18 25,25 18,21 16,29 14,21 7,25 11,18 3,16 11,14 7,7 14,11" fill="currentColor"/>' },
         { id: 'heart', name: 'Coração / Heart', size: 24, icon: '<path d="M 16 26 C 6 18 6 10 12 7 C 16 5 16 9 16 9 C 16 9 16 5 20 7 C 26 10 26 18 16 26 Z" fill="currentColor"/>' },
-        { id: 'cross', name: 'Cruz / Cross', size: 22, icon: '<rect x="13" y="5" width="6" height="22" rx="2" fill="currentColor"/><rect x="5" y="11" width="22" height="6" rx="2" fill="currentColor"/>' },
-        { id: 'plus', name: 'Mais / Plus', size: 20, icon: '<rect x="13" y="6" width="6" height="20" fill="currentColor"/><rect x="6" y="13" width="20" height="6" fill="currentColor"/>' },
+        { id: 'cross', name: 'Cruz / Cross', size: 24, icon: '<rect x="13" y="3" width="6" height="26" rx="2" fill="currentColor"/><rect x="5" y="9" width="22" height="6" rx="2" fill="currentColor"/>' },
+        { id: 'plus', name: 'Mais / Plus', size: 22, icon: '<rect x="13" y="5" width="6" height="22" rx="2" fill="currentColor"/><rect x="5" y="13" width="22" height="6" rx="2" fill="currentColor"/>' },
         { id: 'pentagon', name: 'Pentágono / Pentagon', size: 24, icon: '<polygon points="16,4 28,13 23,27 9,27 4,13" fill="currentColor"/>' },
         { id: 'hexagon', name: 'Hexágono / Hexagon', size: 24, icon: '<polygon points="16,4 27,10 27,22 16,28 5,22 5,10" fill="currentColor"/>' },
         { id: 'octagon', name: 'Octógono / Octagon', size: 24, icon: '<polygon points="11,5 21,5 27,11 27,21 21,27 11,27 5,21 5,11" fill="currentColor"/>' },
@@ -3588,7 +3588,12 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'leaf', name: 'Folha / Leaf', size: 24, icon: '<path d="M 16 4 Q 28 16 16 28 Q 4 16 16 4 Z" fill="currentColor"/>' },
         { id: 'paw', name: 'Patinha / Paw', size: 24, icon: '<ellipse cx="16" cy="20" rx="6" ry="4.5" fill="currentColor"/><circle cx="9" cy="12" r="2.5" fill="currentColor"/><circle cx="13" cy="9" r="2.5" fill="currentColor"/><circle cx="19" cy="9" r="2.5" fill="currentColor"/><circle cx="23" cy="12" r="2.5" fill="currentColor"/>' },
         { id: 'sun', name: 'Sol / Sunburst', size: 24, icon: '<circle cx="16" cy="16" r="5" fill="currentColor"/><line x1="16" y1="5" x2="16" y2="8" stroke="currentColor" stroke-width="2.5"/><line x1="16" y1="24" x2="16" y2="27" stroke="currentColor" stroke-width="2.5"/><line x1="5" y1="16" x2="8" y2="16" stroke="currentColor" stroke-width="2.5"/><line x1="24" y1="16" x2="27" y2="16" stroke="currentColor" stroke-width="2.5"/><line x1="8" y1="8" x2="10" y2="10" stroke="currentColor" stroke-width="2"/><line x1="22" y1="22" x2="24" y2="24" stroke="currentColor" stroke-width="2"/><line x1="8" y1="24" x2="10" y2="22" stroke="currentColor" stroke-width="2"/><line x1="22" y1="10" x2="24" y2="8" stroke="currentColor" stroke-width="2"/>' },
-        { id: 'music', name: 'Música / Music Note', size: 24, icon: '<ellipse cx="12" cy="22" rx="4" ry="3" fill="currentColor"/><rect x="15" y="7" width="2" height="15" fill="currentColor"/><rect x="15" y="7" width="7" height="4" fill="currentColor"/>' },
+        { id: 'music', name: 'Nota / Note ♪', size: 24, icon: '<ellipse cx="12" cy="22" rx="4" ry="3" fill="currentColor"/><rect x="15" y="7" width="2" height="15" fill="currentColor"/><path d="M 17 7 Q 24 9 20 16 Q 19 11 17 10 Z" fill="currentColor"/>' },
+        { id: 'music-beam', name: 'Dupla / Beamed ♫', size: 24, icon: '<ellipse cx="9" cy="23" rx="3.5" ry="2.5" fill="currentColor"/><ellipse cx="23" cy="19" rx="3.5" ry="2.5" fill="currentColor"/><rect x="12" y="9" width="2" height="14" fill="currentColor"/><rect x="26" y="5" width="2" height="14" fill="currentColor"/><polygon points="12,9 28,5 28,8 12,12" fill="currentColor"/>' },
+        { id: 'music-clef', name: 'Clave Sol / Clef 𝄞', size: 26, icon: '<circle cx="15" cy="25" r="2" fill="currentColor"/><path d="M 16 23 L 16 7 Q 22 3 16 3 Q 10 3 12 16 Q 13 22 20 19 Q 22 15 17 14 Q 13 14 15 19" stroke="currentColor" stroke-width="1.8" fill="none"/>' },
+        { id: 'music-sharp', name: 'Sustenido / Sharp ♯', size: 24, icon: '<line x1="12" y1="5" x2="12" y2="27" stroke="currentColor" stroke-width="2"/><line x1="20" y1="5" x2="20" y2="27" stroke="currentColor" stroke-width="2"/><line x1="7" y1="13" x2="25" y2="10" stroke="currentColor" stroke-width="2.5"/><line x1="7" y1="20" x2="25" y2="17" stroke="currentColor" stroke-width="2.5"/>' },
+        { id: 'music-flat', name: 'Bemol / Flat ♭', size: 24, icon: '<line x1="12" y1="5" x2="12" y2="26" stroke="currentColor" stroke-width="2.5"/><path d="M 12 17 C 22 13 22 26 12 26 Z" fill="currentColor"/>' },
+        { id: 'music-quarter', name: 'Semínima / Quarter ♩', size: 24, icon: '<ellipse cx="12" cy="23" rx="4" ry="3" fill="currentColor"/><rect x="15" y="6" width="2" height="17" fill="currentColor"/>' },
         { id: 'fuzzy', name: 'Peludo / Bristle', size: 24, icon: '<circle cx="16" cy="16" r="4" fill="currentColor"/><line x1="16" y1="6" x2="16" y2="26" stroke="currentColor" stroke-width="1.5"/><line x1="6" y1="16" x2="26" y2="16" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="9" x2="23" y2="23" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="23" x2="23" y2="9" stroke="currentColor" stroke-width="1.5"/>' },
         { id: 'hbar', name: 'Barra Horiz. / Flat H', size: 22, icon: '<rect x="4" y="13" width="24" height="6" rx="2" fill="currentColor"/>' },
         { id: 'vbar', name: 'Barra Vert. / Flat V', size: 22, icon: '<rect x="13" y="4" width="6" height="24" rx="2" fill="currentColor"/>' }
@@ -4422,10 +4427,18 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.bezierCurveTo(x - r * 1.2, y - r * 0.5, x - r * 0.6, y - r * 1.1, x, y - r * 0.3);
       ctx.bezierCurveTo(x + r * 0.6, y - r * 1.1, x + r * 1.2, y - r * 0.5, x, y + r * 0.6);
       ctx.fill();
-    } else if (state.brushShape === 'cross' || state.brushShape === 'plus') {
-      const w = s * 0.3;
-      ctx.fillRect(x - w / 2, y - s / 2, w, s);
-      ctx.fillRect(x - s / 2, y - w / 2, s, w);
+    } else if (state.brushShape === 'cross') {
+      // Cruz Tradicional (Cruz Latina): haste vertical longa e barra transversal posicionada no terço superior
+      const w = Math.max(2, s * 0.24);
+      ctx.fillRect(x - w / 2, y - s * 0.5, w, s);
+      const barW = s * 0.75;
+      ctx.fillRect(x - barW / 2, y - s * 0.18 - w / 2, barW, w);
+    } else if (state.brushShape === 'plus') {
+      // Sinal de Mais '+': perfeitamente simétrico e equilátero
+      const w = Math.max(2, s * 0.25);
+      const arm = s * 0.85;
+      ctx.fillRect(x - w / 2, y - arm / 2, w, arm);
+      ctx.fillRect(x - arm / 2, y - w / 2, arm, w);
     } else if (state.brushShape === 'pentagon') {
       ctx.beginPath();
       for (let i = 0; i < 5; i++) {
@@ -4585,11 +4598,75 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.stroke();
       }
     } else if (state.brushShape === 'music') {
+      // Nota Musical Colcheia com bandeirola (♪)
       ctx.beginPath();
       ctx.ellipse(x - s * 0.15, y + s * 0.22, s * 0.18, s * 0.12, -0.3, 0, Math.PI * 2);
       ctx.fill();
-      ctx.fillRect(x + s * 0.03, y - s * 0.42, s * 0.1, s * 0.6);
-      ctx.fillRect(x + s * 0.03, y - s * 0.42, s * 0.3, s * 0.15);
+      ctx.fillRect(x + s * 0.02, y - s * 0.44, Math.max(2, s * 0.08), s * 0.66);
+      ctx.beginPath();
+      ctx.moveTo(x + s * 0.02, y - s * 0.44);
+      ctx.quadraticCurveTo(x + s * 0.38, y - s * 0.32, x + s * 0.25, y - s * 0.1);
+      ctx.quadraticCurveTo(x + s * 0.22, y - s * 0.28, x + s * 0.02, y - s * 0.32);
+      ctx.fill();
+    } else if (state.brushShape === 'music-beam') {
+      // Notas Ligadas Duplas (♫)
+      ctx.beginPath();
+      ctx.ellipse(x - s * 0.25, y + s * 0.25, s * 0.15, s * 0.1, -0.3, 0, Math.PI * 2);
+      ctx.ellipse(x + s * 0.18, y + s * 0.12, s * 0.15, s * 0.1, -0.3, 0, Math.PI * 2);
+      ctx.fill();
+      const stemW = Math.max(2, s * 0.07);
+      ctx.fillRect(x - s * 0.13, y - s * 0.32, stemW, s * 0.57);
+      ctx.fillRect(x + s * 0.3, y - s * 0.45, stemW, s * 0.57);
+      ctx.beginPath();
+      ctx.moveTo(x - s * 0.13, y - s * 0.32);
+      ctx.lineTo(x + s * 0.3 + stemW, y - s * 0.45);
+      ctx.lineTo(x + s * 0.3 + stemW, y - s * 0.33);
+      ctx.lineTo(x - s * 0.13, y - s * 0.2);
+      ctx.closePath();
+      ctx.fill();
+    } else if (state.brushShape === 'music-clef') {
+      // Clave de Sol (𝄞)
+      ctx.lineWidth = Math.max(1.8, s * 0.09);
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.arc(x - s * 0.08, y + s * 0.42, s * 0.08, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(x, y + s * 0.38);
+      ctx.lineTo(x, y - s * 0.25);
+      ctx.quadraticCurveTo(x + s * 0.22, y - s * 0.48, x, y - s * 0.48);
+      ctx.quadraticCurveTo(x - s * 0.26, y - s * 0.48, x - s * 0.2, y + s * 0.05);
+      ctx.quadraticCurveTo(x - s * 0.15, y + s * 0.32, x + s * 0.18, y + s * 0.18);
+      ctx.quadraticCurveTo(x + s * 0.24, y + s * 0.02, x + s * 0.05, y - s * 0.02);
+      ctx.quadraticCurveTo(x - s * 0.12, y - s * 0.02, x - s * 0.05, y + s * 0.12);
+      ctx.stroke();
+    } else if (state.brushShape === 'music-sharp') {
+      // Sustenido (♯)
+      const barW = Math.max(2, s * 0.07);
+      ctx.fillRect(x - s * 0.18, y - s * 0.45, barW, s * 0.9);
+      ctx.fillRect(x + s * 0.11, y - s * 0.45, barW, s * 0.9);
+      ctx.lineWidth = Math.max(2, s * 0.13);
+      ctx.beginPath();
+      ctx.moveTo(x - s * 0.38, y - s * 0.08);
+      ctx.lineTo(x + s * 0.38, y - s * 0.22);
+      ctx.moveTo(x - s * 0.38, y + s * 0.2);
+      ctx.lineTo(x + s * 0.38, y + s * 0.06);
+      ctx.stroke();
+    } else if (state.brushShape === 'music-flat') {
+      // Bemol (♭)
+      const barW = Math.max(2, s * 0.08);
+      ctx.fillRect(x - s * 0.16, y - s * 0.5, barW, s);
+      ctx.lineWidth = Math.max(2, s * 0.1);
+      ctx.beginPath();
+      ctx.moveTo(x - s * 0.16, y + s * 0.08);
+      ctx.bezierCurveTo(x + s * 0.35, y - s * 0.1, x + s * 0.35, y + s * 0.48, x - s * 0.16, y + s * 0.48);
+      ctx.stroke();
+    } else if (state.brushShape === 'music-quarter') {
+      // Semínima (♩)
+      ctx.beginPath();
+      ctx.ellipse(x - s * 0.12, y + s * 0.25, s * 0.18, s * 0.12, -0.3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillRect(x + s * 0.05, y - s * 0.45, Math.max(2, s * 0.08), s * 0.7);
     } else if (state.brushShape === 'fuzzy') {
       ctx.beginPath();
       ctx.arc(x, y, s * 0.2, 0, Math.PI * 2);
