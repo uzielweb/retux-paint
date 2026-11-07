@@ -28,9 +28,11 @@ O **Retux Paint** é uma recriação moderna, elegante e 100% responsiva para a 
   - **Mágicas (37 Efeitos Procedurais e Filtros):** Arco-íris, Laser Neon, Florescer, Bolhas, Brilhos, Grama, Giz, Gotejar, Confete, Calidoscópio, Tijolos (Bricks), Trilhos de Trem (Rails), Flocos de Neve, Chuva, Raios Elétricos, Fogos de Artifício, Mosaico Vitral, Tabuleiro de Xadrez, Pêlos Macios, Fios (String Art), Luz Neon, TV Retrô Scanlines, Pixelizar, Inverter Cores, Desfoque (Blur), Escurecer, Clarear, Tingir (Tint), Preto & Branco (Grayscale), Sépia Vintage, Relevo 3D (Emboss), Bordas Neon (Edges), Olho de Peixe (Fisheye), Redemoinho (Twirl), Ondas Senoidais, Nitidez (Sharpen) e Borrar (Smudge).
   - **Borracha:** 4 tamanhos diferentes para correções rápidas.
 
-- ✍️ **Editor de Texto Interativo On-Canvas:**
+- ✍️ **Editor de Texto Interativo & Múltiplos Textos Arrastáveis:**
   - Digitação direta no papel (sem caixas de diálogo `prompt()` invasivas).
-  - Reposicionamento por arrasto (*drag & drop*), ajuste de tamanho de fonte, rotação, negrito, itálico e mudança de cor em tempo real.
+  - **Arrasto de Qualquer Texto:** Qualquer texto criado pode ser selecionado e arrastado livremente pela tela a qualquer momento!
+  - Edição ao vivo: altere cor na paleta, tamanho de fonte (slider), rotação (360°), negrito, itálico ou dê dois cliques para editar o conteúdo de qualquer texto criado.
+  - Botão de exclusão rápida (`✕`) e edição inline (`✎`) para cada texto individualmente.
 
 - 🔄 **Controle Total de Rotação:**
   - Rotação livre de 0° a 360° com atalhos de ±45° para **Carimbos**, **Textos** e **Formas**.
@@ -70,9 +72,11 @@ O **Retux Paint** é uma recriação moderna, elegante e 100% responsiva para a 
   - **Magic Effects (37 Generative Effects & Filters):** Rainbow, Neon Laser, Blooming Flowers, Bubbles, Sparkles, Grass, Chalk, Drip, Confetti, Kaleidoscope, Classic Bricks, Train Tracks, Snowflakes, Raindrops, Electric Lightning, Fireworks, Stained Glass Mosaic, Checkerboard, Soft Fur, String Art, Soft Glow, Retro CRT Scanlines, Pixelate, Invert Colors, Blur, Darken, Lighten, Color Tint, Grayscale, Vintage Sepia, 3D Emboss, Neon Edges, Fisheye Lens, Swirl/Twirl, Sine Waves, Sharpen, and Finger Smudge.
   - **Eraser:** 4 sizes with smooth erasing.
 
-- ✍️ **Interactive On-Canvas Text Editor:**
+- ✍️ **Interactive On-Canvas Text & Multi-Text Dragging Engine:**
   - Live typing directly over the canvas paper (replacing disruptive modal prompts).
-  - Free dragging, live font sizing, rotation, bold, italic, and instant palette recoloring.
+  - **Drag Any Created Text:** Every placed text can be selected and dragged freely across the canvas at any time!
+  - Real-time editing: change color via palette, font size slider, 360° rotation slider, bold, italic, or double-click to edit text contents.
+  - Quick inline delete (`✕`) and edit (`✎`) action buttons on each text element.
 
 - 🔄 **Universal Rotation Engine:**
   - 360° rotation slider with ±45° presets for **Stamps**, **Text**, and **Shapes**.

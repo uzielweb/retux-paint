@@ -477,40 +477,128 @@ body {
   text-align: center;
 }
 
-/* Category Tabs in Stamp Panel */
+/* Category Tabs in Stamp Panel (Prominent, High-Visibility Pills) */
 .category-tabs-container {
   display: flex;
-  gap: 4px;
-  overflow-x: auto;
-  padding: 2px 2px 6px 2px;
-  margin-bottom: 6px;
-  scrollbar-width: none;
-}
-.category-tabs-container::-webkit-scrollbar {
-  display: none;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 4px 2px 8px 2px;
+  margin-bottom: 8px;
+  border-bottom: 1.5px solid #E2E8F0;
 }
 
 .cat-tab-btn {
-  background: #F1F5F9;
-  border: 1px solid #CBD5E1;
-  border-radius: 14px;
-  padding: 3px 9px;
-  font-size: 11px;
-  font-weight: 700;
+  background: #FFFFFF;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 800;
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.15s ease;
-  color: #334155;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #1E293B;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .cat-tab-btn:hover {
-  background: #E2E8F0;
+  background: #F8FAFC;
+  border-color: #3B82F6;
+  color: #1D4ED8;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(59, 130, 246, 0.2);
 }
 
 .cat-tab-btn.active {
-  background: #3B82F6;
+  background: #2563EB !important;
+  color: #FFFFFF !important;
+  border-color: #1D4ED8 !important;
+  font-weight: 900;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+}
+
+/* Placed Interactive Text Items (Draggable Canvas Text) */
+#placedTextsLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 15;
+}
+
+.placed-text-item {
+  position: absolute;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1.5px dashed transparent;
+  cursor: grab;
+  user-select: none;
+  pointer-events: auto;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  touch-action: none;
+}
+
+.placed-text-item:active {
+  cursor: grabbing;
+}
+
+.placed-text-item:hover, .placed-text-item.selected {
+  border-color: #3B82F6;
+  background-color: rgba(59, 130, 246, 0.08);
+}
+
+.placed-text-item .placed-text-toolbar {
+  display: none;
+  position: absolute;
+  top: -26px;
+  left: 0;
+  gap: 3px;
+  align-items: center;
+  background: #0F172A;
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 30;
+}
+
+.placed-text-item:hover .placed-text-toolbar,
+.placed-text-item.selected .placed-text-toolbar {
+  display: flex;
+}
+
+.placed-text-toolbar span.badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94A3B8;
+  text-transform: uppercase;
+  margin-right: 2px;
+}
+
+.placed-text-btn {
+  background: transparent;
+  border: none;
   color: #FFFFFF;
-  border-color: #2563EB;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 1px 5px;
+  line-height: 16px;
+  border-radius: 3px;
+  transition: background 0.12s ease;
+}
+
+.placed-text-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.placed-text-btn.btn-del-text:hover {
+  background: #EF4444;
 }
 
 /* Options Grid (Adaptive Auto-Fill) */
@@ -1087,6 +1175,7 @@ body {
     <section class="canvas-container" id="canvasContainer">
       <div class="canvas-paper" id="canvasPaper">
         <canvas id="paintCanvas"></canvas>
+        <div id="placedTextsLayer"></div>
 
         <!-- Interactive Canvas Inline Text Editor -->
         <div class="inline-text-editor" id="inlineTextEditor" style="display: none; left: 100px; top: 100px;">
@@ -2631,6 +2720,10 @@ document.addEventListener('DOMContentLoaded', () => {
     stampRotation: 0,
     stampFlipped: false,
     magicType: 'rainbow',
+    magicSize: 26,
+    placedTexts: [],
+    selectedTextId: null,
+    editingTextId: null,
     eraserSize: 28,
     eraserShape: 'circle',
     textFont: 'Fredoka',
@@ -2776,7 +2869,10 @@ document.addEventListener('DOMContentLoaded', () => {
     snapCanvas.height = canvas.height;
     snapCanvas.getContext('2d').drawImage(canvas, 0, 0);
 
-    state.history.push(snapCanvas);
+    state.history.push({
+      canvas: snapCanvas,
+      texts: JSON.parse(JSON.stringify(state.placedTexts || []))
+    });
     if (state.history.length > state.maxHistory) {
       state.history.shift();
     } else {
@@ -2789,9 +2885,13 @@ document.addEventListener('DOMContentLoaded', () => {
     commitInlineText(false);
     if (state.historyIndex > 0) {
       state.historyIndex--;
-      const snapCanvas = state.history[state.historyIndex];
+      const snap = state.history[state.historyIndex];
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const snapCanvas = snap.canvas || snap;
       ctx.drawImage(snapCanvas, 0, 0, canvas.width, canvas.height);
+      state.placedTexts = snap.texts ? JSON.parse(JSON.stringify(snap.texts)) : [];
+      state.selectedTextId = null;
+      renderPlacedTexts();
       window.tuxAudio.playUndo();
       setTuxTip(t('act_undo'));
     }
@@ -2802,9 +2902,13 @@ document.addEventListener('DOMContentLoaded', () => {
     commitInlineText(false);
     if (state.historyIndex < state.history.length - 1) {
       state.historyIndex++;
-      const snapCanvas = state.history[state.historyIndex];
+      const snap = state.history[state.historyIndex];
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const snapCanvas = snap.canvas || snap;
       ctx.drawImage(snapCanvas, 0, 0, canvas.width, canvas.height);
+      state.placedTexts = snap.texts ? JSON.parse(JSON.stringify(snap.texts)) : [];
+      state.selectedTextId = null;
+      renderPlacedTexts();
       window.tuxAudio.playOfficial('assets/sounds/flip.wav', () => window.tuxAudio.playPop(750));
       setTuxTip(t('act_redo'));
     }
@@ -2844,6 +2948,7 @@ document.addEventListener('DOMContentLoaded', () => {
         swatch.classList.add('active');
         window.tuxAudio.playPop(520);
         updateInlineTextStyles();
+        updateSelectedTextLive();
         updateStampPreview();
         setTuxTip(color);
       });
@@ -2858,6 +2963,7 @@ document.addEventListener('DOMContentLoaded', () => {
         state.currentColor = e.target.value;
         document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
         updateInlineTextStyles();
+        updateSelectedTextLive();
         updateStampPreview();
       });
       colorInput.addEventListener('change', () => {
@@ -2932,6 +3038,163 @@ document.addEventListener('DOMContentLoaded', () => {
     window.tuxAudio.playPop(640);
   }
 
+  // Placed Interactive Text Engine (Multi-Text Drag & Drop)
+  const placedTextsLayer = document.getElementById('placedTextsLayer');
+
+  function renderPlacedTexts() {
+    if (!placedTextsLayer) return;
+    placedTextsLayer.innerHTML = '';
+    (state.placedTexts || []).forEach(t => {
+      const el = document.createElement('div');
+      el.className = `placed-text-item ${state.selectedTextId === t.id ? 'selected' : ''}`;
+      el.dataset.id = t.id;
+      el.style.left = `${t.x}px`;
+      el.style.top = `${t.y}px`;
+      el.style.transform = `rotate(${t.rotation || 0}deg)`;
+      el.style.transformOrigin = 'top left';
+
+      el.innerHTML = `
+        <div class="placed-text-toolbar">
+          <span class="badge">Texto</span>
+          <button class="placed-text-btn btn-edit-text" title="Editar / Edit">✎</button>
+          <button class="placed-text-btn btn-del-text" title="Excluir / Delete">✕</button>
+        </div>
+        <div class="placed-text-content" style="color:${t.color}; font-family:'${t.font}', sans-serif; font-size:${t.size}px; font-weight:${t.bold ? 'bold' : 'normal'}; font-style:${t.italic ? 'italic' : 'normal'}; line-height:1.25; white-space:pre;">${escapeHtml(t.text)}</div>
+      `;
+
+      // Dragging logic
+      let isDragging = false;
+      let startX = 0, startY = 0;
+      let initX = 0, initY = 0;
+
+      el.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('.placed-text-btn')) return;
+        e.preventDefault();
+        e.stopPropagation();
+        isDragging = true;
+        el.setPointerCapture(e.pointerId);
+        startX = e.clientX;
+        startY = e.clientY;
+        initX = t.x;
+        initY = t.y;
+        selectPlacedText(t.id);
+      });
+
+      el.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        t.x = Math.max(0, Math.min(canvas.width - 40, initX + dx));
+        t.y = Math.max(0, Math.min(canvas.height - 30, initY + dy));
+        el.style.left = `${t.x}px`;
+        el.style.top = `${t.y}px`;
+      });
+
+      const stopDrag = () => {
+        if (isDragging) {
+          isDragging = false;
+          saveSnapshot();
+          window.tuxAudio.playPop(520);
+        }
+      };
+      el.addEventListener('pointerup', stopDrag);
+      el.addEventListener('pointercancel', stopDrag);
+
+      // Action Buttons
+      el.querySelector('.btn-edit-text').addEventListener('click', (e) => {
+        e.stopPropagation();
+        editPlacedText(t.id);
+      });
+      el.querySelector('.btn-del-text').addEventListener('click', (e) => {
+        e.stopPropagation();
+        deletePlacedText(t.id);
+      });
+
+      // Double-click to Edit
+      el.addEventListener('dblclick', (e) => {
+        e.stopPropagation();
+        editPlacedText(t.id);
+      });
+
+      placedTextsLayer.appendChild(el);
+    });
+  }
+
+  function selectPlacedText(id) {
+    state.selectedTextId = id;
+    const item = (state.placedTexts || []).find(t => t.id === id);
+    if (!item) return;
+
+    if (state.tool !== 'text') {
+      setTool('text');
+    }
+
+    state.textSize = item.size;
+    state.textRotation = item.rotation || 0;
+    state.textFont = item.font;
+    state.textBold = item.bold;
+    state.textItalic = item.italic;
+    state.currentColor = item.color;
+
+    const sizeSlider = document.getElementById('textSizeSlider');
+    const sizeVal = document.getElementById('textSizeVal');
+    if (sizeSlider) sizeSlider.value = item.size;
+    if (sizeVal) sizeVal.textContent = `${item.size}px`;
+
+    const rotSlider = document.getElementById('textRotSlider');
+    const rotVal = document.getElementById('textRotVal');
+    if (rotSlider) rotSlider.value = item.rotation || 0;
+    if (rotVal) rotVal.textContent = `${item.rotation || 0}°`;
+
+    const boldBtn = document.getElementById('btnTextBold');
+    if (boldBtn) boldBtn.classList.toggle('active', item.bold);
+
+    const italicBtn = document.getElementById('btnTextItalic');
+    if (italicBtn) italicBtn.classList.toggle('active', item.italic);
+
+    document.querySelectorAll('.color-swatch').forEach(s => {
+      s.classList.toggle('active', s.dataset.color.toLowerCase() === item.color.toLowerCase());
+    });
+
+    renderPlacedTexts();
+  }
+
+  function updateSelectedTextLive() {
+    if (!state.selectedTextId) return;
+    const item = (state.placedTexts || []).find(t => t.id === state.selectedTextId);
+    if (!item) return;
+    item.size = state.textSize;
+    item.rotation = state.textRotation;
+    item.font = state.textFont;
+    item.bold = state.textBold;
+    item.italic = state.textItalic;
+    item.color = state.currentColor;
+    renderPlacedTexts();
+  }
+
+  function editPlacedText(id) {
+    const item = (state.placedTexts || []).find(t => t.id === id);
+    if (!item) return;
+    state.editingTextId = id;
+    selectPlacedText(id);
+    if (!inlineTextEditor) return;
+    inlineTextEditor.style.left = `${Math.max(10, item.x - 8)}px`;
+    inlineTextEditor.style.top = `${Math.max(10, item.y - 36)}px`;
+    inlineTextEditor.style.display = 'flex';
+    updateInlineTextStyles();
+    inlineTextInput.innerText = item.text;
+    inlineTextInput.focus();
+    window.tuxAudio.playPop(640);
+  }
+
+  function deletePlacedText(id) {
+    state.placedTexts = (state.placedTexts || []).filter(t => t.id !== id);
+    if (state.selectedTextId === id) state.selectedTextId = null;
+    renderPlacedTexts();
+    saveSnapshot();
+    window.tuxAudio.playOfficial('assets/sounds/flip.wav', () => window.tuxAudio.playPop(420));
+  }
+
   function commitInlineText(saveSnapshotAfter = true) {
     if (!inlineTextEditor || inlineTextEditor.style.display === 'none') return;
     const rawText = inlineTextInput.innerText || '';
@@ -2943,22 +3206,38 @@ document.addEventListener('DOMContentLoaded', () => {
       const textX = boxLeft + 8;
       const textY = boxTop + 36;
 
-      ctx.save();
-      ctx.translate(textX, textY);
-      if (state.textRotation !== 0) {
-        ctx.rotate((state.textRotation * Math.PI) / 180);
+      if (state.editingTextId) {
+        const existing = (state.placedTexts || []).find(t => t.id === state.editingTextId);
+        if (existing) {
+          existing.text = rawText;
+          existing.x = textX;
+          existing.y = textY;
+          existing.color = state.currentColor;
+          existing.font = state.textFont;
+          existing.size = state.textSize;
+          existing.bold = state.textBold;
+          existing.italic = state.textItalic;
+          existing.rotation = state.textRotation;
+        }
+        state.editingTextId = null;
+      } else {
+        const newText = {
+          id: 'txt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+          text: rawText,
+          x: textX,
+          y: textY,
+          color: state.currentColor,
+          font: state.textFont,
+          size: state.textSize,
+          bold: state.textBold,
+          italic: state.textItalic,
+          rotation: state.textRotation
+        };
+        state.placedTexts.push(newText);
+        state.selectedTextId = newText.id;
       }
-      ctx.fillStyle = state.currentColor;
-      ctx.font = `${state.textBold ? 'bold ' : ''}${state.textItalic ? 'italic ' : ''}${state.textSize}px '${state.textFont}', sans-serif`;
-      ctx.textBaseline = 'top';
 
-      const lines = rawText.split('\n');
-      const lineHeight = state.textSize * 1.25;
-      lines.forEach((l, idx) => {
-        ctx.fillText(l, 0, idx * lineHeight);
-      });
-      ctx.restore();
-
+      renderPlacedTexts();
       window.tuxAudio.playOfficial('assets/sounds/keyclick.wav', () => window.tuxAudio.playPop(740));
       if (saveSnapshotAfter) saveSnapshot();
       setTuxTip(t('text_stamped'));
@@ -2966,13 +3245,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     inlineTextEditor.style.display = 'none';
     inlineTextInput.innerText = '';
+    state.editingTextId = null;
   }
 
   function cancelInlineText() {
     if (!inlineTextEditor) return;
     inlineTextEditor.style.display = 'none';
     inlineTextInput.innerText = '';
+    state.editingTextId = null;
     window.tuxAudio.playPop(420);
+  }
+
+  function renderPlacedTextsToContext(targetCtx) {
+    (state.placedTexts || []).forEach(t => {
+      targetCtx.save();
+      targetCtx.translate(t.x, t.y);
+      if (t.rotation) {
+        targetCtx.rotate((t.rotation * Math.PI) / 180);
+      }
+      targetCtx.fillStyle = t.color;
+      targetCtx.font = `${t.bold ? 'bold ' : ''}${t.italic ? 'italic ' : ''}${t.size}px '${t.font}', sans-serif`;
+      targetCtx.textBaseline = 'top';
+      const lines = t.text.split('\n');
+      const lineHeight = t.size * 1.25;
+      lines.forEach((l, idx) => {
+        targetCtx.fillText(l, 0, idx * lineHeight);
+      });
+      targetCtx.restore();
+    });
+  }
+
+  function getCompositeCanvas() {
+    const offscreen = document.createElement('canvas');
+    offscreen.width = canvas.width;
+    offscreen.height = canvas.height;
+    const oCtx = offscreen.getContext('2d');
+    oCtx.drawImage(canvas, 0, 0);
+    renderPlacedTextsToContext(oCtx);
+    return offscreen;
   }
 
   if (btnConfirmText) btnConfirmText.addEventListener('click', (e) => { e.stopPropagation(); commitInlineText(true); });
@@ -3092,7 +3402,8 @@ document.addEventListener('DOMContentLoaded', () => {
           types: [{ description: 'PNG Image (*.png)', accept: { 'image/png': ['.png'] } }]
         });
         const writable = await handle.createWritable();
-        const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+        const compCanvas = getCompositeCanvas();
+        const blob = await new Promise(res => compCanvas.toBlob(res, 'image/png'));
         await writable.write(blob);
         await writable.close();
         setTuxTip(t('saved_success'));
@@ -3614,6 +3925,7 @@ document.addEventListener('DOMContentLoaded', () => {
         state.textSize = parseInt(e.target.value);
         sizeVal.textContent = `${state.textSize}px`;
         updateInlineTextStyles();
+        updateSelectedTextLive();
       });
       ctrl.querySelector('#btnTextSmaller').addEventListener('click', () => {
         state.textSize = Math.max(16, state.textSize - 4);
@@ -3632,6 +3944,7 @@ document.addEventListener('DOMContentLoaded', () => {
         state.textRotation = parseInt(e.target.value);
         rotVal.textContent = `${state.textRotation}°`;
         updateInlineTextStyles();
+        updateSelectedTextLive();
       });
       ctrl.querySelector('#btnTextRotMinus').addEventListener('click', () => {
         state.textRotation = (state.textRotation - 45 + 360) % 360;
@@ -3715,13 +4028,19 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (state.tool === 'magic') {
       subOptionsTitle.textContent = t('tool_magic');
 
-      // Magic Size Control
+      // Magic Size Controls Bar (Slider + Quick Presets P/M/G/GG)
       const ctrl = document.createElement('div');
       ctrl.className = 'stamp-controls';
       ctrl.innerHTML = `
-        <div class="sub-panel-section-title">${t('size')}: <span id="magicSizeVal">${state.brushSize}px</span></div>
+        <div class="sub-panel-section-title">${t('size')}: <span id="magicSizeVal">${state.magicSize}px</span></div>
         <div class="slider-container">
-          <input type="range" id="magicSizeSlider" min="6" max="90" step="2" value="${state.brushSize}">
+          <input type="range" id="magicSizeSlider" min="6" max="100" step="2" value="${state.magicSize}">
+        </div>
+        <div class="sub-panel-row">
+          <button class="sub-btn ${state.magicSize <= 16 ? 'active' : ''}" id="btnMagicSzSm">P (14px)</button>
+          <button class="sub-btn ${state.magicSize > 16 && state.magicSize <= 32 ? 'active' : ''}" id="btnMagicSzMd">M (26px)</button>
+          <button class="sub-btn ${state.magicSize > 32 && state.magicSize <= 55 ? 'active' : ''}" id="btnMagicSzLg">G (45px)</button>
+          <button class="sub-btn ${state.magicSize > 55 ? 'active' : ''}" id="btnMagicSzXl">GG (75px)</button>
         </div>
         <div class="sub-panel-section-title" style="margin-top: 8px;">${currentLang === 'pt-BR' ? 'Efeitos Mágicos' : 'Magic Effects'}</div>
       `;
@@ -3729,10 +4048,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const magicSizeSlider = ctrl.querySelector('#magicSizeSlider');
       const magicSizeVal = ctrl.querySelector('#magicSizeVal');
+
+      const setMagicSize = (sz) => {
+        state.magicSize = sz;
+        magicSizeSlider.value = sz;
+        magicSizeVal.textContent = `${sz}px`;
+        ctrl.querySelectorAll('.sub-panel-row .sub-btn').forEach(btn => btn.classList.remove('active'));
+        if (sz <= 16) ctrl.querySelector('#btnMagicSzSm')?.classList.add('active');
+        else if (sz <= 32) ctrl.querySelector('#btnMagicSzMd')?.classList.add('active');
+        else if (sz <= 55) ctrl.querySelector('#btnMagicSzLg')?.classList.add('active');
+        else ctrl.querySelector('#btnMagicSzXl')?.classList.add('active');
+      };
+
       magicSizeSlider.addEventListener('input', (e) => {
-        state.brushSize = parseInt(e.target.value);
-        magicSizeVal.textContent = `${state.brushSize}px`;
+        setMagicSize(parseInt(e.target.value));
       });
+
+      ctrl.querySelector('#btnMagicSzSm').addEventListener('click', () => { setMagicSize(14); window.tuxAudio.playPop(480); });
+      ctrl.querySelector('#btnMagicSzMd').addEventListener('click', () => { setMagicSize(26); window.tuxAudio.playPop(520); });
+      ctrl.querySelector('#btnMagicSzLg').addEventListener('click', () => { setMagicSize(45); window.tuxAudio.playPop(560); });
+      ctrl.querySelector('#btnMagicSzXl').addEventListener('click', () => { setMagicSize(75); window.tuxAudio.playPop(600); });
 
       const magics = [
         { id: 'rainbow', name: 'Arco-íris / Rainbow', icon: '<path d="M 4 24 A 12 12 0 0 1 28 24" stroke="#EF4444" stroke-width="3" fill="none"/><path d="M 7 24 A 9 9 0 0 1 25 24" stroke="#F59E0B" stroke-width="3" fill="none"/>' },
@@ -4287,44 +4622,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Magic Dispatcher (37 Effects)
   function applyMagic(x, y, lastX, lastY) {
+    const s = state.magicSize || 26;
     switch (state.magicType) {
-      case 'rainbow': magic.drawRainbow(ctx, x, y, lastX, lastY, state.brushSize); break;
-      case 'neon': magic.drawNeon(ctx, x, y, lastX, lastY, state.brushSize, state.currentColor); break;
-      case 'flowers': magic.drawBloomingFlowers(ctx, x, y, state.brushSize, state.currentColor); break;
-      case 'bubbles': magic.drawBubbles(ctx, x, y, state.brushSize, state.currentColor); break;
-      case 'sparkles': magic.drawSparkles(ctx, x, y, state.brushSize); break;
-      case 'grass': magic.drawGrass(ctx, x, y, state.brushSize); break;
-      case 'chalk': magic.drawChalk(ctx, x, y, lastX, lastY, state.brushSize, state.currentColor); break;
-      case 'drip': magic.drawDrip(ctx, x, y, state.brushSize, state.currentColor); break;
-      case 'confetti': magic.drawConfetti(ctx, x, y, state.brushSize); break;
-      case 'kaleidoscope': magic.drawKaleidoscope(ctx, x, y, lastX, lastY, state.brushSize, state.currentColor, canvas.width, canvas.height); break;
-      case 'bricks': magic.drawBricks(ctx, x, y, lastX, lastY, state.brushSize); break;
-      case 'rails': magic.drawRails(ctx, x, y, lastX, lastY, state.brushSize); break;
-      case 'snowflakes': magic.drawSnowflakes(ctx, x, y, state.brushSize); break;
-      case 'rain': magic.drawRain(ctx, x, y, state.brushSize); break;
-      case 'lightning': magic.drawLightning(ctx, x, y, lastX, lastY, state.brushSize); break;
-      case 'fireworks': magic.drawFireworks(ctx, x, y, state.brushSize); break;
-      case 'mosaic': magic.drawMosaic(ctx, x, y, state.brushSize); break;
-      case 'checkerboard': magic.drawCheckerboard(ctx, x, y, state.brushSize, state.currentColor); break;
-      case 'fur': magic.drawFur(ctx, x, y, lastX, lastY, state.brushSize, state.currentColor); break;
-      case 'string-art': magic.drawStringArt(ctx, x, y, lastX, lastY, state.brushSize, state.currentColor); break;
-      case 'glow': magic.drawGlow(ctx, x, y, lastX, lastY, state.brushSize, state.currentColor); break;
-      case 'tv': magic.drawTV(ctx, x, y, state.brushSize); break;
-      case 'pixelate': magic.applyPixelate(ctx, x, y, state.brushSize * 1.5); break;
-      case 'invert': magic.applyInvert(ctx, x, y, state.brushSize * 1.5); break;
-      case 'blur': magic.applyBlur(ctx, x, y, state.brushSize * 1.5); break;
-      case 'darken': magic.applyDarken(ctx, x, y, state.brushSize * 1.5); break;
-      case 'lighten': magic.applyLighten(ctx, x, y, state.brushSize * 1.5); break;
-      case 'tint': magic.applyTint(ctx, x, y, state.brushSize * 1.5, state.currentColor); break;
-      case 'grayscale': magic.applyGrayscale(ctx, x, y, state.brushSize * 1.5); break;
-      case 'sepia': magic.applySepia(ctx, x, y, state.brushSize * 1.5); break;
-      case 'emboss': magic.applyEmboss(ctx, x, y, state.brushSize * 1.5); break;
-      case 'edges': magic.applyEdges(ctx, x, y, state.brushSize * 1.5); break;
-      case 'fisheye': magic.applyFisheye(ctx, x, y, state.brushSize * 1.5); break;
-      case 'twirl': magic.applyTwirl(ctx, x, y, state.brushSize * 1.5); break;
-      case 'waves': magic.applyWaves(ctx, x, y, state.brushSize * 1.5); break;
-      case 'sharpen': magic.applySharpen(ctx, x, y, state.brushSize * 1.5); break;
-      case 'smudge': magic.applySmudge(ctx, x, y, lastX, lastY, state.brushSize * 1.5); break;
+      case 'rainbow': magic.drawRainbow(ctx, x, y, lastX, lastY, s); break;
+      case 'neon': magic.drawNeon(ctx, x, y, lastX, lastY, s, state.currentColor); break;
+      case 'flowers': magic.drawBloomingFlowers(ctx, x, y, s, state.currentColor); break;
+      case 'bubbles': magic.drawBubbles(ctx, x, y, s, state.currentColor); break;
+      case 'sparkles': magic.drawSparkles(ctx, x, y, s); break;
+      case 'grass': magic.drawGrass(ctx, x, y, s); break;
+      case 'chalk': magic.drawChalk(ctx, x, y, lastX, lastY, s, state.currentColor); break;
+      case 'drip': magic.drawDrip(ctx, x, y, s, state.currentColor); break;
+      case 'confetti': magic.drawConfetti(ctx, x, y, s); break;
+      case 'kaleidoscope': magic.drawKaleidoscope(ctx, x, y, lastX, lastY, s, state.currentColor, canvas.width, canvas.height); break;
+      case 'bricks': magic.drawBricks(ctx, x, y, lastX, lastY, s); break;
+      case 'rails': magic.drawRails(ctx, x, y, lastX, lastY, s); break;
+      case 'snowflakes': magic.drawSnowflakes(ctx, x, y, s); break;
+      case 'rain': magic.drawRain(ctx, x, y, s); break;
+      case 'lightning': magic.drawLightning(ctx, x, y, lastX, lastY, s); break;
+      case 'fireworks': magic.drawFireworks(ctx, x, y, s); break;
+      case 'mosaic': magic.drawMosaic(ctx, x, y, s); break;
+      case 'checkerboard': magic.drawCheckerboard(ctx, x, y, s, state.currentColor); break;
+      case 'fur': magic.drawFur(ctx, x, y, lastX, lastY, s, state.currentColor); break;
+      case 'string-art': magic.drawStringArt(ctx, x, y, lastX, lastY, s, state.currentColor); break;
+      case 'glow': magic.drawGlow(ctx, x, y, lastX, lastY, s, state.currentColor); break;
+      case 'tv': magic.drawTV(ctx, x, y, s); break;
+      case 'pixelate': magic.applyPixelate(ctx, x, y, s * 1.5); break;
+      case 'invert': magic.applyInvert(ctx, x, y, s * 1.5); break;
+      case 'blur': magic.applyBlur(ctx, x, y, s * 1.5); break;
+      case 'darken': magic.applyDarken(ctx, x, y, s * 1.5); break;
+      case 'lighten': magic.applyLighten(ctx, x, y, s * 1.5); break;
+      case 'tint': magic.applyTint(ctx, x, y, s * 1.5, state.currentColor); break;
+      case 'grayscale': magic.applyGrayscale(ctx, x, y, s * 1.5); break;
+      case 'sepia': magic.applySepia(ctx, x, y, s * 1.5); break;
+      case 'emboss': magic.applyEmboss(ctx, x, y, s * 1.5); break;
+      case 'edges': magic.applyEdges(ctx, x, y, s * 1.5); break;
+      case 'fisheye': magic.applyFisheye(ctx, x, y, s * 1.5); break;
+      case 'twirl': magic.applyTwirl(ctx, x, y, s * 1.5); break;
+      case 'waves': magic.applyWaves(ctx, x, y, s * 1.5); break;
+      case 'sharpen': magic.applySharpen(ctx, x, y, s * 1.5); break;
+      case 'smudge': magic.applySmudge(ctx, x, y, lastX, lastY, s * 1.5); break;
     }
   }
 
