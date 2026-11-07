@@ -1495,148 +1495,182 @@ body {
   display: none;
 }
 
-/* Quick-Size Dock (Decoupled on Canvas) */
-.quick-size-dock {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1.5px solid rgba(203, 213, 225, 0.85);
-  border-radius: 30px;
-  padding: 5px 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05);
-  z-index: 20;
-  max-width: 95%;
-  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  user-select: none;
+@media (max-width: 768px) {
+  
+  
+  
 }
 
-.dock-preview-pill {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #F1F5F9;
-  border: 1px solid #CBD5E1;
+
+/* Custom Retux Color Picker Modal */
+.color-picker-modal-card {
+  background: #FFFFFF;
   border-radius: 20px;
-  padding: 3px 8px;
-  min-width: 58px;
+  width: min(380px, 92vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  border: 2px solid #CBD5E1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: modalScale 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dock-preview-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #2563EB;
-  border: 1.5px solid #FFFFFF;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  flex-shrink: 0;
-  transition: width 0.15s ease, height 0.15s ease, background-color 0.15s ease;
+.color-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #E2E8F0;
+  padding-bottom: 8px;
 }
 
-.dock-size-val {
-  font-size: 11.5px;
-  font-weight: 800;
+.color-picker-title {
+  font-size: 16px;
+  font-weight: 900;
   color: #1E293B;
-  white-space: nowrap;
-}
-
-.dock-slider-box {
   display: flex;
   align-items: center;
-  width: 90px;
+  gap: 8px;
 }
 
-.dock-slider-box input[type="range"] {
+.color-map-wrapper {
+  position: relative;
   width: 100%;
-  height: 6px;
-  accent-color: #2563EB;
-  cursor: pointer;
+  height: 150px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+  cursor: crosshair;
+  touch-action: none;
 }
 
-.dock-presets {
+#colorMapCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.color-map-handle {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+
+.hue-slider-wrapper {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 4px;
 }
 
-.dock-btn {
-  background: #FFFFFF;
-  border: 1.5px solid #CBD5E1;
-  border-radius: 12px;
-  padding: 3px 8px;
-  font-size: 11.5px;
-  font-weight: 800;
-  color: #334155;
+#customHueSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 16px;
+  border-radius: 10px;
+  background: linear-gradient(to right, 
+    #ff0000 0%, #ffff00 17%, #00ff00 33%, 
+    #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%);
+  outline: none;
   cursor: pointer;
-  min-width: 28px;
-  height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  transition: all 0.12s ease;
 }
 
-.dock-btn:hover {
-  background: #F8FAFC;
-  border-color: #3B82F6;
-  color: #1D4ED8;
-  transform: translateY(-1px);
+#customHueSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2.5px solid #1E293B;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  cursor: pointer;
 }
 
-.dock-btn:active {
-  transform: scale(0.95);
-}
-
-.dock-btn.active {
-  background: #2563EB !important;
-  border-color: #1D4ED8 !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
-}
-
-.dock-divider {
-  width: 1.5px;
-  height: 18px;
-  background: #CBD5E1;
-  margin: 0 2px;
-}
-
-.dock-rot-box {
+.color-picker-preview-row {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 12px;
 }
 
-.dock-rot-val {
-  font-size: 11px;
-  font-weight: 800;
-  color: #475569;
-  min-width: 24px;
-  text-align: center;
+.color-preview-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border: 2px solid #CBD5E1;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.15);
+  flex-shrink: 0;
 }
+
+.color-input-hex-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.color-hex-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 800;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 8px;
+  text-transform: uppercase;
+  color: #1E293B;
+}
+
+.color-quick-swatches {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+}
+
+.quick-swatch-btn {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.quick-swatch-btn:hover, .quick-swatch-btn:active {
+  transform: scale(1.15);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.color-picker-footer {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  border-top: 1.5px solid #E2E8F0;
+  padding-top: 10px;
+}
+
 
 @media (max-width: 768px) {
-  .quick-size-dock {
-    bottom: 8px;
-    padding: 4px 8px;
-    gap: 6px;
-    border-radius: 24px;
+  .app-header {
+    height: 48px !important;
+    padding: 0 8px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    position: relative !important;
   }
-  .dock-slider-box {
-    width: 70px;
+  .brand {
+    display: none !important; /* Hide brand text in small mobile to save full width for buttons */
   }
-  .dock-btn {
-    padding: 2px 6px;
-    min-width: 26px;
-    height: 26px;
-    font-size: 11px;
+  .mobile-nav-btn {
+    padding: 4px 8px !important;
+    font-size: 11.5px !important;
   }
 }
 
@@ -1923,31 +1957,7 @@ body {
         </svg>
         <span data-i18n="drop_hint">Solte a imagem aqui para abrir!</span>
       </div>
-    
-      <!-- Quick-Size Dock (Decoupled Instant Size Bar on Canvas) -->
-      <div class="quick-size-dock" id="quickSizeDock">
-        <div class="dock-preview-pill" id="dockPreviewBadge" title="Espessura atual">
-          <div class="dock-preview-dot" id="dockPreviewDot"></div>
-          <span class="dock-size-val" id="dockSizeVal">14px</span>
-        </div>
-        <div class="dock-slider-box">
-          <input type="range" id="dockSlider" min="2" max="100" step="1" value="14">
-        </div>
-        <div class="dock-presets" id="dockPresetsBox">
-          <button class="dock-btn" data-preset="sm" id="btnDockSzSm">P</button>
-          <button class="dock-btn active" data-preset="md" id="btnDockSzMd">M</button>
-          <button class="dock-btn" data-preset="lg" id="btnDockSzLg">G</button>
-          <button class="dock-btn" data-preset="xl" id="btnDockSzXl">GG</button>
-        </div>
-        <div class="dock-rot-box" id="dockRotBox" style="display: none;">
-          <div class="dock-divider"></div>
-          <button class="dock-btn" id="btnDockRotMinus" title="Girar -45°">↺</button>
-          <span class="dock-rot-val" id="dockRotVal">0°</span>
-          <button class="dock-btn" id="btnDockRotPlus" title="Girar +45°">↻</button>
-        </div>
-      </div>
-
-    </section>
+</section>
 
     <!-- Right Sidebar Resizer Handle -->
     <div class="sidebar-resizer" id="rightSidebarResizer" title="Arraste para redimensionar o painel">
@@ -2004,10 +2014,56 @@ body {
     <div class="palette-container">
       <div class="palette-strip" id="paletteStrip"></div>
       <div class="custom-color-picker" id="customColorPicker" title="Mais Cores...">
-        <input type="color" id="nativeColorInput" style="opacity:0; width:100%; height:100%; cursor:pointer;">
+        
       </div>
     </div>
   </footer>
+
+  
+  <!-- Custom Retux Color Picker Modal -->
+  <div class="modal-backdrop" id="modalColorPicker">
+    <div class="color-picker-modal-card">
+      <div class="color-picker-header">
+        <div class="color-picker-title">
+          <span>🎨</span>
+          <span data-i18n="custom_color_title">Paleta de Cores Mágica</span>
+        </div>
+        <button class="drawer-close-btn" data-close-modal="modalColorPicker">✕</button>
+      </div>
+
+      <!-- 2D Saturation / Value Color Canvas -->
+      <div class="color-map-wrapper" id="colorMapWrapper">
+        <canvas id="colorMapCanvas" width="340" height="150"></canvas>
+        <div class="color-map-handle" id="colorMapHandle"></div>
+      </div>
+
+      <!-- Rainbow Hue Slider -->
+      <div class="hue-slider-wrapper">
+        <input type="range" id="customHueSlider" min="0" max="360" value="210">
+      </div>
+
+      <!-- Preview & Hex Input -->
+      <div class="color-picker-preview-row">
+        <div class="color-preview-box" id="colorPickerPreview"></div>
+        <div class="color-input-hex-box">
+          <span style="font-weight: 800; color:#64748B;">HEX:</span>
+          <input type="text" id="colorPickerHex" class="color-hex-input" value="#2563EB" maxlength="7">
+        </div>
+      </div>
+
+      <!-- Quick Curated Swatches Grid (32 Colors) -->
+      <div class="sub-panel-section-title" style="margin-top:2px;">Cores Rápidas / Quick Colors</div>
+      <div class="color-quick-swatches" id="colorQuickSwatches"></div>
+
+      <!-- Confirm / Cancel Actions -->
+      <div class="color-picker-footer">
+        <button class="sub-btn" data-close-modal="modalColorPicker">Cancelar</button>
+        <button class="sub-btn active" id="btnConfirmColorPicker" style="background:#2563EB; color:#FFF; border-color:#1D4ED8; padding:8px 18px; font-weight:900;">
+          ✓ Usar Cor
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal: New Drawing -->
   <div class="modal-backdrop" id="modalNew">
@@ -5443,8 +5499,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     window.tuxAudio.playPop(580);
     updateSubOptions();
-      syncQuickSizeDock();
-    updateStampPreview();
+updateStampPreview();
   }
 
   // Left Sidebar Click Handlers
@@ -6328,8 +6383,7 @@ document.addEventListener('DOMContentLoaded', () => {
     state.activeStampCategory = 'custom';
     closeModal('modalImportStamp');
     updateSubOptions();
-      syncQuickSizeDock();
-    updateStampPreview();
+updateStampPreview();
     window.tuxAudio.playFanfare();
   });
 
@@ -6403,8 +6457,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const nextLang = currentLang === 'pt-BR' ? 'en-US' : 'pt-BR';
       updateAppLanguage(nextLang);
       updateSubOptions();
-      syncQuickSizeDock();
-      window.tuxAudio.playPop(700);
+window.tuxAudio.playPop(700);
     });
   }
 
@@ -6506,6 +6559,355 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  
+  // =========================================================================
+  // COMPLETE MOBILE RESPONSIVE DRAWER & MODAL CONTROLLER
+  // =========================================================================
+  const toolsSidebar = document.querySelector('.tools-sidebar');
+  const optSidebarEl = typeof optionsSidebar !== 'undefined' ? optionsSidebar : document.getElementById('optionsSidebar');
+  const drawerBackdrop = document.getElementById('drawerBackdrop');
+  const btnMobileTools = document.getElementById('btnMobileTools');
+  const btnMobileOptions = document.getElementById('btnMobileOptions');
+  const btnCloseTools = document.getElementById('btnCloseTools');
+  const btnCloseOptions = document.getElementById('btnCloseOptions');
+  const mobileActiveToolName = document.getElementById('mobileActiveToolName');
+  const btnMobileMenu = document.getElementById('btnMobileMenu');
+  const mobileDropdownMenu = document.getElementById('mobileDropdownMenu');
+
+  function openToolsDrawer() {
+    closeAllDrawers(false);
+    if (toolsSidebar) toolsSidebar.classList.add('is-open');
+    if (drawerBackdrop) drawerBackdrop.classList.add('is-visible');
+    window.tuxAudio.playPop(420);
+  }
+
+  function openOptionsDrawer() {
+    closeAllDrawers(false);
+    if (optSidebarEl) optSidebarEl.classList.add('is-open');
+    if (drawerBackdrop) drawerBackdrop.classList.add('is-visible');
+    window.tuxAudio.playPop(480);
+  }
+
+  function closeAllDrawers(playAudio = false) {
+    if (toolsSidebar) toolsSidebar.classList.remove('is-open');
+    if (optSidebarEl) optSidebarEl.classList.remove('is-open');
+    if (drawerBackdrop) drawerBackdrop.classList.remove('is-visible');
+    if (mobileDropdownMenu) mobileDropdownMenu.classList.remove('is-open');
+    if (playAudio) window.tuxAudio.playPop(340);
+  }
+
+  if (btnMobileTools) btnMobileTools.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openToolsDrawer();
+  });
+  if (btnMobileOptions) btnMobileOptions.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openOptionsDrawer();
+  });
+  if (btnCloseTools) btnCloseTools.addEventListener('click', () => closeAllDrawers(true));
+  if (btnCloseOptions) btnCloseOptions.addEventListener('click', () => closeAllDrawers(true));
+  if (drawerBackdrop) drawerBackdrop.addEventListener('click', () => closeAllDrawers(true));
+
+  // Mobile Top Bar Undo / Redo
+  document.getElementById('btnMobileUndo')?.addEventListener('click', () => {
+    undo();
+    window.tuxAudio.playPop(380);
+  });
+  document.getElementById('btnMobileRedo')?.addEventListener('click', () => {
+    redo();
+    window.tuxAudio.playPop(420);
+  });
+
+  // Mobile Menu Dropdown Toggle
+  if (btnMobileMenu && mobileDropdownMenu) {
+    btnMobileMenu.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mobileDropdownMenu.classList.toggle('is-open');
+      window.tuxAudio.playPop(500);
+    });
+    document.addEventListener('click', (e) => {
+      if (!mobileDropdownMenu.contains(e.target) && e.target !== btnMobileMenu) {
+        mobileDropdownMenu.classList.remove('is-open');
+      }
+    });
+  }
+
+  // Mobile Dropdown Item Bindings
+  document.getElementById('btnMobNew')?.addEventListener('click', () => {
+    mobileDropdownMenu.classList.remove('is-open');
+    openModal('modalNew');
+  });
+  document.getElementById('btnMobOpen')?.addEventListener('click', () => {
+    mobileDropdownMenu.classList.remove('is-open');
+    fileInput.click();
+  });
+  document.getElementById('btnMobSave')?.addEventListener('click', () => {
+    mobileDropdownMenu.classList.remove('is-open');
+    saveDrawing();
+  });
+  document.getElementById('btnMobCopy')?.addEventListener('click', () => {
+    mobileDropdownMenu.classList.remove('is-open');
+    copyDrawingToClipboard();
+  });
+  document.getElementById('btnMobPrint')?.addEventListener('click', () => {
+    mobileDropdownMenu.classList.remove('is-open');
+    printDrawing();
+  });
+  document.getElementById('btnMobSound')?.addEventListener('click', () => {
+    btnSoundMode?.click();
+    const isOff = window.tuxAudio.mode === 'official';
+    const mobIcon = document.getElementById('mobSoundIcon');
+    const mobTxt = document.getElementById('mobSoundText');
+    if (mobIcon) mobIcon.textContent = isOff ? '🎵' : '🎹';
+    if (mobTxt) mobTxt.textContent = isOff ? t('audio_official') : t('audio_synthetic');
+  });
+  document.getElementById('btnMobLang')?.addEventListener('click', () => {
+    btnLangToggle?.click();
+    const mobFlag = document.getElementById('mobLangFlag');
+    const mobTxt = document.getElementById('mobLangText');
+    if (mobFlag) mobFlag.textContent = currentLang === 'pt-BR' ? '🇧🇷' : '🇺🇸';
+    if (mobTxt) mobTxt.textContent = currentLang === 'pt-BR' ? 'Português (BR)' : 'English (US)';
+  });
+  document.getElementById('btnMobFullscreen')?.addEventListener('click', () => {
+    btnFullscreen?.click();
+    mobileDropdownMenu.classList.remove('is-open');
+  });
+
+  // Mascot Avatar Touch Toggle on Mobile
+  const tuxAvatarEl = document.getElementById('tuxAvatar');
+  const tuxTipEl = document.getElementById('tuxTip');
+  if (tuxAvatarEl && tuxTipEl) {
+    tuxAvatarEl.addEventListener('click', () => {
+      tuxTipEl.classList.toggle('is-active');
+      window.tuxAudio.playOfficial('assets/sounds/giggle.wav', () => window.tuxAudio.playPop(650));
+      setTimeout(() => {
+        tuxTipEl.classList.remove('is-active');
+      }, 5000);
+    });
+  }
+
+  // Update mobile active tool badge name
+  function updateMobileToolBadge() {
+    if (!mobileActiveToolName) return;
+    const toolNames = {
+      brush: t('tool_brush'),
+      stamp: t('tool_stamp'),
+      lines: t('tool_lines'),
+      shapes: t('tool_shapes'),
+      text: t('tool_text'),
+      fill: t('tool_fill'),
+      magic: t('tool_magic'),
+      eraser: t('tool_eraser')
+    };
+    mobileActiveToolName.textContent = toolNames[state.tool] || state.tool;
+  }
+
+  // When clicking any tool button, update badge and on mobile handle drawers
+  document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      updateMobileToolBadge();
+      if (window.innerWidth <= 768) {
+        if (['brush', 'stamp', 'shapes', 'text', 'magic'].includes(btn.dataset.tool)) {
+          openOptionsDrawer();
+        } else {
+          closeAllDrawers();
+        }
+      }
+    });
+  });
+
+  // =========================================================================
+  // CUSTOM RETUX COLOR PICKER CONTROLLER
+  // =========================================================================
+  const colorMapCanvas = document.getElementById('colorMapCanvas');
+  const colorMapHandle = document.getElementById('colorMapHandle');
+  const customHueSlider = document.getElementById('customHueSlider');
+  const colorPickerPreview = document.getElementById('colorPickerPreview');
+  const colorPickerHex = document.getElementById('colorPickerHex');
+  const colorQuickSwatches = document.getElementById('colorQuickSwatches');
+  const btnConfirmColorPicker = document.getElementById('btnConfirmColorPicker');
+  const customColorPickerBtn = document.getElementById('customColorPicker');
+
+  let curHue = 210;
+  let curSat = 1.0;
+  let curVal = 0.9;
+  let tempChosenColor = '#2563EB';
+
+  const POPULAR_SWATCHES = [
+    '#EF4444', '#DC2626', '#F97316', '#F59E0B', '#FBBF24', '#FACC15', '#84CC16', '#22C55E',
+    '#10B981', '#06B6D4', '#0284C7', '#2563EB', '#4F46E5', '#7C3AED', '#A855F7', '#EC4899',
+    '#F43F5E', '#FDA4AF', '#FDE68A', '#A7F3D0', '#BAE6FD', '#DDD6FE', '#FBCFE8', '#FED7AA',
+    '#FFFFFF', '#E2E8F0', '#94A3B8', '#64748B', '#475569', '#1E293B', '#78350F', '#000000'
+  ];
+
+  if (colorQuickSwatches && colorQuickSwatches.children.length === 0) {
+    POPULAR_SWATCHES.forEach(hex => {
+      const sw = document.createElement('div');
+      sw.className = 'quick-swatch-btn';
+      sw.style.backgroundColor = hex;
+      sw.title = hex;
+      sw.addEventListener('click', () => {
+        applyHexToPicker(hex);
+        window.tuxAudio.playPop(520);
+      });
+      colorQuickSwatches.appendChild(sw);
+    });
+  }
+
+  function renderColorMap() {
+    if (!colorMapCanvas) return;
+    const ctxMap = colorMapCanvas.getContext('2d');
+    const w = colorMapCanvas.width;
+    const h = colorMapCanvas.height;
+
+    // Base color gradient (Hue -> White)
+    const baseColor = `hsl(${curHue}, 100%, 50%)`;
+    const gradH = ctxMap.createLinearGradient(0, 0, w, 0);
+    gradH.addColorStop(0, '#FFFFFF');
+    gradH.addColorStop(1, baseColor);
+    ctxMap.fillStyle = gradH;
+    ctxMap.fillRect(0, 0, w, h);
+
+    // Vertical gradient (Transparent -> Black)
+    const gradV = ctxMap.createLinearGradient(0, 0, 0, h);
+    gradV.addColorStop(0, 'rgba(0,0,0,0)');
+    gradV.addColorStop(1, '#000000');
+    ctxMap.fillStyle = gradV;
+    ctxMap.fillRect(0, 0, w, h);
+  }
+
+  function hsvToRgb(h, s, v) {
+    let r, g, b;
+    const i = Math.floor(h / 60) % 6;
+    const f = h / 60 - i;
+    const p = v * (1 - s);
+    const q = v * (1 - f * s);
+    const t = v * (1 - (1 - f) * s);
+    switch (i) {
+      case 0: r = v; g = t; b = p; break;
+      case 1: r = q; g = v; b = p; break;
+      case 2: r = p; g = v; b = t; break;
+      case 3: r = p; g = v; b = q; break;
+      case 4: r = t; g = p; b = v; break;
+      case 5: r = v; g = p; b = q; break;
+    }
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+  }
+
+  function rgbToHex(r, g, b) {
+    return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('').toUpperCase();
+  }
+
+  function hexToRgb(hex) {
+    hex = hex.replace('#', '');
+    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+    const num = parseInt(hex, 16);
+    return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+  }
+
+  function updateColorFromHSV() {
+    const [r, g, b] = hsvToRgb(curHue, curSat, curVal);
+    tempChosenColor = rgbToHex(r, g, b);
+    if (colorPickerPreview) colorPickerPreview.style.backgroundColor = tempChosenColor;
+    if (colorPickerHex) colorPickerHex.value = tempChosenColor;
+  }
+
+  function applyHexToPicker(hex) {
+    if (!/^#[0-9A-Fa-f]{6}$/.test(hex)) return;
+    tempChosenColor = hex.toUpperCase();
+    if (colorPickerPreview) colorPickerPreview.style.backgroundColor = tempChosenColor;
+    if (colorPickerHex) colorPickerHex.value = tempChosenColor;
+    const [r, g, b] = hexToRgb(hex);
+    // Simple RGB to HSV conversion
+    const max = Math.max(r, g, b) / 255;
+    const min = Math.min(r, g, b) / 255;
+    const d = max - min;
+    curVal = max;
+    curSat = max === 0 ? 0 : d / max;
+    if (max === min) curHue = 0;
+    else {
+      const rn = r / 255, gn = g / 255, bn = b / 255;
+      if (max === rn) curHue = (gn - bn) / d + (gn < bn ? 6 : 0);
+      else if (max === gn) curHue = (bn - rn) / d + 2;
+      else curHue = (rn - gn) / d + 4;
+      curHue = Math.round(curHue * 60);
+    }
+    if (customHueSlider) customHueSlider.value = curHue;
+    renderColorMap();
+    if (colorMapHandle && colorMapCanvas) {
+      colorMapHandle.style.left = `${curSat * 100}%`;
+      colorMapHandle.style.top = `${(1 - curVal) * 100}%`;
+    }
+  }
+
+  if (customHueSlider) {
+    customHueSlider.addEventListener('input', (e) => {
+      curHue = parseInt(e.target.value);
+      renderColorMap();
+      updateColorFromHSV();
+    });
+  }
+
+  // Pointer drag on 2D color canvas
+  const colorMapWrapper = document.getElementById('colorMapWrapper');
+  let isDraggingMap = false;
+
+  function pickMapPos(e) {
+    if (!colorMapWrapper) return;
+    const rect = colorMapWrapper.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const x = Math.max(0, Math.min(rect.width, clientX - rect.left));
+    const y = Math.max(0, Math.min(rect.height, clientY - rect.top));
+    curSat = x / rect.width;
+    curVal = 1 - (y / rect.height);
+    if (colorMapHandle) {
+      colorMapHandle.style.left = `${x}px`;
+      colorMapHandle.style.top = `${y}px`;
+    }
+    updateColorFromHSV();
+  }
+
+  if (colorMapWrapper) {
+    colorMapWrapper.addEventListener('pointerdown', (e) => {
+      isDraggingMap = true;
+      colorMapWrapper.setPointerCapture(e.pointerId);
+      pickMapPos(e);
+    });
+    colorMapWrapper.addEventListener('pointermove', (e) => {
+      if (isDraggingMap) pickMapPos(e);
+    });
+    colorMapWrapper.addEventListener('pointerup', () => { isDraggingMap = false; });
+    colorMapWrapper.addEventListener('pointercancel', () => { isDraggingMap = false; });
+  }
+
+  if (colorPickerHex) {
+    colorPickerHex.addEventListener('input', (e) => {
+      const val = e.target.value.trim();
+      if (/^#[0-9A-Fa-f]{6}$/.test(val)) applyHexToPicker(val);
+    });
+  }
+
+  if (customColorPickerBtn) {
+    customColorPickerBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      applyHexToPicker(state.currentColor || '#2563EB');
+      openModal('modalColorPicker');
+    });
+  }
+
+  if (btnConfirmColorPicker) {
+    btnConfirmColorPicker.addEventListener('click', () => {
+      state.currentColor = tempChosenColor;
+      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+      updateInlineTextStyles();
+      updateSelectedTextLive();
+      updateStampPreview();
+      closeModal('modalColorPicker');
+      window.tuxAudio.playFanfare();
+    });
+  }
+
   window.addEventListener('resize', () => resizeCanvas(true));
 
   // Boot Application
@@ -6514,8 +6916,7 @@ document.addEventListener('DOMContentLoaded', () => {
   saveSnapshot();
   renderPalette();
   updateSubOptions();
-      syncQuickSizeDock();
-  setTuxTip(t('welcome_tip'));
+setTuxTip(t('welcome_tip'));
 });
   </script>
 </body>
