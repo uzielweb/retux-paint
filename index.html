@@ -145,12 +145,110 @@ body {
 /* Main Workspace Layout */
 .workspace {
   flex: 1;
-  display: grid;
-  grid-template-columns: 140px 1fr 180px;
-  gap: 12px;
-  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px 12px;
   overflow: hidden;
   height: calc(100vh - 54px - 84px);
+  position: relative;
+}
+
+.tools-sidebar {
+  width: 140px;
+  min-width: 140px;
+  max-width: 140px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.canvas-container {
+  flex: 1;
+  min-width: 250px;
+  height: 100%;
+}
+
+/* Draggable Sidebar Resizer */
+.sidebar-resizer {
+  width: 12px;
+  margin: 0 -3px;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  transition: background 0.15s ease;
+}
+
+.sidebar-resizer:hover, .sidebar-resizer.dragging {
+  background: rgba(59, 130, 246, 0.15);
+  border-radius: 6px;
+}
+
+.resizer-handle-bar {
+  width: 4px;
+  height: 54px;
+  background: #CBD5E1;
+  border-radius: 4px;
+  transition: background 0.15s ease, height 0.15s ease, transform 0.15s ease;
+}
+
+.sidebar-resizer:hover .resizer-handle-bar, .sidebar-resizer.dragging .resizer-handle-bar {
+  background: #3B82F6;
+  height: 72px;
+  transform: scaleX(1.3);
+}
+
+.options-sidebar {
+  width: 280px;
+  min-width: 180px;
+  max-width: 550px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.options-sidebar .sidebar-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #94A3B8 #F1F5F9;
+}
+
+.options-sidebar .sidebar-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.options-sidebar .sidebar-scroll::-webkit-scrollbar-track {
+  background: #F1F5F9;
+  border-radius: 4px;
+}
+.options-sidebar .sidebar-scroll::-webkit-scrollbar-thumb {
+  background: #94A3B8;
+  border-radius: 4px;
+}
+.options-sidebar .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: #64748B;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)) !important;
+  gap: 8px;
+  padding: 4px 2px;
+  width: 100%;
 }
 
 /* Sidebar Columns (Tools & Options) */
@@ -997,7 +1095,7 @@ body {
   </header>
 
   <!-- Main Workspace -->
-  <main class="workspace">
+  <main class="workspace" id="workspace">
     <!-- Left Sidebar: Tools -->
     <aside class="sidebar tools-sidebar">
       <div class="sidebar-header">
@@ -1168,7 +1266,12 @@ body {
     </section>
 
     <!-- Right Sidebar: Sub-Options (Brushes, Stamps, Shapes, Magics) -->
-    <aside class="sidebar options-sidebar">
+    
+    <!-- Right Sidebar Resizer Handle -->
+    <div class="sidebar-resizer" id="rightSidebarResizer" title="Clique e arraste para redimensionar o painel lateral">
+      <div class="resizer-handle-bar"></div>
+    </div>
+    <aside class="sidebar options-sidebar" id="optionsSidebar">
       <div class="sidebar-header">
         <span id="subOptionsTitle">Opções</span>
       </div>
@@ -1596,7 +1699,7 @@ const TUX_STAMPS = [
     id: 'tux-classic',
     name: 'Tux Pinguim',
     category: 'Tux',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <!-- Feet -->
       <ellipse cx="38" cy="90" rx="14" ry="7" fill="#FFA500" stroke="#CC7000" stroke-width="2"/>
       <ellipse cx="62" cy="90" rx="14" ry="7" fill="#FFA500" stroke="#CC7000" stroke-width="2"/>
@@ -1624,7 +1727,7 @@ const TUX_STAMPS = [
     id: 'tux-cool',
     name: 'Tux Descolado',
     category: 'Tux',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <ellipse cx="38" cy="90" rx="14" ry="7" fill="#FFA500" stroke="#CC7000" stroke-width="2"/>
       <ellipse cx="62" cy="90" rx="14" ry="7" fill="#FFA500" stroke="#CC7000" stroke-width="2"/>
       <ellipse cx="50" cy="55" rx="32" ry="36" fill="#1E293B"/>
@@ -1643,7 +1746,7 @@ const TUX_STAMPS = [
     id: 'tux-artist',
     name: 'Tux Artista',
     category: 'Tux',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <ellipse cx="38" cy="90" rx="14" ry="7" fill="#FFA500"/>
       <ellipse cx="62" cy="90" rx="14" ry="7" fill="#FFA500"/>
       <ellipse cx="50" cy="55" rx="32" ry="36" fill="#1E293B"/>
@@ -1672,7 +1775,7 @@ const TUX_STAMPS = [
     id: 'cute-cat',
     name: 'Gatinho',
     category: 'Animais',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <!-- Ears -->
       <polygon points="26,45 32,18 48,34" fill="#FB923C" stroke="#EA580C" stroke-width="2"/>
       <polygon points="32,38 36,25 45,34" fill="#FECDD3"/>
@@ -1699,7 +1802,7 @@ const TUX_STAMPS = [
     id: 'cute-dog',
     name: 'Cachorrinho',
     category: 'Animais',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <!-- Floppy Ears -->
       <ellipse cx="24" cy="45" rx="10" ry="18" fill="#92400E" transform="rotate(-15 24 45)"/>
       <ellipse cx="76" cy="45" rx="10" ry="18" fill="#92400E" transform="rotate(15 76 45)"/>
@@ -1722,7 +1825,7 @@ const TUX_STAMPS = [
     id: 'cute-lion',
     name: 'Leãozinho',
     category: 'Animais',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <!-- Mane -->
       <circle cx="50" cy="50" r="38" fill="#EA580C"/>
       <!-- Face -->
@@ -1746,7 +1849,7 @@ const TUX_STAMPS = [
     id: 'sun-bright',
     name: 'Sol Feliz',
     category: 'Natureza',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <!-- Rays -->
       <g stroke="#F59E0B" stroke-width="4" stroke-linecap="round">
         <line x1="50" y1="10" x2="50" y2="20"/>
@@ -1774,7 +1877,7 @@ const TUX_STAMPS = [
     id: 'rainbow-cloud',
     name: 'Nuvem e Arco-íris',
     category: 'Natureza',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <!-- Rainbow Arcs -->
       <path d="M 25 65 A 30 30 0 0 1 75 65" stroke="#EF4444" stroke-width="5" fill="none"/>
       <path d="M 29 65 A 25 25 0 0 1 71 65" stroke="#F59E0B" stroke-width="5" fill="none"/>
@@ -1788,7 +1891,7 @@ const TUX_STAMPS = [
     id: 'rocket-ship',
     name: 'Foguete',
     category: 'Objetos',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <!-- Flames -->
       <polygon points="45,76 50,96 55,76" fill="#EF4444"/>
       <polygon points="47,76 50,88 53,76" fill="#FBBF24"/>
@@ -1807,7 +1910,7 @@ const TUX_STAMPS = [
     id: 'racing-car',
     name: 'Carrinho',
     category: 'Objetos',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <!-- Body -->
       <path d="M 15 60 L 25 46 Q 38 42 45 42 L 62 42 Q 74 46 85 54 L 88 64 Q 88 68 82 68 L 18 68 Q 14 68 15 60 Z" fill="#EF4444" stroke="#B91C1C" stroke-width="2"/>
       <!-- Roof/Cabin -->
@@ -1825,7 +1928,7 @@ const TUX_STAMPS = [
     id: 'magic-star',
     name: 'Estrela Mágica',
     category: 'Objetos',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <polygon points="50,12 61,38 89,39 66,56 75,83 50,67 25,83 34,56 11,39 39,38" fill="#FBBF24" stroke="#D97706" stroke-width="3"/>
       <!-- Sparkle inside -->
       <circle cx="50" cy="48" r="5" fill="#FFF" opacity="0.8"/>
@@ -1836,7 +1939,7 @@ const TUX_STAMPS = [
     id: 'love-heart',
     name: 'Coração',
     category: 'Objetos',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <path d="M 50 82 C 10 54 12 24 32 20 C 44 18 49 28 50 32 C 51 28 56 18 68 20 C 88 24 90 54 50 82 Z" fill="#F43F5E" stroke="#BE123C" stroke-width="3"/>
       <!-- Specular shine -->
       <ellipse cx="36" cy="32" rx="4" ry="8" fill="#FFF" opacity="0.5" transform="rotate(-30 36 32)"/>
@@ -1846,7 +1949,7 @@ const TUX_STAMPS = [
     id: 'sweet-cupcake',
     name: 'Cupcake Doce',
     category: 'Objetos',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <!-- Cup -->
       <polygon points="30,55 70,55 64,88 36,88" fill="#F59E0B" stroke="#D97706" stroke-width="2"/>
       <line x1="42" y1="56" x2="43" y2="87" stroke="#D97706" stroke-width="1.5"/>
@@ -1867,7 +1970,7 @@ const TUX_STAMPS = [
     id: 'flower-bloom',
     name: 'Florzinha',
     category: 'Natureza',
-    svg: `<svg viewBox="0 0 100 100">
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
       <!-- Stem -->
       <path d="M 50 50 Q 48 72 52 92" stroke="#16A34A" stroke-width="4" fill="none"/>
       <path d="M 50 72 Q 65 68 62 76 C 56 78 50 74 50 72" fill="#22C55E"/>
@@ -3360,17 +3463,43 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.restore();
   }
 
-  // Stamp onto Canvas
+    // Cache for pre-loaded stamp images to ensure instant stamping
+  const stampImageCache = {};
+
+  function getStampImage(stampObj, callback) {
+    if (stampImageCache[stampObj.id]) {
+      callback(stampImageCache[stampObj.id]);
+      return;
+    }
+
+    let cleanSvg = stampObj.svg.trim();
+    if (!cleanSvg.includes('xmlns=')) {
+      cleanSvg = cleanSvg.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+    }
+    if (!cleanSvg.includes('width=')) {
+      cleanSvg = cleanSvg.replace('<svg', '<svg width="100" height="100"');
+    }
+
+    const img = new Image();
+    const dataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(cleanSvg)}`;
+    img.onload = () => {
+      stampImageCache[stampObj.id] = img;
+      callback(img);
+    };
+    img.onerror = (err) => {
+      console.error('Falha ao processar carimbo SVG:', stampObj.id, err);
+    };
+    img.src = dataUrl;
+  }
+
+  // Stamp onto Canvas (100% functional and instantaneous)
   function stampAt(x, y) {
     const stampObj = window.TUX_STAMPS.find(s => s.id === state.activeStamp);
     if (!stampObj) return;
 
     const baseSize = 80 * state.stampScale;
-    const img = new Image();
-    const svgBlob = new Blob([stampObj.svg], { type: 'image/svg+xml;charset=utf-8' });
-    const url = URL.createObjectURL(svgBlob);
 
-    img.onload = () => {
+    getStampImage(stampObj, (img) => {
       ctx.save();
       ctx.translate(x, y);
       if (state.stampFlipped) {
@@ -3378,12 +3507,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       ctx.drawImage(img, -baseSize / 2, -baseSize / 2, baseSize, baseSize);
       ctx.restore();
-      URL.revokeObjectURL(url);
       window.tuxAudio.playBoing();
       saveSnapshot();
       setTuxTip('Carimbado com sucesso! Ficou uma fofura!');
-    };
-    img.src = url;
+    });
   }
 
   // Magic Effects Execution
@@ -3698,16 +3825,114 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Save Drawing (Download PNG)
-  function saveDrawing() {
+    // Save Drawing (Supports Native Windows Save Dialog with Desktop choice + Blob Fallback)
+  async function saveDrawing() {
     commitInlineText(true);
     window.tuxAudio.playFanfare();
-    const link = document.createElement('a');
+
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-    link.download = `tux-paint-desenho-${timestamp}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-    setTuxTip('Seu desenho foi salvo no seu computador em alta qualidade!');
+    const filename = `tux-paint-desenho-${timestamp}.png`;
+
+    // 1. Tentar salvar diretamente com seletor nativo do Windows (File System Access API)
+    // Permite que o usuário escolha a Área de Trabalho (Desktop) e o formato/nome!
+    if (window.showSaveFilePicker) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: filename,
+          types: [
+            {
+              description: 'Imagem PNG (*.png)',
+              accept: { 'image/png': ['.png'] }
+            },
+            {
+              description: 'Imagem JPEG (*.jpg)',
+              accept: { 'image/jpeg': ['.jpg'] }
+            }
+          ]
+        });
+        const writable = await handle.createWritable();
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+        await writable.write(blob);
+        await writable.close();
+        setTuxTip('Desenho salvo com sucesso na sua Área de Trabalho ou pasta escolhida!');
+        return;
+      } catch (err) {
+        if (err.name === 'AbortError') {
+          return; // Usuário cancelou o diálogo de salvar
+        }
+        console.warn('showSaveFilePicker falhou, tentando fallback por download:', err);
+      }
+    }
+
+    // 2. Fallback robusto via Blob URL adicionado ao documento
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        alert('Não foi possível gerar a imagem.');
+        return;
+      }
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.style.display = 'none';
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }, 800);
+      setTuxTip('Seu desenho foi salvo no seu computador em alta qualidade!');
+    }, 'image/png');
+  }
+
+  
+  // =========================================================================
+  // Right Sidebar Resizer Dragging
+  // =========================================================================
+  const rightSidebarResizer = document.getElementById('rightSidebarResizer');
+  const optionsSidebar = document.getElementById('optionsSidebar');
+  const workspaceEl = document.getElementById('workspace');
+
+  if (rightSidebarResizer && optionsSidebar && workspaceEl) {
+    let isResizing = false;
+
+    // Restore saved width from localStorage if exists
+    const savedWidth = localStorage.getItem('retux_right_sidebar_width');
+    if (savedWidth) {
+      const parsed = parseInt(savedWidth);
+      if (parsed >= 180 && parsed <= 550) {
+        optionsSidebar.style.width = `${parsed}px`;
+      }
+    }
+
+    rightSidebarResizer.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      isResizing = true;
+      rightSidebarResizer.classList.add('dragging');
+      rightSidebarResizer.setPointerCapture(e.pointerId);
+    });
+
+    rightSidebarResizer.addEventListener('pointermove', (e) => {
+      if (!isResizing) return;
+      const workspaceRect = workspaceEl.getBoundingClientRect();
+      const newWidth = workspaceRect.right - e.clientX - 6;
+      const clampedWidth = Math.max(180, Math.min(550, newWidth));
+      optionsSidebar.style.width = `${clampedWidth}px`;
+      resizeCanvas(true);
+    });
+
+    const stopResizing = () => {
+      if (isResizing) {
+        isResizing = false;
+        rightSidebarResizer.classList.remove('dragging');
+        resizeCanvas(true);
+        const curW = parseInt(optionsSidebar.style.width);
+        if (curW) localStorage.setItem('retux_right_sidebar_width', curW);
+      }
+    };
+
+    rightSidebarResizer.addEventListener('pointerup', stopResizing);
+    rightSidebarResizer.addEventListener('pointercancel', stopResizing);
   }
 
   // Modals Controller
