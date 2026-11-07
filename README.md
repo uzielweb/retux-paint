@@ -9,6 +9,8 @@
 [![HTML5 Canvas](https://img.shields.io/badge/HTML5-Canvas%202D-orange.svg)](#)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20JS)-success.svg)](#)
 
+![Retux Paint Preview](assets/og-image.png)
+
 ---
 
 ## 🇧🇷 Português
