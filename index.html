@@ -723,93 +723,133 @@ body {
   font-weight: 800;
 }
 
-/* Inline Canvas Text Editor */
+/* Inline Canvas Text Editor - Kid-Friendly Redesign */
 .inline-text-editor {
   position: absolute;
-  min-width: 180px;
-  max-width: 90%;
-  min-height: 60px;
-  z-index: 80;
-  border: 2px dashed #3B82F6;
-  background: rgba(255, 255, 255, 0.95);
+  min-width: 200px;
+  max-width: min(420px, calc(100% - 16px));
+  box-sizing: border-box;
+  z-index: 100;
+  border: 3px dashed #3B82F6;
+  background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(8px);
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
-  padding: 6px;
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22), 0 0 0 4px rgba(59, 130, 246, 0.15);
+  padding: 10px 12px 12px 12px;
   display: flex;
   flex-direction: column;
+  gap: 8px;
   user-select: auto;
   -webkit-user-select: auto;
   transform-origin: top left;
+  animation: modalScale 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.inline-text-header {
+.text-editor-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(135deg, #EEF2F6 0%, #E2E8F0 100%);
-  border-radius: 6px;
-  padding: 4px 8px;
-  cursor: grab;
-  margin-bottom: 6px;
   user-select: none;
-  font-size: 11px;
-  font-weight: 800;
-  color: #334155;
 }
 
-.inline-text-header:active {
-  cursor: grabbing;
-}
-
-.inline-text-actions {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.inline-text-btn {
-  border: none;
-  padding: 5px 12px;
-  min-height: 28px;
-  min-width: 28px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 900;
-  cursor: pointer;
+.text-drag-handle {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 3px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  touch-action: manipulation;
-  user-select: none;
+  gap: 6px;
+  background: #EFF6FF;
+  border: 1.5px solid #BFDBFE;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #1D4ED8;
+  cursor: grab;
+  touch-action: none;
 }
-.inline-text-btn:active {
-  transform: scale(0.92);
+.text-drag-handle:active {
+  cursor: grabbing;
+  background: #DBEAFE;
 }
-
-.btn-confirm-text { background: #10B981; color: #FFFFFF; }
-.btn-cancel-text { background: #EF4444; color: #FFFFFF; }
 
 .inline-text-input {
   outline: none;
   min-width: 140px;
-  min-height: 40px;
-  padding: 6px 8px;
+  max-width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
+  padding: 8px 10px;
   word-break: break-word;
+  overflow-wrap: break-word;
   white-space: pre-wrap;
   caret-color: #3B82F6;
-  line-height: 1.3;
+  line-height: 1.35;
   cursor: text;
-  background: transparent;
+  background: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 10px;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.inline-text-input:focus {
+  border-color: #3B82F6;
+  background: #FFFFFF;
 }
 
 .inline-text-input:empty::before {
   content: attr(data-placeholder);
   color: #94A3B8;
   font-style: italic;
+  font-weight: 600;
   pointer-events: none;
+}
+
+/* Floating Kid-Friendly Big Action Pills */
+.inline-text-bubble-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.text-action-pill {
+  border: none;
+  height: 40px;
+  min-width: 40px;
+  padding: 0 16px;
+  border-radius: 20px;
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
+  touch-action: manipulation;
+  user-select: none;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s;
+}
+.text-action-pill:hover {
+  transform: scale(1.05);
+}
+.text-action-pill:active {
+  transform: scale(0.92);
+}
+
+.text-action-pill.btn-confirm-text {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.38);
+}
+
+.text-action-pill.btn-cancel-text {
+  background: #EF4444;
+  color: #FFFFFF;
+  padding: 0;
+  width: 40px;
+  min-width: 40px;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.38);
 }
 
 /* Floating Stamp Cursor */
@@ -1653,6 +1693,21 @@ body {
     display: none !important;
   }
 
+  /* Responsive Text Editor on Mobile */
+  .inline-text-editor {
+    min-width: 160px !important;
+    max-width: calc(100% - 16px) !important;
+    box-sizing: border-box !important;
+    padding: 8px 10px 10px 10px !important;
+  }
+  .inline-text-input {
+    min-width: 120px !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
   /* Footer on Mobile: Swipeable Palette */
   .app-footer {
     height: 62px !important;
@@ -1963,22 +2018,22 @@ body {
 
         <!-- Interactive Canvas Inline Text Editor -->
         <div class="inline-text-editor" id="inlineTextEditor" style="display: none; left: 100px; top: 100px;">
-          <div class="inline-text-header" id="inlineTextHeader" title="Arraste para mover o texto">
-            <span style="display: flex; align-items: center; gap: 4px;">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
-              <span data-i18n="text_drag">Mover</span>
-            </span>
-            <div class="inline-text-actions">
-              <button class="inline-text-btn btn-confirm-text" id="btnConfirmText" title="Carimbar (Enter)">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                <span data-i18n="btn_done">Pronto</span>
-              </button>
-              <button class="inline-text-btn btn-cancel-text" id="btnCancelText" title="Cancelar (Esc)">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </button>
+          <div class="text-editor-top-bar">
+            <div class="text-drag-handle" id="inlineTextDragHandle" title="Arrastar texto">
+              <span>✋</span>
+              <span data-i18n="text_drag">Arrastar</span>
             </div>
           </div>
-          <div class="inline-text-input" id="inlineTextInput" contenteditable="true" spellcheck="false" data-placeholder="Digite seu texto..."></div>
+          <div class="inline-text-input" id="inlineTextInput" contenteditable="true" spellcheck="false" data-placeholder="Digite aqui... ✨"></div>
+          <div class="inline-text-bubble-actions">
+            <button class="text-action-pill btn-confirm-text" id="btnConfirmText" title="Carimbar no desenho (Enter)">
+              <span style="font-size: 16px; font-weight: 900;">✓</span>
+              <span data-i18n="btn_done">Pronto!</span>
+            </button>
+            <button class="text-action-pill btn-cancel-text" id="btnCancelText" title="Cancelar (Esc)">
+              <span style="font-size: 16px; font-weight: 900;">✕</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -4027,8 +4082,8 @@ const I18N = {
     audio_official: 'Sons Oficiais',
     audio_synthetic: 'Sons Sintéticos',
     audio_muted: 'Sem Som',
-    text_drag: 'Mover',
-    btn_done: 'Pronto',
+    text_drag: 'Arrastar',
+    btn_done: 'Pronto!',
     drop_hint: 'Solte a imagem aqui para abrir!',
     modal_new_title: 'Criar Novo Desenho',
     modal_new_desc: 'Escolha uma cor de fundo para sua tela:',
@@ -4100,8 +4155,8 @@ const I18N = {
     act_print: 'Print',
     audio_official: 'Official Sounds',
     audio_synthetic: 'Web Sounds',
-    text_drag: 'Move',
-    btn_done: 'Done',
+    text_drag: 'Drag',
+    btn_done: 'Done!',
     drop_hint: 'Drop image here to open!',
     modal_new_title: 'Start a New Drawing',
     modal_new_desc: 'Pick a background color for your canvas:',
@@ -4471,28 +4526,30 @@ document.addEventListener('DOMContentLoaded', () => {
   let textInitialLeft = 0;
   let textInitialTop = 0;
 
-  if (inlineTextHeader) {
-    inlineTextHeader.addEventListener('pointerdown', (e) => {
-      // Never capture or prevent default if touching/clicking action buttons
-      if (e.target.closest('.inline-text-btn') || e.target.closest('.inline-text-actions')) {
+  const dragHandle = document.getElementById('inlineTextDragHandle') || inlineTextHeader;
+  if (dragHandle) {
+    dragHandle.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('.text-action-pill') || e.target.closest('.inline-text-bubble-actions')) {
         return;
       }
       e.preventDefault();
       e.stopPropagation();
       isDraggingText = true;
-      inlineTextHeader.setPointerCapture(e.pointerId);
+      dragHandle.setPointerCapture(e.pointerId);
       textDragStartX = e.clientX;
       textDragStartY = e.clientY;
       textInitialLeft = parseFloat(inlineTextEditor.style.left) || 50;
       textInitialTop = parseFloat(inlineTextEditor.style.top) || 50;
     });
 
-    inlineTextHeader.addEventListener('pointermove', (e) => {
+    dragHandle.addEventListener('pointermove', (e) => {
       if (!isDraggingText) return;
       const dx = e.clientX - textDragStartX;
       const dy = e.clientY - textDragStartY;
-      const newX = Math.max(5, Math.min(canvas.width - 120, textInitialLeft + dx));
-      const newY = Math.max(5, Math.min(canvas.height - 60, textInitialTop + dy));
+      const editorWidth = inlineTextEditor.offsetWidth || 220;
+      const editorHeight = inlineTextEditor.offsetHeight || 100;
+      const newX = Math.max(8, Math.min(canvas.width - editorWidth - 8, textInitialLeft + dx));
+      const newY = Math.max(8, Math.min(canvas.height - editorHeight - 8, textInitialTop + dy));
       inlineTextEditor.style.left = `${newX}px`;
       inlineTextEditor.style.top = `${newY}px`;
     });
@@ -4500,8 +4557,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const stopTextDrag = () => {
       if (isDraggingText) isDraggingText = false;
     };
-    inlineTextHeader.addEventListener('pointerup', stopTextDrag);
-    inlineTextHeader.addEventListener('pointercancel', stopTextDrag);
+    dragHandle.addEventListener('pointerup', stopTextDrag);
+    dragHandle.addEventListener('pointercancel', stopTextDrag);
+  }
+
+  // Prevent any pointer clicks inside the editor from bubbling to canvas
+  if (inlineTextEditor) {
+    inlineTextEditor.addEventListener('pointerdown', (e) => e.stopPropagation());
+    inlineTextEditor.addEventListener('mousedown', (e) => e.stopPropagation());
+    inlineTextEditor.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
   }
 
   function updateInlineTextStyles() {
@@ -4520,8 +4584,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (inlineTextEditor.style.display !== 'none' && currentText.length > 0) {
       commitInlineText(true);
     }
-    const posX = Math.max(10, Math.min(canvas.width - 240, x - 15));
-    const posY = Math.max(10, Math.min(canvas.height - 100, y - 25));
+    const estimatedWidth = window.innerWidth <= 768 ? Math.min(260, window.innerWidth - 48) : 320;
+    const maxLeft = Math.max(8, canvas.width - estimatedWidth - 8);
+    const posX = Math.max(8, Math.min(maxLeft, x - 20));
+    const posY = Math.max(8, Math.min(canvas.height - 130, y - 20));
     inlineTextEditor.style.left = `${posX}px`;
     inlineTextEditor.style.top = `${posY}px`;
     inlineTextEditor.style.display = 'flex';
@@ -4690,14 +4756,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function commitInlineText(saveSnapshotAfter = true) {
     if (!inlineTextEditor || inlineTextEditor.style.display === 'none') return;
-    const rawText = inlineTextInput.innerText || '';
+    const rawText = inlineTextInput ? (inlineTextInput.innerText || '') : '';
     const trimmed = rawText.trim();
 
     if (trimmed.length > 0) {
       const boxLeft = parseFloat(inlineTextEditor.style.left) || 0;
       const boxTop = parseFloat(inlineTextEditor.style.top) || 0;
-      const textX = boxLeft + 8;
-      const textY = boxTop + 36;
+      const textX = boxLeft + 12;
+      const textY = boxTop + 40;
 
       if (state.editingTextId) {
         const existing = (state.placedTexts || []).find(t => t.id === state.editingTextId);
@@ -4778,11 +4844,15 @@ document.addEventListener('DOMContentLoaded', () => {
     return offscreen;
   }
 
+  let lastTextActionTime = 0;
   const handleConfirmText = (e) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
+    const now = Date.now();
+    if (now - lastTextActionTime < 180) return;
+    lastTextActionTime = now;
     commitInlineText(true);
   };
 
@@ -4791,6 +4861,9 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       e.stopPropagation();
     }
+    const now = Date.now();
+    if (now - lastTextActionTime < 180) return;
+    lastTextActionTime = now;
     cancelInlineText();
   };
 
@@ -5506,8 +5579,14 @@ document.addEventListener('DOMContentLoaded', () => {
         updateInlineTextStyles();
       });
 
-      ctrl.querySelector('#btnStampTextNow').addEventListener('click', () => commitInlineText(true));
-      ctrl.querySelector('#btnCancelTextNow').addEventListener('click', () => cancelInlineText());
+      ctrl.querySelector('#btnStampTextNow').addEventListener('click', () => {
+        commitInlineText(true);
+        if (window.innerWidth <= 768) closeAllDrawers();
+      });
+      ctrl.querySelector('#btnCancelTextNow').addEventListener('click', () => {
+        cancelInlineText();
+        if (window.innerWidth <= 768) closeAllDrawers();
+      });
 
       // Fonts
       const fonts = ['Fredoka', 'Nunito', 'Arial', 'Georgia', 'Courier New', 'Comic Sans MS', 'Impact'];
@@ -5796,14 +5875,22 @@ document.addEventListener('DOMContentLoaded', () => {
     state.lastX = x; state.lastY = y;
     state.startX = x; state.startY = y;
 
-    if (state.tool === 'text') {
-      openInlineTextEditor(x, y);
+    // If text editor is currently open, clicking anywhere on canvas confirms/stamps it or closes if empty
+    if (inlineTextEditor && inlineTextEditor.style.display !== 'none') {
+      const curTxt = (inlineTextInput.innerText || '').trim();
+      if (curTxt.length > 0) {
+        commitInlineText(true);
+      } else {
+        cancelInlineText();
+      }
       state.isDrawing = false;
       return;
     }
 
-    if (inlineTextEditor && inlineTextEditor.style.display !== 'none') {
-      commitInlineText(true);
+    if (state.tool === 'text') {
+      openInlineTextEditor(x, y);
+      state.isDrawing = false;
+      return;
     }
 
     if (state.tool === 'stamp') {

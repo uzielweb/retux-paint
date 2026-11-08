@@ -54,8 +54,12 @@ O **Retux Paint** é uma recriação moderna, elegante e 100% responsiva para a 
     - **Novo: Disco Voador / UFO:** Desenha naves espaciais metálicas com cúpula de vidro, luzes piscantes e feixe de abdução neon translúcido!
     - Arco-íris, Laser Neon, Florescer, Bolhas, Brilhos, Grama, Giz, Gotejar, Confete, Calidoscópio, Tijolos, Trilhos de Trem, Neve, Chuva, Raios, Fogos de Artifício, Mosaico, Xadrez, Pêlos, Fios, TV Retrô, Pixelizar, Invert, Blur, Darken, Lighten, Tint, Grayscale, Sépia, Emboss, Edges, Fisheye, Twirl, Ondas, Sharpen, Smudge, Tornado, Caligrafia, Espuma, Roseta, Chamas de Fogo, Galáxia, Cristais, Metal Cromado, Hera, Reticulado Pop-Art, Vidro Translúcido, Espelhos Horizontal e Vertical, Azulejos, Nuvens, Trovoada, Fumaça, Laser Beam, Contas, Colmeia, Respingo de Tinta, Ondulações e Chuva de Corações!
 
-- ✍️ **Editor de Texto Interativo Aprimorado:**
-  - Digitação direta sobre o papel com arrasto livre, rotação e botões táteis de Confirmar (`✓`) e Cancelar (`✕`) com touch-target de 28px totalmente responsivo no mobile e desktop.
+- ✍️ **Editor de Texto Lúdico e Infantil (Redesign Intuitivo):**
+  - **Experiência sem Formulários Técnicos:** Eliminado o cabeçalho cinza antigo, substituído por uma moldura pontilhada suave com alça amigável de arrasto (`✋ Arrastar`).
+  - **Botões Táteis Grandes:** Botão verde generoso `✓ Pronto!` (42px) com gradiente esmeralda e botão vermelho circular `✕` para cancelamento rápido.
+  - **Confirmação Natural ao Clicar Fora:** Tocar ou clicar em qualquer ponto da folha carimba e fixa o texto imediatamente sem risco de perda ou caixas presas na tela.
+  - **Fechamento de Caixa Vazia:** Se confirmado ou fechado sem digitação, o editor desaparece suavemente sem travamentos.
+  - **100% Responsivo no Mobile:** Bounded containment que impede que o editor ultrapasse as bordas do canvas em telas de celular.
 
 ---
 
