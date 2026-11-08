@@ -4600,6 +4600,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Placed Interactive Text Engine (Multi-Text Drag & Drop)
   const placedTextsLayer = document.getElementById('placedTextsLayer');
 
+  // HTML escaping utility for placed text overlays
+  function escapeHtml(str) {
+    if (typeof str !== 'string') return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+    function syncQuickSizeDock() {}
+
   function renderPlacedTexts() {
     if (!placedTextsLayer) return;
     placedTextsLayer.innerHTML = '';
@@ -4756,8 +4769,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function commitInlineText(saveSnapshotAfter = true) {
     if (!inlineTextEditor || inlineTextEditor.style.display === 'none') return;
-    const rawText = inlineTextInput ? (inlineTextInput.innerText || '') : '';
+    const rawText = inlineTextInput ? (inlineTextInput.innerText || inlineTextInput.textContent || '') : '';
     const trimmed = rawText.trim();
+    if (!state.placedTexts) state.placedTexts = [];
 
     if (trimmed.length > 0) {
       const boxLeft = parseFloat(inlineTextEditor.style.left) || 0;
@@ -4803,14 +4817,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     inlineTextEditor.style.display = 'none';
-    inlineTextInput.innerText = '';
+    if (inlineTextInput) {
+      inlineTextInput.innerText = '';
+      inlineTextInput.blur();
+    }
     state.editingTextId = null;
   }
 
   function cancelInlineText() {
     if (!inlineTextEditor) return;
     inlineTextEditor.style.display = 'none';
-    inlineTextInput.innerText = '';
+    if (inlineTextInput) {
+      inlineTextInput.innerText = '';
+      inlineTextInput.blur();
+    }
     state.editingTextId = null;
     window.tuxAudio.playPop(420);
   }
@@ -4869,11 +4889,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnConfirmText) {
     btnConfirmText.addEventListener('pointerdown', (e) => e.stopPropagation());
+    btnConfirmText.addEventListener('pointerup', handleConfirmText);
     btnConfirmText.addEventListener('click', handleConfirmText);
   }
 
   if (btnCancelText) {
     btnCancelText.addEventListener('pointerdown', (e) => e.stopPropagation());
+    btnCancelText.addEventListener('pointerup', handleCancelText);
     btnCancelText.addEventListener('click', handleCancelText);
   }
 
@@ -4964,7 +4986,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Copy Drawing to Clipboard
   function copyDrawingToClipboard() {
     commitInlineText(true);
-    canvas.toBlob(blob => {
+    const compCanvas = getCompositeCanvas();
+    compCanvas.toBlob(blob => {
       if (!blob) return;
       try {
         navigator.clipboard.write([
@@ -5002,7 +5025,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    canvas.toBlob((blob) => {
+    const compCanvas = getCompositeCanvas();
+    compCanvas.toBlob((blob) => {
       if (!blob) return;
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -5829,7 +5853,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     window.tuxAudio.playPop(580);
     updateSubOptions();
-      syncQuickSizeDock();
     updateStampPreview();
   }
 
@@ -5869,7 +5892,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Pointer Down on Canvas
   canvas.addEventListener('pointerdown', (e) => {
     e.preventDefault();
-    canvas.setPointerCapture(e.pointerId);
+    try {
+      canvas.setPointerCapture(e.pointerId);
+    } catch (err) {}
 
     const { x, y } = getCoords(e);
     state.lastX = x; state.lastY = y;
@@ -6759,7 +6784,6 @@ document.addEventListener('DOMContentLoaded', () => {
     state.activeStampCategory = 'custom';
     closeModal('modalImportStamp');
     updateSubOptions();
-      syncQuickSizeDock();
     updateStampPreview();
     window.tuxAudio.playFanfare();
   });
@@ -6868,7 +6892,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const nextLang = currentLang === 'pt-BR' ? 'en-US' : 'pt-BR';
       updateAppLanguage(nextLang);
       updateSubOptions();
-      syncQuickSizeDock();
       window.tuxAudio.playPop(700);
     });
   }
@@ -7308,7 +7331,6 @@ document.addEventListener('DOMContentLoaded', () => {
   saveSnapshot();
   renderPalette();
   updateSubOptions();
-      syncQuickSizeDock();
   setTuxTip(t('welcome_tip'));
 });
   </script>
