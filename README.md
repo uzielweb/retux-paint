@@ -21,50 +21,41 @@ O **Retux Paint** é uma recriação moderna, elegante e 100% responsiva para a 
 ### Principais Inovações & Funcionalidades
 
 - 📄 **Folha de Desenho Autêntica (Zero Border-Radius):**
-  - A folha de pintura e a superfície do canvas possuem cantos estritamente retos (`border-radius: 0`), reproduzindo fielmente a experiência física de desenhar em uma folha de papel de arte real, sem cortes ou curvas artificiais nos cantos.
+  - A folha de pintura e o canvas possuem cantos estritamente retos (`border-radius: 0`), reproduzindo com fidelidade a experiência de desenhar em uma folha de papel de arte real.
 
 - 📱 **Nova Arquitetura Mobile (Barra Única & Gavetas em Tela Cheia):**
-  - **Barra Única de Ações Rápidas no Topo:** Acesso imediato aos botões essenciais sem menus ocultos ou submenus truncados:
+  - **Barra Única de Ações Rápidas no Topo:** Acesso imediato sem sobreposições:
     - `[ 🛠️ Ferramentas ]` (com badge dinâmico da ferramenta ativa)
     - `[ ↩️ Desfazer ]` e `[ ↪️ Refazer ]`
     - `[ ➕ Novo ]` e `[ 💾 Salvar ]`
-    - `[ 🎵 Som Oficial/Sintético ]` e `[ 🇧🇷 Idioma PT/EN ]`
+    - `[ 🎵 Modo de Som ]` e `[ 🇧🇷 Idioma PT/EN ]`
     - `[ 🎨 Opções da Ferramenta ]`
-  - **Gavetas em Tela Cheia (100vw × 100dvh):** As barras laterais abrem como painéis deslizantes em tela cheia suavemente animados:
-    - **Gaveta de Ferramentas:** Grade ergonômica de 3 colunas com botões grandes, ícones vetoriais nítidos e botão de fechar proeminente no topo.
-    - **Gaveta de Opções:** Grade densa estilo *sticker-book* (até 7 colunas), controles de espessura com slider e atalhos P, M, G, GG.
-  - **Área do Canvas Desobstruída:** O canvas ocupa a área livre total sem nenhum elemento ou dock flutuando sobre a pintura.
-  - **Paleta por Deslizamento Horizontal (Swipe):** Círculos táteis de cor com rolagem horizontal ultra-suave ao toque do polegar.
-  - **Mascote Tux Interativo:** Avatar que reage ao toque com dicas animadas e sons lúdicos originais.
-  - **Bloqueio de Gestos Acidentais:** Prevenção ativa de pull-to-refresh e scroll nativo durante o traço de pintura.
+  - **Gavetas em Tela Cheia (100vw × 100dvh):** As sidebars abrem em tela cheia suavemente animada. Ao clicar em "Novo", "Abrir" ou selecionar qualquer ferramenta, carimbo, forma ou mágica no catálogo, a gaveta se fecha automaticamente trazendo o usuário de volta à pintura.
+  - **Chips Deslizantes de Categorias:** No painel de Carimbos, as categorias são dispostas em linha única de chips com deslizamento horizontal suave, liberando espaço vertical e exibindo até 7 linhas de carimbos simultaneamente.
+  - **Paleta Mobile Otimizada (Touch-Friendly):** Círculos de cor de 40px com deslizamento horizontal contínuo preenchendo toda a largura da tela sem lacunas vazias.
+  - **Mascote Tux com Dicas Ampliadas:** Balão de fala com tipografia legível (14px), botão de fechar manual `✕` e tempo de leitura estendido para 15 segundos.
+
+- 🎵 **Sistema de Áudio Unificado de 3 Estados & Traço Suave:**
+  - **Seletor Cíclico de 3 Modos:**
+    - 🎵 **Sons Oficiais:** Efeitos originais `.wav` do Tux Paint com buffer decodificado em memória (*zero-latency* e sem cortes).
+    - 🎹 **Sons Sintéticos:** Síntese procedural leve em Web Audio API retrô.
+    - 🔇 **Sem Som (Mudo):** Silêncio absoluto para salas de aula, escritórios ou noite.
+  - **Cadência Sonora Anti-Engasgo:** O som contínuo do pincel e da borracha agora é sincronizado por distância percorrida (~28px) com limitador temporal de 110ms, eliminando estalos de áudio e travamentos.
 
 - 🎨 **Seletor de Cores Mágico Próprio (Custom Color Picker):**
-  - Substitui totalmente o seletor nativo do sistema operacional por um modal integrado e lúdico:
-    - **Mapa 2D de Saturação e Brilho:** Gradiente contínuo com cursor de arrasto tátil de alta precisão.
+  - Substitui totalmente o seletor nativo do sistema operacional por um modal integrado:
+    - **Mapa 2D de Saturação e Brilho:** Gradiente contínuo com cursor de arrasto de alta precisão.
     - **Slider Arco-Íris de Matriz (Hue):** Espectro 360° para seleção infinita de tonalidades.
-    - **Entrada HEX Direta:** Sincronização bidirecional instantânea entre código hexadecimal e cor escolhida.
-    - **32 Cores Rápidas (Swatches):** Coleção curada das tonalidades mais populares para seleção com um clique.
+    - **Entrada HEX Direta:** Sincronização bidirecional instantânea.
+    - **32 Cores Rápidas (Swatches):** Coleção curada das tonalidades mais populares.
 
-- 🖌️ **Ferramentas de Desenho Completas:**
-  - **Pincel (41 Formatos e Ajuste Livre de Tamanho):**
-    - Novos pincéis orgânicos: **Arbustos (*Bushes*)** para folhagens, **Aquarela (*Watercolor*)** com saturação translúcida e borda úmida, e **Tinta Espalhável (*Spread Paint*)** para misturas cremosas.
-    - Formatos geométricos, estrelas, coração, Cruz Latina tradicional (✝), Sinal de Mais (+), polígonos, florzinha, gotas, lua, raio, seta, caligrafia chanfrada, anel, círculo duplo, alvo, spray/aerógrafo, folha, patinha pet, sol radiante, coleção musical completa (♪, ♫, 𝄞, ♯, ♭, ♩), cerdas peludas e barras direcionais.
-  - **Carimbos (139+ Assets com 60 Carimbos Coloríveis):**
-    - 60 carimbos dinâmicos em SVG que adaptam sua cor instantaneamente à cor selecionada na paleta.
-    - Categorias completas: *Coloríveis, Tux, Animais, Veículos, Natureza, Comidas, HQ/Fantasia e Emojis*.
-  - **Formas Geométricas (16 Tipos):** Retângulo, Círculo, Triângulo, Losango, Estrela, Coração, Balões de Fala e Pensamento, Nuvem, Polígonos (5, 6, 8 lados), Seta, Raio e Lua com rotação 360° e modos Preenchido/Borda.
-  - **Preenchimento (Balde de Tinta):** Algoritmo de *Flood Fill* ultrarrápido com tolerância suave.
-  - **Mágicas (60 Efeitos Procedurais e Filtros):** Arco-íris, Laser Neon, Florescer, Bolhas, Brilhos, Grama, Giz, Gotejar, Confete, Calidoscópio, Tijolos, Trilhos de Trem, Neve, Chuva, Raios, Fogos de Artifício, Mosaico, Xadrez, Pêlos, Fios, TV Retrô, Pixelizar, Invert, Blur, Darken, Lighten, Tint, Grayscale, Sépia, Emboss, Edges, Fisheye, Twirl, Ondas, Sharpen, Smudge, Tornado, Caligrafia, Espuma, Roseta, Chamas de Fogo, Galáxia, Cristais, Metal Cromado, Hera, Reticulado Pop-Art, Vidro Translúcido, Espelhos Horizontal e Vertical, Azulejos, Nuvens, Trovoada, Fumaça, Laser Beam, Contas, Colmeia, Respingo de Tinta, Ondulações e Chuva de Corações!
-  - **Borracha:** Tamanho ajustável com pré-visualização nítida.
+- 🪄 **61 Efeitos Mágicos 100% Funcionais:**
+  - Todas as 61 ferramentas do catálogo agora contam com manipuladores completos no motor de desenho:
+    - **Novo: Disco Voador / UFO:** Desenha naves espaciais metálicas com cúpula de vidro, luzes piscantes e feixe de abdução neon translúcido!
+    - Arco-íris, Laser Neon, Florescer, Bolhas, Brilhos, Grama, Giz, Gotejar, Confete, Calidoscópio, Tijolos, Trilhos de Trem, Neve, Chuva, Raios, Fogos de Artifício, Mosaico, Xadrez, Pêlos, Fios, TV Retrô, Pixelizar, Invert, Blur, Darken, Lighten, Tint, Grayscale, Sépia, Emboss, Edges, Fisheye, Twirl, Ondas, Sharpen, Smudge, Tornado, Caligrafia, Espuma, Roseta, Chamas de Fogo, Galáxia, Cristais, Metal Cromado, Hera, Reticulado Pop-Art, Vidro Translúcido, Espelhos Horizontal e Vertical, Azulejos, Nuvens, Trovoada, Fumaça, Laser Beam, Contas, Colmeia, Respingo de Tinta, Ondulações e Chuva de Corações!
 
-- ✍️ **Editor de Texto Interativo & Múltiplos Textos Arrastáveis:**
-  - Digitação direta sobre o papel com arrasto livre de qualquer texto criado em qualquer momento, redimensionamento, rotação e edição inline.
-
-- 🎵 **Áudio Duplo (Oficial & Sintético):**
-  - Sons originais do Tux Paint (`.wav`/`.ogg`) com sintetizador Web Audio API procedural integrado.
-
-- 📥 **Importador de Carimbos Personalizados:**
-  - Suporte a SVG, PNG e JPG locais ou via links da web com conversão para colorível.
+- ✍️ **Editor de Texto Interativo Aprimorado:**
+  - Digitação direta sobre o papel com arrasto livre, rotação e botões táteis de Confirmar (`✓`) e Cancelar (`✕`) com touch-target de 28px totalmente responsivo no mobile e desktop.
 
 ---
 
@@ -76,34 +67,14 @@ O **Retux Paint** é uma recriação moderna, elegante e 100% responsiva para a 
 ### Key Innovations & Features
 
 - 📄 **Authentic Drawing Paper (Zero Border-Radius):**
-  - The drawing canvas and sheet feature crisp, strictly straight corners (`border-radius: 0`), accurately reflecting the physical experience of drawing on real art paper with zero artificial rounding.
+  - Crisp straight corners (`border-radius: 0`) reflecting physical drawing paper.
 
-- 📱 **All-New Mobile Architecture (Single Action Bar & Fullscreen Drawers):**
-  - **Unified Top Action Bar:** Direct access to essential actions with no hidden or clipped dropdowns:
-    - `[ 🛠️ Tools ]` (with dynamic active tool badge)
-    - `[ ↩️ Undo ]` and `[ ↪️ Redo ]`
-    - `[ ➕ New ]` and `[ 💾 Save ]`
-    - `[ 🎵 Sound Mode ]` and `[ 🇧🇷 Language PT/EN ]`
-    - `[ 🎨 Tool Options ]`
-  - **Fullscreen Overlays (100vw × 100dvh):** Sidebars open as full-screen smooth drawers with clean layouts:
-    - **Tools Drawer:** 3-column ergonomic grid with compact buttons and a clear close button at the top.
-    - **Options Drawer:** Dense sticker-book grid (up to 7 columns), brush size slider, and S/M/L/XL quick buttons.
-  - **Unobstructed Canvas:** 100% free drawing space without floating docks over the canvas.
-  - **Swipeable Color Palette:** Touch-friendly swatches with smooth horizontal swipe gestures.
-  - **Interactive Tux Mascot:** Floating mascot responding with animated tips and playful audio on tap.
-  - **Touch Gesture Protection:** Prevents unwanted pull-to-refresh and native scroll during brush strokes.
+- 📱 **Mobile First Experience:**
+  - Unified single top bar, full-screen overlay drawers, auto-closing on modal actions, 42px touch-friendly swatches, and enlarged Tux tips with manual close `✕`.
 
-- 🎨 **Custom Retux Color Picker:**
-  - Fully replaces the native OS color dialog with an integrated, kid-friendly palette:
-    - **2D Saturation / Value Canvas:** Real-time tactile pointer with crosshair indicator.
-    - **Rainbow 360° Hue Slider:** Continuous spectrum covering all visible colors.
-    - **Direct Hex Input:** Real-time two-way synchronization.
-    - **32 Quick Swatches:** Curated grid of the most popular creative colors.
+- 🎵 **3-State Unified Audio Engine & Smooth Brush Stroke:**
+  - Official Tux Paint `.wav` sounds, Web Audio synthetic retro tones, and a dedicated **Muted** mode.
+  - Continuous strokes cadence by distance without clipping or audio stutter.
 
-- 🖌️ **Comprehensive Drawing Tools:**
-  - **Paint Brush (41 Shapes & Free Sizing):** Organic **Bushes**, glazed **Watercolor**, creamy **Spread Paint**, alongside 38 geometric, musical, and procedural shapes.
-  - **Stamps (139+ Total Assets with 60 Dynamic Colorable Stamps):** 60 SVGs that adapt in real time to any chosen color from the palette.
-  - **Shapes (16 Types):** Full rotation control, 1:1 proportion lock, and dual fill/stroke modes.
-  - **Magic Effects (60 Procedural Tools & Filters):** From classic Rainbow and Neon to Tornado, Calligraphy, Fire, Galaxy, Chrome Metal, Ivy Vines, Pop-Art Halftone, Frosted Glass, Symmetry Mirrors, and Floating Hearts.
-  - **Draggable Text Engine:** Place, freely drag, rotate, recolor, and edit multiple texts directly on canvas.
-  - **Dual Audio Suite:** Authentic Tux Paint sound effects paired with an offline Web Audio synthesizer fallback.
+- 🪄 **61 Fully Operational Magic Effects:**
+  - Complete engine coverage including the brand-new **Disco Voador / UFO**, Tornado, Ivy, Mirroring, Plasma, Galaxy, and Hearts.
