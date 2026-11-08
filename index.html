@@ -510,13 +510,34 @@ body {
 }
 
 /* Category Tabs in Stamp Panel (Prominent, High-Visibility Pills) */
+/* Pinned Options Controls (Sizes, Sliders, Category Tabs) */
+.options-pinned-header {
+  padding: 10px 16px;
+  background: #F8FAFC;
+  border-bottom: 1.5px solid #E2E8F0;
+  flex-shrink: 0;
+}
+
+.stamp-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.stamp-controls input[type="range"] {
+  width: 100%;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+  margin: 3px 0;
+}
+
 .category-tabs-container {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   flex-shrink: 0;
-  padding: 4px 2px 8px 2px;
-  margin-bottom: 8px;
+  padding: 8px 14px 10px 14px;
   border-bottom: 1.5px solid #E2E8F0;
 }
 
@@ -1205,8 +1226,8 @@ body {
   /* Single Bar Header on Mobile */
   .app-header {
     height: auto !important;
-    min-height: 54px !important;
-    padding: max(8px, env(safe-area-inset-top, 0px)) 12px 8px 12px !important;
+    min-height: 52px !important;
+    padding: max(6px, env(safe-area-inset-top, 0px)) 8px 6px 8px !important;
     border-radius: 0 !important;
     border: none !important;
     border-bottom: 2px solid #E2E8F0 !important;
@@ -1215,6 +1236,9 @@ body {
     align-items: center !important;
     justify-content: space-between !important;
     background: #FFFFFF !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    overflow: hidden !important;
   }
 
   /* Hide Desktop Elements on Mobile */
@@ -1225,72 +1249,87 @@ body {
 
   .mobile-header-bar {
     display: flex !important;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    gap: 4px;
+    width: 100% !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 3px !important;
+    min-width: 0 !important;
   }
 
+  /* Left: Active Tool Button */
   .mobile-nav-btn {
     display: inline-flex !important;
-    align-items: center;
-    gap: 4px;
+    align-items: center !important;
+    gap: 3px !important;
     background: #EFF6FF !important;
     border: 1.5px solid #BFDBFE !important;
-    border-radius: 16px !important;
-    padding: 4px 8px !important;
+    border-radius: 14px !important;
+    padding: 3px 6px !important;
     font-size: 11px !important;
     font-weight: 800 !important;
     color: #1D4ED8 !important;
-    cursor: pointer;
-    min-height: 32px !important;
-    height: 32px !important;
-    flex-shrink: 0;
+    cursor: pointer !important;
+    min-height: 30px !important;
+    height: 30px !important;
+    max-width: 78px !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
   }
   .mobile-nav-btn:active {
     background: #DBEAFE !important;
     transform: scale(0.96);
   }
+  .mobile-nav-icon {
+    font-size: 13px !important;
+    line-height: 1 !important;
+  }
+  .mobile-tool-badge {
+    max-width: 44px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: 10.5px !important;
+  }
+
+  /* Right: Options Button */
   .mobile-nav-btn.mobile-options-btn {
     background: #FEF3C7 !important;
     border-color: #FDE68A !important;
     color: #B45309 !important;
+    max-width: 78px !important;
+    padding: 3px 7px !important;
+    gap: 3px !important;
   }
   .mobile-nav-btn.mobile-options-btn:active {
     background: #FDE68A !important;
   }
 
-  .mobile-tool-badge {
-    max-width: 52px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
+  /* Center: 6 Compact Quick Action Buttons */
   .mobile-icon-actions {
     display: flex !important;
-    align-items: center;
-    gap: 3px;
-    flex: 1;
-    justify-content: center;
-    min-width: 0;
+    align-items: center !important;
+    gap: 2px !important;
+    flex: 0 1 auto !important;
+    justify-content: center !important;
+    min-width: 0 !important;
   }
 
   .mobile-icon-btn {
-    width: 30px !important;
-    height: 30px !important;
-    min-width: 30px !important;
+    width: 27px !important;
+    height: 27px !important;
+    min-width: 25px !important;
     border-radius: 6px !important;
     background: #F8FAFC !important;
     border: 1px solid #CBD5E1 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    cursor: pointer;
+    cursor: pointer !important;
     color: #1E293B !important;
-    flex-shrink: 0;
+    flex-shrink: 0 !important;
     padding: 0 !important;
-    transition: all 0.12s ease;
+    box-sizing: border-box !important;
+    transition: all 0.12s ease !important;
   }
   .mobile-icon-btn:active {
     background: #EFF6FF !important;
@@ -1298,12 +1337,15 @@ body {
     transform: scale(0.92);
   }
   .mobile-icon-btn svg {
-    width: 15px;
-    height: 15px;
-    fill: currentColor;
+    width: 14px !important;
+    height: 14px !important;
+    fill: currentColor !important;
   }
-
-  /* FULLSCREEN OVERLAY: Tools Sidebar (100vw × 100dvh) */
+  .mobile-icon-btn span {
+    font-size: 13px !important;
+    line-height: 1 !important;
+  }
+/* FULLSCREEN OVERLAY: Tools Sidebar (100vw × 100dvh) */
   .tools-sidebar {
     position: fixed !important;
     inset: 0 !important;
@@ -1381,6 +1423,59 @@ body {
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
     overflow: hidden !important;
+  }
+
+  
+  /* Options Pinned Header & Size Boxes Lateral Padding */
+  .options-pinned-header {
+    padding: 12px 20px !important;
+    background: #F8FAFC !important;
+    border-bottom: 2px solid #E2E8F0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .stamp-controls {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .stamp-controls input[type="range"] {
+    width: 100% !important;
+    margin: 4px 0 !important;
+    height: 18px !important;
+    accent-color: #2563EB !important;
+  }
+
+  .stamp-controls .sub-panel-section-title {
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.5px !important;
+    color: #475569 !important;
+    margin-bottom: 2px !important;
+  }
+
+  .stamp-controls .sub-panel-row {
+    display: flex !important;
+    gap: 6px !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  .stamp-controls .sub-panel-row .sub-btn {
+    flex: 1 !important;
+    min-height: 38px !important;
+    height: 38px !important;
+    border-radius: 8px !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    padding: 2px 4px !important;
+  }
+
+  .category-tabs-container {
+    padding: 10px 20px 12px 20px !important;
+    gap: 6px !important;
   }
 
   /* FULLSCREEN OVERLAY: Options Sidebar (100vw × 100dvh) */
