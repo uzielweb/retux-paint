@@ -49,8 +49,8 @@ O **Retux Paint** é uma recriação moderna, elegante e 100% responsiva para a 
     - **Entrada HEX Direta:** Sincronização bidirecional instantânea.
     - **32 Cores Rápidas (Swatches):** Coleção curada das tonalidades mais populares.
 
-- 🪄 **61 Efeitos Mágicos 100% Funcionais:**
-  - Todas as 61 ferramentas do catálogo agora contam com manipuladores completos no motor de desenho:
+- 🪄 **61 Efeitos Mágicos 100% Funcionais & Auditados:**
+  - Todas as 61 ferramentas do catálogo agora contam com assinaturas sincronizadas e manipuladores completos no motor de desenho, corrigindo os efeitos que apresentavam inconsistências de parâmetros (Tiles/Azulejos, Chamas/Fire, Hera/Ivy, Trovoada/Plasma, Contas/Beads, Espelhos, Cristais, Espuma e Disco Voador/UFO):
     - **Novo: Disco Voador / UFO:** Desenha naves espaciais metálicas com cúpula de vidro, luzes piscantes e feixe de abdução neon translúcido!
     - Arco-íris, Laser Neon, Florescer, Bolhas, Brilhos, Grama, Giz, Gotejar, Confete, Calidoscópio, Tijolos, Trilhos de Trem, Neve, Chuva, Raios, Fogos de Artifício, Mosaico, Xadrez, Pêlos, Fios, TV Retrô, Pixelizar, Invert, Blur, Darken, Lighten, Tint, Grayscale, Sépia, Emboss, Edges, Fisheye, Twirl, Ondas, Sharpen, Smudge, Tornado, Caligrafia, Espuma, Roseta, Chamas de Fogo, Galáxia, Cristais, Metal Cromado, Hera, Reticulado Pop-Art, Vidro Translúcido, Espelhos Horizontal e Vertical, Azulejos, Nuvens, Trovoada, Fumaça, Laser Beam, Contas, Colmeia, Respingo de Tinta, Ondulações e Chuva de Corações!
 

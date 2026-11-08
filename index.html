@@ -3489,19 +3489,20 @@ class TuxMagic {
     ctx.restore();
   }
 
-  drawFire(ctx, x, y, lastX, lastY, size) {
+  drawFire(ctx, x, y, size) {
     ctx.save();
+    const sz = size || 26;
     const sparks = 8;
     for (let i = 0; i < sparks; i++) {
-      const fx = x + (Math.random() - 0.5) * size * 0.8;
-      const flameH = size * (0.8 + Math.random() * 1.2);
+      const fx = x + (Math.random() - 0.5) * sz * 0.8;
+      const flameH = sz * (0.8 + Math.random() * 1.2);
       const fy = y - flameH * Math.random();
-      const r = (size * 0.25) * (1 - (y - fy) / flameH);
+      const r = (sz * 0.25) * Math.max(0.2, (1 - (y - fy) / flameH));
       const colors = ['#DC2626', '#EA580C', '#F59E0B', '#FDE047', '#FFFFFF'];
       ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
-      ctx.globalAlpha = 0.7;
+      ctx.globalAlpha = 0.75;
       ctx.beginPath();
-      ctx.arc(fx, fy, Math.max(1, r), 0, Math.PI * 2);
+      ctx.arc(fx, fy, Math.max(1.5, r), 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.restore();
@@ -3586,26 +3587,32 @@ class TuxMagic {
 
   drawIvy(ctx, x, y, lastX, lastY, size) {
     ctx.save();
+    const sz = size || 26;
+    const lx = (typeof lastX === 'number' && !isNaN(lastX)) ? lastX : x - 1;
+    const ly = (typeof lastY === 'number' && !isNaN(lastY)) ? lastY : y - 1;
     // Vine stem
     ctx.strokeStyle = '#15803D';
-    ctx.lineWidth = Math.max(2, size * 0.15);
+    ctx.lineWidth = Math.max(2, sz * 0.15);
     ctx.lineCap = 'round';
     ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
+    ctx.moveTo(lx, ly);
     ctx.lineTo(x, y);
     ctx.stroke();
 
     // Ivy leaves sprouting
     for (let i = 0; i < 2; i++) {
       const side = (i === 0 ? 1 : -1);
-      const angle = Math.atan2(y - lastY, x - lastX) + side * (Math.PI / 3);
-      const dist = size * 0.45;
-      const lx = x + Math.cos(angle) * dist;
-      const ly = y + Math.sin(angle) * dist;
+      const angle = Math.atan2(y - ly, x - lx) + side * (Math.PI / 3);
+      const dist = sz * 0.45;
+      const leafX = x + Math.cos(angle) * dist;
+      const leafY = y + Math.sin(angle) * dist;
       ctx.fillStyle = '#22C55E';
       ctx.beginPath();
-      ctx.arc(lx, ly, size * 0.22, 0, Math.PI * 2);
+      ctx.arc(leafX, leafY, sz * 0.22, 0, Math.PI * 2);
       ctx.fill();
+      ctx.strokeStyle = '#166534';
+      ctx.lineWidth = 1;
+      ctx.stroke();
     }
     ctx.restore();
   }
@@ -3678,19 +3685,21 @@ class TuxMagic {
 
   drawMirrorHorizontal(ctx, x, y, lastX, lastY, size, color, width) {
     ctx.save();
-    ctx.strokeStyle = color;
-    ctx.lineWidth = size;
+    const lx = (typeof lastX === 'number' && !isNaN(lastX)) ? lastX : x;
+    const ly = (typeof lastY === 'number' && !isNaN(lastY)) ? lastY : y;
+    ctx.strokeStyle = color || '#3B82F6';
+    ctx.lineWidth = size || 10;
     ctx.lineCap = 'round';
     ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
+    ctx.moveTo(lx, ly);
     ctx.lineTo(x, y);
     ctx.stroke();
 
-    // Mirror across width/2
+    // Mirror across width
     const mX = width - x;
-    const mLastX = width - lastX;
+    const mLastX = width - lx;
     ctx.beginPath();
-    ctx.moveTo(mLastX, lastY);
+    ctx.moveTo(mLastX, ly);
     ctx.lineTo(mX, y);
     ctx.stroke();
     ctx.restore();
@@ -3698,34 +3707,39 @@ class TuxMagic {
 
   drawMirrorVertical(ctx, x, y, lastX, lastY, size, color, height) {
     ctx.save();
-    ctx.strokeStyle = color;
-    ctx.lineWidth = size;
+    const lx = (typeof lastX === 'number' && !isNaN(lastX)) ? lastX : x;
+    const ly = (typeof lastY === 'number' && !isNaN(lastY)) ? lastY : y;
+    ctx.strokeStyle = color || '#3B82F6';
+    ctx.lineWidth = size || 10;
     ctx.lineCap = 'round';
     ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
+    ctx.moveTo(lx, ly);
     ctx.lineTo(x, y);
     ctx.stroke();
 
-    // Mirror across height/2
+    // Mirror across height
     const mY = height - y;
-    const mLastY = height - lastY;
+    const mLastY = height - ly;
     ctx.beginPath();
-    ctx.moveTo(lastX, mLastY);
+    ctx.moveTo(lx, mLastY);
     ctx.lineTo(x, mY);
     ctx.stroke();
     ctx.restore();
   }
 
-  drawTiles(ctx, x, y, lastX, lastY, size, color) {
+  drawTiles(ctx, x, y, size, color) {
     ctx.save();
-    const tileSize = Math.max(8, Math.floor(size * 0.7));
+    const c = color || '#3B82F6';
+    const tileSize = Math.max(10, Math.floor((size || 26) * 0.7));
     const tx = Math.floor(x / tileSize) * tileSize;
     const ty = Math.floor(y / tileSize) * tileSize;
-    ctx.fillStyle = color;
+    ctx.fillStyle = c;
     ctx.fillRect(tx + 1, ty + 1, tileSize - 2, tileSize - 2);
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-    ctx.strokeRect(tx + 1.5, ty + 1.5, tileSize - 3, tileSize - 3);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(tx + 2, ty + 2, tileSize - 4, tileSize - 4);
     ctx.strokeStyle = '#1E293B';
+    ctx.lineWidth = 1.5;
     ctx.strokeRect(tx, ty, tileSize, tileSize);
     ctx.restore();
   }
@@ -3747,22 +3761,36 @@ class TuxMagic {
 
   drawLightningStorm(ctx, x, y, lastX, lastY, size) {
     ctx.save();
+    const sz = size || 26;
+    const lx = (typeof lastX === 'number' && !isNaN(lastX)) ? lastX : x - 2;
+    const ly = (typeof lastY === 'number' && !isNaN(lastY)) ? lastY : y - 2;
     ctx.strokeStyle = '#60A5FA';
-    ctx.lineWidth = Math.max(2, size * 0.15);
+    ctx.lineWidth = Math.max(2, sz * 0.15);
     ctx.lineCap = 'round';
     ctx.shadowColor = '#93C5FD';
-    ctx.shadowBlur = 8;
+    ctx.shadowBlur = 10;
     ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    const midX = (lastX + x) / 2 + (Math.random() - 0.5) * size * 0.8;
-    const midY = (lastY + y) / 2 + (Math.random() - 0.5) * size * 0.8;
+    ctx.moveTo(lx, ly);
+    const midX = (lx + x) / 2 + (Math.random() - 0.5) * sz * 0.8;
+    const midY = (ly + y) / 2 + (Math.random() - 0.5) * sz * 0.8;
     ctx.lineTo(midX, midY);
     ctx.lineTo(x, y);
     ctx.stroke();
 
+    // Electric fork
+    if (Math.random() < 0.4) {
+      const forkX = midX + (Math.random() - 0.5) * sz * 0.9;
+      const forkY = midY + (Math.random() - 0.5) * sz * 0.9;
+      ctx.beginPath();
+      ctx.moveTo(midX, midY);
+      ctx.lineTo(forkX, forkY);
+      ctx.stroke();
+    }
+
     // White core
     ctx.strokeStyle = '#FFFFFF';
-    ctx.lineWidth = Math.max(1, size * 0.06);
+    ctx.lineWidth = Math.max(1, sz * 0.06);
+    ctx.shadowBlur = 0;
     ctx.stroke();
     ctx.restore();
   }
@@ -3804,11 +3832,13 @@ class TuxMagic {
 
   drawBeads(ctx, x, y, size, color) {
     ctx.save();
-    const r = size * 0.45;
-    // 3D bead sphere
-    const grad = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.1, x, y, r);
+    const sz = size || 26;
+    const c = color || '#EC4899';
+    const r = Math.max(3, sz * 0.45);
+    // 3D bead sphere with glossy highlight
+    const grad = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.08, x, y, r);
     grad.addColorStop(0, '#FFFFFF');
-    grad.addColorStop(0.4, color);
+    grad.addColorStop(0.35, c);
     grad.addColorStop(1, '#0F172A');
     ctx.fillStyle = grad;
     ctx.beginPath();
@@ -3874,11 +3904,13 @@ class TuxMagic {
 
   drawHeartStream(ctx, x, y, size, color) {
     ctx.save();
-    const hs = size * (0.35 + Math.random() * 0.4);
-    const hx = x + (Math.random() - 0.5) * size * 0.4;
-    const hy = y + (Math.random() - 0.5) * size * 0.4;
-    ctx.fillStyle = color;
-    ctx.globalAlpha = 0.8;
+    const sz = size || 26;
+    const c = color || '#EF4444';
+    const hs = sz * (0.35 + Math.random() * 0.4);
+    const hx = x + (Math.random() - 0.5) * sz * 0.4;
+    const hy = y + (Math.random() - 0.5) * sz * 0.4;
+    ctx.fillStyle = c;
+    ctx.globalAlpha = 0.85;
     ctx.beginPath();
     ctx.moveTo(hx, hy + hs * 0.3);
     ctx.bezierCurveTo(hx, hy, hx - hs * 0.5, hy, hx - hs * 0.5, hy + hs * 0.35);
@@ -3886,6 +3918,81 @@ class TuxMagic {
     ctx.bezierCurveTo(hx, hy + hs * 0.85, hx + hs * 0.5, hy + hs * 0.65, hx + hs * 0.5, hy + hs * 0.35);
     ctx.bezierCurveTo(hx + hs * 0.5, hy, hx, hy, hx, hy + hs * 0.3);
     ctx.fill();
+    ctx.restore();
+  }
+
+  drawUFO(ctx, x, y, size, color) {
+    ctx.save();
+    const sz = size || 32;
+    const c = color || '#38BDF8';
+
+    // 1. Abduction beam (neon gradient)
+    const beamH = sz * 1.6;
+    const beamWTop = sz * 0.4;
+    const beamWBottom = sz * 1.3;
+    const beamGrad = ctx.createLinearGradient(x, y, x, y + beamH);
+    beamGrad.addColorStop(0, 'rgba(56, 189, 248, 0.45)');
+    beamGrad.addColorStop(0.6, 'rgba(250, 204, 21, 0.28)');
+    beamGrad.addColorStop(1, 'rgba(56, 189, 248, 0)');
+    ctx.fillStyle = beamGrad;
+    ctx.beginPath();
+    ctx.moveTo(x - beamWTop / 2, y + sz * 0.15);
+    ctx.lineTo(x + beamWTop / 2, y + sz * 0.15);
+    ctx.lineTo(x + beamWBottom / 2, y + beamH);
+    ctx.lineTo(x - beamWBottom / 2, y + beamH);
+    ctx.closePath();
+    ctx.fill();
+
+    // 2. Cockpit glass dome (glowing cyan bubble)
+    const domeR = sz * 0.35;
+    ctx.fillStyle = '#38BDF8';
+    ctx.globalAlpha = 0.85;
+    ctx.beginPath();
+    ctx.arc(x, y - sz * 0.05, domeR, Math.PI, 0, false);
+    ctx.closePath();
+    ctx.fill();
+    // Glass highlight
+    ctx.fillStyle = '#FFFFFF';
+    ctx.globalAlpha = 0.65;
+    ctx.beginPath();
+    ctx.arc(x - domeR * 0.35, y - sz * 0.18, domeR * 0.35, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1.0;
+
+    // 3. Metallic Saucer body (metallic silver gradient)
+    const saucerW = sz * 1.1;
+    const saucerH = sz * 0.35;
+    const bodyGrad = ctx.createLinearGradient(x - saucerW, y, x + saucerW, y);
+    bodyGrad.addColorStop(0, '#64748B');
+    bodyGrad.addColorStop(0.3, '#E2E8F0');
+    bodyGrad.addColorStop(0.5, '#F8FAFC');
+    bodyGrad.addColorStop(0.7, '#CBD5E1');
+    bodyGrad.addColorStop(1, '#475569');
+    ctx.fillStyle = bodyGrad;
+    ctx.strokeStyle = '#1E293B';
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.ellipse(x, y, saucerW / 2, saucerH / 2, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // 4. Blinking navigation lights
+    const lights = [
+      { dx: -saucerW * 0.36, color: '#FACC15' },
+      { dx: -saucerW * 0.18, color: '#EF4444' },
+      { dx: 0, color: '#10B981' },
+      { dx: saucerW * 0.18, color: '#EF4444' },
+      { dx: saucerW * 0.36, color: '#FACC15' }
+    ];
+    lights.forEach(l => {
+      ctx.fillStyle = l.color;
+      ctx.shadowColor = l.color;
+      ctx.shadowBlur = 4;
+      ctx.beginPath();
+      ctx.arc(x + l.dx, y + saucerH * 0.12, Math.max(1.8, sz * 0.05), 0, Math.PI * 2);
+      ctx.fill();
+    });
+
     ctx.restore();
   }
 
@@ -6241,27 +6348,27 @@ document.addEventListener('DOMContentLoaded', () => {
       case 'smudge': magic.applySmudge(ctx, x, y, lastX, lastY, s * 1.5); break;
       case 'tornado': magic.drawTornado(ctx, x, y, s); break;
       case 'calligraphy': magic.drawCalligraphy(ctx, x, y, lastX, lastY, s, state.currentColor); break;
-      case 'foam': magic.drawFoam(ctx, x, y, s); break;
+      case 'foam': magic.drawFoam(ctx, x, y, s, state.currentColor); break;
       case 'rosenette': magic.drawRosenette(ctx, x, y, s, state.currentColor); break;
       case 'fire': magic.drawFire(ctx, x, y, s); break;
       case 'galaxy': magic.drawGalaxy(ctx, x, y, s); break;
-      case 'crystals': magic.drawCrystals(ctx, x, y, s); break;
+      case 'crystals': magic.drawCrystals(ctx, x, y, s, state.currentColor); break;
       case 'metal': magic.drawMetal(ctx, x, y, lastX, lastY, s); break;
-      case 'ivy': magic.drawIvy(ctx, x, y, s); break;
+      case 'ivy': magic.drawIvy(ctx, x, y, lastX, lastY, s); break;
       case 'halftone': magic.applyHalftone(ctx, x, y, s * 1.5); break;
       case 'glass': magic.applyGlass(ctx, x, y, s * 1.5); break;
-      case 'mirror-h': magic.drawMirrorHorizontal(ctx, x, y, canvas.width, canvas.height); break;
-      case 'mirror-v': magic.drawMirrorVertical(ctx, x, y, canvas.width, canvas.height); break;
-      case 'tiles': magic.drawTiles(ctx, x, y, s); break;
+      case 'mirror-h': magic.drawMirrorHorizontal(ctx, x, y, lastX, lastY, s, state.currentColor, canvas.width); break;
+      case 'mirror-v': magic.drawMirrorVertical(ctx, x, y, lastX, lastY, s, state.currentColor, canvas.height); break;
+      case 'tiles': magic.drawTiles(ctx, x, y, s, state.currentColor); break;
       case 'clouds': magic.drawClouds(ctx, x, y, s); break;
-      case 'lightning-storm': magic.drawLightningStorm(ctx, x, y, s); break;
+      case 'lightning-storm': magic.drawLightningStorm(ctx, x, y, lastX, lastY, s); break;
       case 'smoke': magic.drawSmoke(ctx, x, y, s); break;
       case 'laser-beam': magic.drawLaserBeam(ctx, x, y, lastX, lastY, s, state.currentColor); break;
-      case 'beads': magic.drawBeads(ctx, x, y, s); break;
+      case 'beads': magic.drawBeads(ctx, x, y, s, state.currentColor); break;
       case 'hexagons': magic.drawHexagons(ctx, x, y, s, state.currentColor); break;
       case 'splatter': magic.drawSplatter(ctx, x, y, s, state.currentColor); break;
       case 'ripples': magic.applyRipples(ctx, x, y, s * 1.5); break;
-      case 'heart-stream': magic.drawHeartStream(ctx, x, y, s); break;
+      case 'heart-stream': magic.drawHeartStream(ctx, x, y, s, state.currentColor); break;
       case 'ufo': magic.drawUFO(ctx, x, y, s, state.currentColor); break;
     }
   }
