@@ -3115,56 +3115,36 @@ class TuxMagic {
     ctx.restore();
   }
 
-  // 26. Darken Filter
+  // 26. Darken Filter (Gradual, soft progressive shading with zero harsh edges)
   applyDarken(ctx, x, y, size) {
-    const radius = Math.floor(size * 1.4);
-    const startX = Math.max(0, Math.floor(x - radius));
-    const startY = Math.max(0, Math.floor(y - radius));
-    const w = Math.min(ctx.canvas.width - startX, radius * 2);
-    const h = Math.min(ctx.canvas.height - startY, radius * 2);
-    if (w <= 0 || h <= 0) return;
-    const imgData = ctx.getImageData(startX, startY, w, h);
-    const d = imgData.data;
-    const rSq = radius * radius;
-    for (let py = 0; py < h; py++) {
-      for (let px = 0; px < w; px++) {
-        const dx = startX + px - x;
-        const dy = startY + py - y;
-        if (dx * dx + dy * dy <= rSq) {
-          const idx = (py * w + px) * 4;
-          d[idx] = Math.max(0, d[idx] - 18);
-          d[idx + 1] = Math.max(0, d[idx + 1] - 18);
-          d[idx + 2] = Math.max(0, d[idx + 2] - 18);
-        }
-      }
-    }
-    ctx.putImageData(imgData, startX, startY);
+    const radius = Math.max(10, size * 1.25);
+    ctx.save();
+    ctx.globalCompositeOperation = 'multiply';
+    const grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
+    grad.addColorStop(0, 'rgba(30, 30, 30, 0.14)');
+    grad.addColorStop(0.55, 'rgba(40, 40, 40, 0.07)');
+    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
   }
 
-  // 27. Lighten Filter
+  // 27. Lighten Filter (Gradual soft progressive brightening with zero harsh edges)
   applyLighten(ctx, x, y, size) {
-    const radius = Math.floor(size * 1.4);
-    const startX = Math.max(0, Math.floor(x - radius));
-    const startY = Math.max(0, Math.floor(y - radius));
-    const w = Math.min(ctx.canvas.width - startX, radius * 2);
-    const h = Math.min(ctx.canvas.height - startY, radius * 2);
-    if (w <= 0 || h <= 0) return;
-    const imgData = ctx.getImageData(startX, startY, w, h);
-    const d = imgData.data;
-    const rSq = radius * radius;
-    for (let py = 0; py < h; py++) {
-      for (let px = 0; px < w; px++) {
-        const dx = startX + px - x;
-        const dy = startY + py - y;
-        if (dx * dx + dy * dy <= rSq) {
-          const idx = (py * w + px) * 4;
-          d[idx] = Math.min(255, d[idx] + 18);
-          d[idx + 1] = Math.min(255, d[idx + 1] + 18);
-          d[idx + 2] = Math.min(255, d[idx + 2] + 18);
-        }
-      }
-    }
-    ctx.putImageData(imgData, startX, startY);
+    const radius = Math.max(10, size * 1.25);
+    ctx.save();
+    ctx.globalCompositeOperation = 'screen';
+    const grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
+    grad.addColorStop(0, 'rgba(255, 255, 255, 0.18)');
+    grad.addColorStop(0.55, 'rgba(255, 255, 255, 0.08)');
+    grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
   }
 
   // 28. Tint (with current active color)
@@ -5552,7 +5532,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'star', name: 'Estrela', icon: '<polygon points="16,3 20,11 29,12 22,18 24,27 16,22 8,27 10,18 3,12 12,11" stroke="currentColor" stroke-width="2.5" fill="none"/>' },
         { id: 'heart', name: 'Coração', icon: '<path d="M16 26 C4 18 4 8 10 6 C14 5 16 8 16 9 C16 8 18 5 22 6 C28 8 28 18 16 26 Z" stroke="currentColor" stroke-width="2.5" fill="none"/>' },
         { id: 'speech', name: 'Balão Fala', icon: '<path d="M4 6h24v14H16l-5 5v-5H4z" stroke="currentColor" stroke-width="2.2" fill="none"/>' },
-        { id: 'thought', name: 'Pensamento', icon: '<circle cx="16" cy="14" r="10" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="8" cy="26" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="22" r="3.5" stroke="currentColor" stroke-width="1.5" fill="none"/>' },
+        { id: 'thought', name: 'Pensamento', icon: '<path d="M 12 11 Q 10 5 16 5 Q 22 5 20 11 Q 26 13 24 19 Q 20 23 16 21 Q 10 23 8 19 Q 6 13 12 11 Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="23" r="1.8" fill="currentColor"/><circle cx="7" cy="26" r="1.1" fill="currentColor"/>' },
         { id: 'cloud', name: 'Nuvem', icon: '<path d="M7 22h18a6 6 0 0 0 0-12 8 8 0 0 0-15-2 5 5 0 0 0-3 14z" stroke="currentColor" stroke-width="2" fill="none"/>' },
         { id: 'pentagon', name: 'Pentágono', icon: '<polygon points="16,4 28,12 24,26 8,26 4,12" stroke="currentColor" stroke-width="2.5" fill="none"/>' },
         { id: 'hexagon', name: 'Hexágono', icon: '<polygon points="10,4 22,4 28,16 22,28 10,28 4,16" stroke="currentColor" stroke-width="2.5" fill="none"/>' },
@@ -6646,7 +6626,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (state.shapeType === 'speech') {
       drawSpeechBubble(ctx, -rx, -ry, absW, absH);
     } else if (state.shapeType === 'thought') {
-      ctx.arc(0, -ry * 0.2, ry * 0.7, 0, Math.PI * 2);
+      drawThoughtBubble(ctx, -rx, -ry, absW, absH);
     } else if (state.shapeType === 'cloud') {
       drawCloud(ctx, -rx, -ry, absW, absH);
     } else if (state.shapeType === 'pentagon') {
@@ -6744,6 +6724,46 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.lineTo(x, y + r);
     ctx.quadraticCurveTo(x, y, x + r, y);
     ctx.closePath();
+  }
+
+  function drawThoughtBubble(ctx, x, y, w, h) {
+    const bodyH = h * 0.74;
+    const cx = x + w * 0.52;
+    const cy = y + bodyH * 0.5;
+    const rw = w * 0.43;
+    const rh = bodyH * 0.44;
+
+    // Puffy cloud body with 8 connected lobes
+    const lobes = 8;
+    for (let i = 0; i < lobes; i++) {
+      const a1 = (i / lobes) * Math.PI * 2;
+      const a2 = ((i + 1) / lobes) * Math.PI * 2;
+      const midA = (a1 + a2) / 2;
+      const p1x = cx + Math.cos(a1) * rw;
+      const p1y = cy + Math.sin(a1) * rh;
+      const p2x = cx + Math.cos(a2) * rw;
+      const p2y = cy + Math.sin(a2) * rh;
+      const bulge = 1.36;
+      const cpx = cx + Math.cos(midA) * (rw * bulge);
+      const cpy = cy + Math.sin(midA) * (rh * bulge);
+      if (i === 0) ctx.moveTo(p1x, p1y);
+      ctx.quadraticCurveTo(cpx, cpy, p2x, p2y);
+    }
+    ctx.closePath();
+
+    // 2 trailing thought circles
+    const minD = Math.min(w, h);
+    const mX = cx - rw * 0.42;
+    const mY = y + bodyH + minD * 0.09;
+    const mR = minD * 0.07;
+    ctx.moveTo(mX + mR, mY);
+    ctx.arc(mX, mY, mR, 0, Math.PI * 2);
+
+    const sX = cx - rw * 0.68;
+    const sY = y + bodyH + minD * 0.22;
+    const sR = minD * 0.04;
+    ctx.moveTo(sX + sR, sY);
+    ctx.arc(sX, sY, sR, 0, Math.PI * 2);
   }
 
   function drawCloud(ctx, x, y, w, h) {
@@ -7187,15 +7207,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const isPt = (typeof currentLang === 'undefined' || currentLang === 'pt-BR');
 
     if (state.tool === 'brush') {
-      const brushShapes = {
-        'circle-sm': isPt ? 'Pequeno' : 'Small',
-        'circle-md': isPt ? 'Redondo' : 'Round',
-        'circle-lg': isPt ? 'Grande' : 'Large',
-        'square-md': isPt ? 'Quadrado' : 'Square',
-        'star': isPt ? 'Estrela' : 'Star',
-        'calligraphy': isPt ? 'Caligrafia' : 'Calligraphy'
+      const brushNameMap = {
+        'circle-sm': isPt ? 'Fino' : 'Small',
+        'circle-md': isPt ? 'Médio' : 'Medium',
+        'circle-lg': isPt ? 'Grosso' : 'Thick',
+        'circle-xl': isPt ? 'Gigante' : 'Huge',
+        'square': isPt ? 'Quadrado' : 'Square',
+        'triangle': isPt ? 'Triângulo' : 'Triangle',
+        'diamond': isPt ? 'Losango' : 'Diamond',
+        'star5': isPt ? 'Estrela 5' : 'Star 5',
+        'star8': isPt ? 'Estrela 8' : 'Star 8',
+        'heart': isPt ? 'Coração' : 'Heart',
+        'cross': isPt ? 'Cruz' : 'Cross',
+        'plus': isPt ? 'Mais' : 'Plus',
+        'pentagon': isPt ? 'Pentágono' : 'Pentagon',
+        'hexagon': isPt ? 'Hexágono' : 'Hexagon',
+        'octagon': isPt ? 'Octógono' : 'Octagon',
+        'flower': isPt ? 'Florzinha' : 'Flower',
+        'drops': isPt ? 'Gotas' : 'Drops',
+        'moon': isPt ? 'Lua' : 'Moon'
       };
-      const shapeLabel = brushShapes[state.brushShape] || (isPt ? 'Redondo' : 'Round');
+      const shapeLabel = brushNameMap[state.brushShape] || (isPt ? 'Pincel' : 'Brush');
       return `${shapeLabel} (${state.brushSize}px)`;
     }
 
