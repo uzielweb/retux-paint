@@ -1240,6 +1240,134 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
 }
 
 /* Modals */
+.modal-stamp-fill-card {
+  max-width: 660px;
+  width: 95%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+.modal-stamp-fill-body {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 14px;
+  padding: 4px 0;
+  overflow: hidden;
+}
+.modal-preview-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 12px;
+  position: relative;
+}
+.modal-preview-wrapper {
+  width: 160px;
+  height: 160px;
+  background-color: #FFF;
+  background-image: linear-gradient(45deg, #F1F5F9 25%, transparent 25%), linear-gradient(-45deg, #F1F5F9 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #F1F5F9 75%), linear-gradient(-45deg, transparent 75%, #F1F5F9 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+}
+.modal-preview-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 8px;
+  gap: 2px;
+}
+.modal-controls-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.modal-fill-mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+@media (max-width: 640px) {
+  .modal-stamp-fill-card {
+    width: 95vw !important;
+    max-width: 95vw !important;
+    max-height: 94vh !important;
+    padding: 14px 12px !important;
+  }
+  .modal-stamp-fill-body {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    max-height: 75vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 2px !important;
+  }
+  .modal-preview-col {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    padding: 8px 12px !important;
+    border-radius: 10px !important;
+  }
+  .modal-preview-wrapper {
+    width: 72px !important;
+    height: 72px !important;
+    min-width: 72px !important;
+    border-radius: 8px !important;
+  }
+  #modalStampPreviewTarget {
+    width: 62px !important;
+    height: 62px !important;
+  }
+  .modal-preview-info {
+    align-items: flex-start !important;
+    text-align: left !important;
+    margin-top: 0 !important;
+    flex: 1;
+    min-width: 0;
+  }
+  #modalStampCurrentStyleDesc {
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    color: #1E293B !important;
+    white-space: normal !important;
+    line-height: 1.3 !important;
+  }
+  .modal-controls-col {
+    max-height: none !important;
+    overflow-y: visible !important;
+    padding-right: 0 !important;
+  }
+  .modal-fill-mode-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+  }
+  .modal-fill-mode-btn {
+    padding: 6px 8px !important;
+    font-size: 11px !important;
+  }
+  #modalGradPresetsContainer {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1372,6 +1500,9 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
 }
 
 /* Custom Retux Color Picker Modal */
+#modalColorPicker {
+  z-index: 2600 !important;
+}
 .color-picker-modal-card {
   background: #FFFFFF;
   border-radius: 20px;
@@ -2059,6 +2190,7 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='55' rx='32' ry='36' fill='%231E293B'/><ellipse cx='50' cy='58' rx='22' ry='26' fill='%23FFFFFF'/><circle cx='50' cy='32' r='22' fill='%231E293B'/><polygon points='42,34 58,34 50,44' fill='%23FFA500'/></svg>">
   <script src="assets/stamps/stamps_part1.js"></script>
   <script src="assets/stamps/stamps_part2.js"></script>
+  <script src="assets/stamps/stamps_part3.js"></script>
 </head>
 <body>
 
@@ -2502,6 +2634,169 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
       <div style="display: flex; justify-content: flex-end; gap: 8px;">
         <button class="sub-btn" data-close-modal="modalImportStamp" data-i18n="btn_cancel">Cancelar</button>
         <button class="sub-btn active" id="btnSaveCustomStamp" data-i18n="btn_save_stamp">Salvar Carimbo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Stamp Fill & Background -->
+  <div class="modal-backdrop" id="modalStampFill">
+    <div class="modal-card modal-stamp-fill-card">
+      <div class="modal-header">
+        <h3 class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <span>🎨</span>
+          <span data-i18n="modal_stamp_fill_title">Preenchimento & Fundo do Carimbo</span>
+        </h3>
+        <button class="modal-close-btn" data-close-modal="modalStampFill">✕</button>
+      </div>
+
+      <div class="modal-stamp-fill-body">
+        <!-- Preview Column -->
+        <div class="modal-preview-col">
+          <div class="modal-preview-wrapper">
+            <div id="modalStampPreviewTarget" style="width: 135px; height: 135px; display: flex; align-items: center; justify-content: center;"></div>
+          </div>
+          <div class="modal-preview-info">
+            <div style="font-size: 10.5px; font-weight: 700; color: #64748B; text-transform: uppercase;" data-i18n="modal_preview_label">Preview ao Vivo</div>
+            <div id="modalStampCurrentStyleDesc" style="font-size: 11px; font-weight: 700; color: #1E293B;">
+              Transparente (Apenas Traço)
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls Column -->
+        <div class="modal-controls-col">
+          <!-- 1. Format Mode -->
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: #1E293B; margin-bottom: 6px;" data-i18n="stamp_fill_mode_title">1. Formato de Preenchimento:</div>
+            <div class="modal-fill-mode-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <button class="sub-btn modal-fill-mode-btn" data-mode="transparent" style="display: flex; align-items: center; gap: 8px; padding: 7px 9px; text-align: left; font-size: 11px;">
+                <span style="font-size: 16px;">🔲</span>
+                <div>
+                  <div style="font-weight: 700;" data-i18n="stamp_fill_none">Transparente</div>
+                  <div style="font-size: 9.5px; opacity: 0.7;" data-i18n="stamp_fill_none_sub">Apenas os traços</div>
+                </div>
+              </button>
+              <button class="sub-btn modal-fill-mode-btn" data-mode="inside" style="display: flex; align-items: center; gap: 8px; padding: 7px 9px; text-align: left; font-size: 11px;">
+                <span style="font-size: 16px;">🎨</span>
+                <div>
+                  <div style="font-weight: 700;" data-i18n="stamp_fill_inside">Partes Internas</div>
+                  <div style="font-size: 9.5px; opacity: 0.7;" data-i18n="stamp_fill_inside_sub">Corpo preenchido</div>
+                </div>
+              </button>
+              <button class="sub-btn modal-fill-mode-btn" data-mode="sticker" style="display: flex; align-items: center; gap: 8px; padding: 7px 9px; text-align: left; font-size: 11px;">
+                <span style="font-size: 16px;">⭐</span>
+                <div>
+                  <div style="font-weight: 700;" data-i18n="stamp_fill_sticker">Figurinha 3D</div>
+                  <div style="font-size: 9.5px; opacity: 0.7;" data-i18n="stamp_fill_sticker_sub">Borda branca e sombra</div>
+                </div>
+              </button>
+              <button class="sub-btn modal-fill-mode-btn" data-mode="rounded" style="display: flex; align-items: center; gap: 8px; padding: 7px 9px; text-align: left; font-size: 11px;">
+                <span style="font-size: 16px;">🎴</span>
+                <div>
+                  <div style="font-weight: 700;" data-i18n="stamp_fill_rounded">Cartão / Adesivo</div>
+                  <div style="font-size: 9.5px; opacity: 0.7;" data-i18n="stamp_fill_rounded_sub">Cantos suaves & respiro</div>
+                </div>
+              </button>
+              <button class="sub-btn modal-fill-mode-btn" data-mode="full" style="display: flex; align-items: center; gap: 8px; padding: 7px 9px; text-align: left; font-size: 11px;">
+                <span style="font-size: 16px;">⬛</span>
+                <div>
+                  <div style="font-weight: 700;" data-i18n="stamp_fill_full">Fundo Retângulo</div>
+                  <div style="font-size: 9.5px; opacity: 0.7;" data-i18n="stamp_fill_full_sub">Caixa com respiro</div>
+                </div>
+              </button>
+              <button class="sub-btn modal-fill-mode-btn" data-mode="circle" style="display: flex; align-items: center; gap: 8px; padding: 7px 9px; text-align: left; font-size: 11px;">
+                <span style="font-size: 16px;">⚪</span>
+                <div>
+                  <div style="font-weight: 700;" data-i18n="stamp_fill_circle">Círculo Perfeito</div>
+                  <div style="font-size: 9.5px; opacity: 0.7;" data-i18n="stamp_fill_circle_sub">100% circular / moeda</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. Color / Gradient Settings -->
+          <div id="modalFillColorConfigSection" style="display: none; border-top: 1px solid #E2E8F0; padding-top: 8px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <div style="font-size: 12px; font-weight: 800; color: #1E293B;" data-i18n="stamp_fill_type_title">2. Estilo da Cor:</div>
+              <div style="display: flex; gap: 4px;">
+                <button class="sub-btn modal-type-btn" id="modalBtnTypeSolid" style="padding: 4px 10px; font-size: 11px;">🖌️ <span data-i18n="stamp_fill_solid">Cor Sólida</span></button>
+                <button class="sub-btn modal-type-btn" id="modalBtnTypeGrad" style="padding: 4px 10px; font-size: 11px;">🌈 <span data-i18n="stamp_fill_gradient">Gradiente</span></button>
+              </div>
+            </div>
+
+            <!-- Solid Color Box -->
+            <div id="modalSolidColorPanel">
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <button type="button" id="btnOpenModalBgColorPicker" class="sub-btn" style="display: flex; align-items: center; gap: 7px; padding: 5px 10px; font-size: 11px; font-weight: 700; background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 8px; cursor: pointer; flex-shrink: 0;" title="Abrir Paleta de Cores Mágica">
+                  <span id="modalBgColorSwatch" style="width: 18px; height: 18px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.25); background: #FFFFFF; display: inline-block;"></span>
+                  <span id="modalBgColorHexLabel" style="font-family: monospace;">#FFFFFF</span>
+                  <span style="font-size: 12px;">🎨</span>
+                </button>
+                <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                  <button class="sub-btn modal-quick-color-btn" data-color="#FFFFFF" style="width: 26px; height: 26px; min-width: 26px; padding: 0; background: #FFFFFF; border: 1.5px solid #94A3B8; border-radius: 6px;"></button>
+                  <button class="sub-btn modal-quick-color-btn" data-color="#FFF9C4" style="width: 26px; height: 26px; min-width: 26px; padding: 0; background: #FFF9C4; border: 1.5px solid #94A3B8; border-radius: 6px;"></button>
+                  <button class="sub-btn modal-quick-color-btn" data-color="#BBDEFB" style="width: 26px; height: 26px; min-width: 26px; padding: 0; background: #BBDEFB; border: 1.5px solid #94A3B8; border-radius: 6px;"></button>
+                  <button class="sub-btn modal-quick-color-btn" data-color="#F8BBD0" style="width: 26px; height: 26px; min-width: 26px; padding: 0; background: #F8BBD0; border: 1.5px solid #94A3B8; border-radius: 6px;"></button>
+                  <button class="sub-btn modal-quick-color-btn" data-color="#C8E6C9" style="width: 26px; height: 26px; min-width: 26px; padding: 0; background: #C8E6C9; border: 1.5px solid #94A3B8; border-radius: 6px;"></button>
+                  <button class="sub-btn modal-quick-color-btn" data-color="#FFE082" style="width: 26px; height: 26px; min-width: 26px; padding: 0; background: #FFE082; border: 1.5px solid #94A3B8; border-radius: 6px;"></button>
+                  <button class="sub-btn modal-quick-color-btn" data-color="#E1BEE7" style="width: 26px; height: 26px; min-width: 26px; padding: 0; background: #E1BEE7; border: 1.5px solid #94A3B8; border-radius: 6px;"></button>
+                  <button class="sub-btn modal-quick-color-btn" data-color="#FFCCBC" style="width: 26px; height: 26px; min-width: 26px; padding: 0; background: #FFCCBC; border: 1.5px solid #94A3B8; border-radius: 6px;"></button>
+                  <button class="sub-btn modal-quick-color-btn" data-color="#B2EBF2" style="width: 26px; height: 26px; min-width: 26px; padding: 0; background: #B2EBF2; border: 1.5px solid #94A3B8; border-radius: 6px;"></button>
+                  <button class="sub-btn modal-quick-color-btn" data-color="#E2E8F0" style="width: 26px; height: 26px; min-width: 26px; padding: 0; background: #E2E8F0; border: 1.5px solid #94A3B8; border-radius: 6px;"></button>
+                  <button class="sub-btn modal-quick-color-btn" data-color="#475569" style="width: 26px; height: 26px; min-width: 26px; padding: 0; background: #475569; border: 1.5px solid #94A3B8; border-radius: 6px;"></button>
+                  <button class="sub-btn modal-quick-color-btn" data-color="#1E293B" style="width: 26px; height: 26px; min-width: 26px; padding: 0; background: #1E293B; border: 1.5px solid #94A3B8; border-radius: 6px;"></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gradient Box -->
+            <div id="modalGradPanel" style="display: none;">
+              <div id="modalGradPresetsContainer" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; max-height: 120px; overflow-y: auto; padding: 4px; margin-bottom: 8px; border: 1px solid #E2E8F0; border-radius: 8px;">
+                <!-- Populated dynamically via JS -->
+              </div>
+
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <span style="font-size: 11px; font-weight: 700; color: #475569;" data-i18n="stamp_grad_type">Tipo:</span>
+                  <button class="sub-btn modal-grad-type-btn active" id="modalGradTypeLin" style="padding: 3px 8px; font-size: 10.5px;" data-i18n="stamp_grad_linear">Linear</button>
+                  <button class="sub-btn modal-grad-type-btn" id="modalGradTypeRad" style="padding: 3px 8px; font-size: 10.5px;" data-i18n="stamp_grad_radial">Radial</button>
+                </div>
+
+                <div id="modalGradDirContainer" style="display: flex; align-items: center; gap: 4px;">
+                  <span style="font-size: 11px; font-weight: 700; color: #475569;" data-i18n="stamp_grad_dir">Direção:</span>
+                  <button class="sub-btn modal-grad-dir-btn active" data-dir="vertical" style="padding: 3px 6px; font-size: 10px;">↓</button>
+                  <button class="sub-btn modal-grad-dir-btn" data-dir="horizontal" style="padding: 3px 6px; font-size: 10px;">→</button>
+                  <button class="sub-btn modal-grad-dir-btn" data-dir="diagonal" style="padding: 3px 6px; font-size: 10px;">↘</button>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; background: #F8FAFC; padding: 6px 10px; border-radius: 8px; border: 1px solid #E2E8F0; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-size: 11px; font-weight: 700; color: #475569;" data-i18n="stamp_grad_c1">Cor 1:</span>
+                  <button type="button" id="btnPickGradC1" class="sub-btn" style="display: flex; align-items: center; gap: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 6px; cursor: pointer;" title="Abrir Paleta de Cores Mágica">
+                    <span id="modalGradC1Swatch" style="width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.25); background: #FF512F; display: inline-block;"></span>
+                    <span id="modalGradC1HexLabel" style="font-family: monospace;">#FF512F</span>
+                    <span style="font-size: 11px;">🎨</span>
+                  </button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-size: 11px; font-weight: 700; color: #475569;" data-i18n="stamp_grad_c2">Cor 2:</span>
+                  <button type="button" id="btnPickGradC2" class="sub-btn" style="display: flex; align-items: center; gap: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 6px; cursor: pointer;" title="Abrir Paleta de Cores Mágica">
+                    <span id="modalGradC2Swatch" style="width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.25); background: #F09819; display: inline-block;"></span>
+                    <span id="modalGradC2HexLabel" style="font-family: monospace;">#F09819</span>
+                    <span style="font-size: 11px;">🎨</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Actions -->
+      <div class="modal-actions" style="margin-top: 12px; border-top: 1px solid #E2E8F0; padding-top: 10px; display: flex; justify-content: flex-end; gap: 8px;">
+        <button class="sub-btn" data-close-modal="modalStampFill" data-i18n="btn_cancel">Cancelar</button>
+        <button class="sub-btn active" id="btnApplyStampFillModal" style="background: #2563EB; color: #FFF; border-color: #1D4ED8; font-weight: 700; padding: 6px 16px;" data-i18n="btn_apply_stamp_fill">✔ Aplicar Preenchimento</button>
       </div>
     </div>
   </div>
@@ -3680,26 +3975,52 @@ class TuxMagic {
     }
   }
 
-  // 39. Gradient Magic
-  applyGradient(ctx, x, y, lastX, lastY, size, state) {
-    const colors = getGradientColors(state.gradientMagicPreset || 'rainbow', state.gradientMagicColor1, state.gradientMagicColor2);
+  // 39. Gradient Magic (Self-contained and robust)
+  applyGradient(ctx, x, y, lastX, lastY, size, state = {}) {
+    let colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8B00FF'];
+    const preset = state.gradientMagicPreset || 'rainbow';
+    const presets = {
+      rainbow: ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8B00FF'],
+      sunset: ['#FF512F', '#F09819'],
+      cyber: ['#00F2FE', '#4FACFE'],
+      fire: ['#FF0844', '#FFB199'],
+      ocean: ['#2E3192', '#1BFFFF'],
+      emerald: ['#0BA360', '#3CBA92'],
+      gold: ['#FFE000', '#799F0C'],
+      aurora: ['#00C9FF', '#92FE9D'],
+      twilight: ['#FA709A', '#FEE140'],
+      pastel: ['#E0C3FC', '#8EC5FC'],
+      cosmic: ['#243949', '#517FA4'],
+      cotton: ['#FAD0C4', '#FFD1FF']
+    };
+    if (preset === 'custom' && state.gradientMagicColor1 && state.gradientMagicColor2) {
+      colors = [state.gradientMagicColor1, state.gradientMagicColor2];
+    } else if (presets[preset]) {
+      colors = presets[preset];
+    } else if (typeof window.getGradientColors === 'function') {
+      try { colors = window.getGradientColors(preset, state.gradientMagicColor1, state.gradientMagicColor2); } catch (_) {}
+    }
+
     ctx.save();
-    if (state.gradientMagicType === 'radial') {
-      const grad = ctx.createRadialGradient(x, y, 0, x, y, size * 1.2);
-      colors.forEach((c, idx) => grad.addColorStop(idx / (colors.length - 1), c));
+    const gradType = state.gradientMagicType || 'linear';
+    if (gradType === 'radial') {
+      const grad = ctx.createRadialGradient(x, y, 0, x, y, Math.max(12, size * 1.2));
+      colors.forEach((c, idx) => grad.addColorStop(idx / Math.max(1, colors.length - 1), c));
       ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(x, y, size * 1.2, 0, Math.PI * 2);
+      ctx.arc(x, y, Math.max(12, size * 1.2), 0, Math.PI * 2);
       ctx.fill();
     } else {
-      const grad = ctx.createLinearGradient(lastX, lastY, x, y);
-      colors.forEach((c, idx) => grad.addColorStop(idx / (colors.length - 1), c));
+      const lx = (typeof lastX === 'number' && !isNaN(lastX)) ? lastX : x - 1;
+      const ly = (typeof lastY === 'number' && !isNaN(lastY)) ? lastY : y - 1;
+      const grad = ctx.createLinearGradient(lx, ly, x, y);
+      colors.forEach((c, idx) => grad.addColorStop(idx / Math.max(1, colors.length - 1), c));
       ctx.strokeStyle = grad;
-      ctx.lineWidth = size * 1.5;
+      ctx.lineWidth = Math.max(8, size * 1.5);
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
+      ctx.moveTo(lx, ly);
       ctx.lineTo(x, y);
       ctx.stroke();
     }
@@ -4392,6 +4713,196 @@ class TuxMagic {
     ctx.restore();
   }
 
+  // 65. Falling Sand / Areia Movediça
+  applyFallingSand(ctx, x, y, size, color) {
+    ctx.save();
+    const radius = Math.max(8, size);
+    const grains = Math.floor(Math.random() * 14) + 16;
+    const sandColors = ['#E6C280', '#D4A373', '#CCD5AE', '#F4A261', '#E76F51', '#DDA15E'];
+    for (let i = 0; i < grains; i++) {
+      const ox = x + (Math.random() - 0.5) * radius * 1.8;
+      const fallDist = Math.random() * radius * 2.5 + radius * 0.5;
+      const oy = y + fallDist;
+      const grainSize = Math.random() * 2.5 + 1.2;
+      ctx.fillStyle = Math.random() < 0.35 ? (color || '#D4A373') : sandColors[Math.floor(Math.random() * sandColors.length)];
+      ctx.globalAlpha = Math.random() * 0.5 + 0.5;
+      ctx.beginPath();
+      ctx.arc(ox, oy, grainSize, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    // Base dune pile around (x, y)
+    ctx.fillStyle = '#D4A373';
+    ctx.globalAlpha = 0.3;
+    ctx.beginPath();
+    ctx.ellipse(x, y + radius * 0.4, radius * 0.7, radius * 0.25, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // 66. Magnifier / Lupa Mágica
+  applyMagnifier(ctx, x, y, size) {
+    const r = Math.max(16, Math.floor(size * 1.4));
+    const sx = Math.max(0, Math.floor(x - r / 1.6));
+    const sy = Math.max(0, Math.floor(y - r / 1.6));
+    const sw = Math.min(ctx.canvas.width - sx, Math.floor(r * 1.25));
+    const sh = Math.min(ctx.canvas.height - sy, Math.floor(r * 1.25));
+    if (sw <= 2 || sh <= 2) return;
+
+    ctx.save();
+    // Clip circular lens
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.clip();
+
+    // Draw magnified content
+    ctx.drawImage(ctx.canvas, sx, sy, sw, sh, x - r, y - r, r * 2, r * 2);
+
+    // Lens glass gloss & rim reflection
+    const glassGrad = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, 0, x, y, r);
+    glassGrad.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+    glassGrad.addColorStop(0.6, 'rgba(224, 242, 254, 0.15)');
+    glassGrad.addColorStop(0.95, 'rgba(56, 189, 248, 0.25)');
+    glassGrad.addColorStop(1, 'rgba(14, 116, 144, 0.5)');
+    ctx.fillStyle = glassGrad;
+    ctx.fill();
+    ctx.restore();
+
+    // Metallic magnifying frame
+    ctx.save();
+    ctx.strokeStyle = '#0284C7';
+    ctx.lineWidth = 3.5;
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+    ctx.shadowBlur = 4;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.strokeStyle = '#BAE6FD';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // 67. Water Bleed / Aquarela
+  applyWaterBleed(ctx, x, y, size, color) {
+    ctx.save();
+    const r = Math.max(12, size * 1.3);
+    const droplets = Math.floor(Math.random() * 5) + 4;
+    ctx.fillStyle = color || '#3B82F6';
+    for (let i = 0; i < droplets; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * r * 0.7;
+      const subR = Math.random() * (r * 0.6) + r * 0.35;
+      const px = x + Math.cos(angle) * dist;
+      const py = y + Math.sin(angle) * dist;
+      ctx.globalAlpha = Math.random() * 0.12 + 0.08;
+      ctx.beginPath();
+      ctx.arc(px, py, subR, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    // Soft bleed center core
+    ctx.globalAlpha = 0.22;
+    ctx.beginPath();
+    ctx.arc(x, y, r * 0.45, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // 68. Stained Glass / Vitral
+  applyStainedGlass(ctx, x, y, size, color) {
+    ctx.save();
+    const r = Math.max(14, size * 1.2);
+    const facets = Math.floor(Math.random() * 3) + 4;
+    const angles = [];
+    for (let i = 0; i < facets; i++) angles.push(Math.random() * Math.PI * 2);
+    angles.sort((a, b) => a - b);
+
+    const jewelColors = [color || '#3B82F6', '#EF4444', '#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'];
+    for (let i = 0; i < facets; i++) {
+      const a1 = angles[i];
+      const a2 = angles[(i + 1) % facets];
+      const p1x = x + Math.cos(a1) * (r * (0.7 + Math.random() * 0.35));
+      const p1y = y + Math.sin(a1) * (r * (0.7 + Math.random() * 0.35));
+      const p2x = x + Math.cos(a2) * (r * (0.7 + Math.random() * 0.35));
+      const p2y = y + Math.sin(a2) * (r * (0.7 + Math.random() * 0.35));
+
+      ctx.fillStyle = jewelColors[Math.floor(Math.random() * jewelColors.length)];
+      ctx.globalAlpha = 0.75;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(p1x, p1y);
+      ctx.lineTo(p2x, p2y);
+      ctx.closePath();
+      ctx.fill();
+
+      // Black lead line
+      ctx.strokeStyle = '#0F172A';
+      ctx.lineWidth = 2.2;
+      ctx.globalAlpha = 1.0;
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // 69. Frost Crystals / Cristais de Gelo
+  applyFrost(ctx, x, y, size) {
+    ctx.save();
+    const r = Math.max(10, size * 1.1);
+    const arms = 6; // Hexagonal symmetry
+    const baseAngle = Math.random() * Math.PI;
+    const frostColors = ['#FFFFFF', '#E0F7FA', '#B2EBF2', '#80DEEA', '#4DD0E1'];
+    ctx.lineCap = 'round';
+
+    for (let i = 0; i < arms; i++) {
+      const angle = baseAngle + (i * Math.PI * 2) / arms;
+      const len = r * (0.75 + Math.random() * 0.3);
+      const ex = x + Math.cos(angle) * len;
+      const ey = y + Math.sin(angle) * len;
+
+      ctx.strokeStyle = frostColors[Math.floor(Math.random() * frostColors.length)];
+      ctx.lineWidth = Math.max(1.2, size * 0.08);
+      ctx.globalAlpha = Math.random() * 0.4 + 0.6;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(ex, ey);
+      ctx.stroke();
+
+      // Side needles / dendrites
+      const subBranches = 2;
+      for (let b = 1; b <= subBranches; b++) {
+        const t = b / (subBranches + 1);
+        const bx = x + Math.cos(angle) * len * t;
+        const by = y + Math.sin(angle) * len * t;
+        const subLen = len * 0.35;
+        [-Math.PI / 3, Math.PI / 3].forEach(da => {
+          ctx.beginPath();
+          ctx.moveTo(bx, by);
+          ctx.lineTo(bx + Math.cos(angle + da) * subLen, by + Math.sin(angle + da) * subLen);
+          ctx.stroke();
+        });
+      }
+    }
+    ctx.restore();
+  }
+
+  // 70. Emoji Rain / Chuva Emoji
+  applyEmojiRain(ctx, x, y, size) {
+    ctx.save();
+    const emojis = ['😀', '⭐', '❤️', '🎉', '🌈', '🚀', '🍕', '🐱', '✨', '🔥', '🍦', '🎨', '🌟', '🍭', '🦄', '🌸'];
+    const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+    const fontSize = Math.max(14, Math.floor(size * 1.2));
+    const ox = x + (Math.random() - 0.5) * size * 1.2;
+    const oy = y + Math.random() * size * 1.5;
+    const rot = (Math.random() - 0.5) * 0.5;
+
+    ctx.font = `${fontSize}px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.translate(ox, oy);
+    ctx.rotate(rot);
+    ctx.fillText(emoji, 0, 0);
+    ctx.restore();
+  }
+
 }
 window.TuxMagic = TuxMagic;
   </script>
@@ -4446,18 +4957,18 @@ const I18N = {
         cat_search_placeholder: '🔍 Buscar carimbo ou tema...',
     cat_filter_all: 'Todos',
     cat_filter_colorable: '🎨 Coloríveis',
-    cat_filter_fixed: '🖼️ Fixos (PNG)',
+    cat_filter_fixed: 'Fixos',
     cat_category_label: 'Categoria:',
     cat_showing_stamps: 'Exibindo {0} de {1} carimbos',
     cat_load_more: 'Carregar mais carimbos (+{0})',
         cat_search_placeholder: '🔍 Search stamp or topic...',
     cat_filter_all: 'All',
     cat_filter_colorable: '🎨 Colorable',
-    cat_filter_fixed: '🖼️ Fixed (PNG)',
+    cat_filter_fixed: 'Fixed',
     cat_category_label: 'Category:',
     cat_showing_stamps: 'Showing {0} of {1} stamps',
     cat_load_more: 'Load more stamps (+{0})',
-    cat_all: '⭐ All Categories',
+    cat_all: 'All Categories',
     cat_alimentos_e_gastronomia: '🍕 Food & Gastronomy',
     cat_animais_marinhos: '🐬 Marine Animals',
     cat_animais_terrestres: '🦁 Land Animals',
@@ -4479,6 +4990,7 @@ const I18N = {
     cat_jesus: '✝️ Biblical & Faith',
     cat_kpop_blackpink: '🎀 K-Pop: Blackpink',
     cat_kpop_bts: '💜 K-Pop: BTS',
+    cat_huntrix: '🏹 Huntrix',
     cat_kpop_dois_ne_um: '🌟 K-Pop: 2NE1',
     cat_kpop_girls_generation: "💖 K-Pop: Girls' Generation",
     cat_kpop_psy: '🕶️ K-Pop: Psy',
@@ -4504,6 +5016,7 @@ const I18N = {
     cat_fantasy: '💥 Comics & Fantasy',
     cat_emojis: '😀 Emojis',
     cat_custom: '💾 My Stamps',
+    cat_huntrix: '🏹 Huntrix',
     size: 'Tamanho',
     rotation: 'Rotação',
     flip: 'Espelhar',
@@ -4560,7 +5073,20 @@ const I18N = {
     magic_grad_mode_drag: 'Arrastar Vetor',
     magic_grad_mode_fill: 'Preencher Tela Toda',
     magic_grad_apply_canvas: 'Pintar Tela com Gradiente',
-    magic_spatula_drip_label: 'Escorrer Tinta (Gotas)'
+    magic_spatula_drip_label: 'Escorrer Tinta (Gotas)',
+    modal_stamp_fill_title: 'Preenchimento & Fundo do Carimbo',
+    modal_preview_label: 'Preview ao Vivo',
+    stamp_fill_mode_title: '1. Formato de Preenchimento:',
+    stamp_fill_none_sub: 'Apenas os traços vetoriais',
+    stamp_fill_inside_sub: 'Corpo do desenho preenchido',
+    stamp_fill_full_sub: 'Caixa retangular total',
+    stamp_fill_rounded_sub: 'Adesivo com cantos suaves',
+    stamp_fill_circle_sub: 'Fundo elíptico / circular',
+    stamp_fill_type_title: '2. Estilo da Cor:',
+    stamp_fill_btn_label: 'Fundo / Preenchimento',
+    btn_apply_stamp_fill: '✔ Aplicar Preenchimento',
+    stamp_fill_sticker: 'Figurinha / Adesivo 3D',
+    stamp_fill_sticker_sub: 'Borda branca com sombra projetada'
   },
   'en-US': {
     tools_title: 'Tools',
@@ -4671,7 +5197,20 @@ const I18N = {
     magic_grad_mode_drag: 'Drag Vector',
     magic_grad_mode_fill: 'Fill Whole Canvas',
     magic_grad_apply_canvas: 'Fill Canvas with Gradient',
-    magic_spatula_drip_label: 'Paint Drips & Runs'
+    magic_spatula_drip_label: 'Paint Drips & Runs',
+    modal_stamp_fill_title: 'Stamp Fill & Background',
+    modal_preview_label: 'Live Preview',
+    stamp_fill_mode_title: '1. Fill Format:',
+    stamp_fill_none_sub: 'Vector outlines only',
+    stamp_fill_inside_sub: 'Inner shape filled',
+    stamp_fill_full_sub: 'Full rectangular box',
+    stamp_fill_rounded_sub: 'Smooth rounded sticker',
+    stamp_fill_circle_sub: 'Elliptical / circular',
+    stamp_fill_type_title: '2. Color Style:',
+    stamp_fill_btn_label: 'Background / Fill',
+    btn_apply_stamp_fill: '✔ Apply Fill',
+    stamp_fill_sticker: 'Die-Cut Sticker 3D',
+    stamp_fill_sticker_sub: 'White border with drop shadow'
   }
 };
 
@@ -4710,6 +5249,11 @@ function updateAppLanguage(lang) {
   const placeholderInput = document.getElementById('inlineTextInput');
   if (placeholderInput) {
     placeholderInput.setAttribute('data-placeholder', lang === 'pt-BR' ? 'Digite seu texto...' : 'Type your text...');
+  }
+
+  // Instantly re-render dynamic subOptions panel (Stamps, Magics, Brushes, Categories) in the new language
+  if (typeof updateSubOptions === 'function') {
+    updateSubOptions();
   }
 }
 
@@ -4884,14 +5428,16 @@ document.addEventListener('DOMContentLoaded', () => {
     return g;
   }
 
-  function fillStampInnerSilhouette(baseImg, fillType, fillColor, gradPreset, gradC1, gradC2, gradType, gradDir, callback) {
-    const w = 400;
-    const h = 400;
+  function fillStampInnerSilhouette(baseImg, fillType, fillColor, gradPreset, gradC1, gradC2, gradType, gradDir, isSticker, callback) {
+    const pad = isSticker ? 40 : 0;
+    const w = 400 + pad * 2;
+    const h = 400 + pad * 2;
+
     const cContour = document.createElement('canvas');
     cContour.width = w;
     cContour.height = h;
     const ctxC = cContour.getContext('2d');
-    ctxC.drawImage(baseImg, 0, 0, w, h);
+    ctxC.drawImage(baseImg, pad, pad, 400, 400);
 
     const imgData = ctxC.getImageData(0, 0, w, h);
     const data = imgData.data;
@@ -4934,27 +5480,76 @@ document.addEventListener('DOMContentLoaded', () => {
     cResult.height = h;
     const ctxR = cResult.getContext('2d');
 
+    // If sticker, create die-cut dilated white border with drop shadow first
+    if (isSticker) {
+      const cMask = document.createElement('canvas');
+      cMask.width = w;
+      cMask.height = h;
+      const ctxM = cMask.getContext('2d');
+      const maskData = ctxM.createImageData(w, h);
+      const md = maskData.data;
+      for (let i = 0; i < w * h; i++) {
+        if (visited[i] === 0) {
+          md[i * 4] = 255;
+          md[i * 4 + 1] = 255;
+          md[i * 4 + 2] = 255;
+          md[i * 4 + 3] = 255;
+        }
+      }
+      ctxM.putImageData(maskData, 0, 0);
+
+      // Draw drop shadow under sticker
+      ctxR.save();
+      ctxR.shadowColor = 'rgba(0, 0, 0, 0.32)';
+      ctxR.shadowBlur = 14;
+      ctxR.shadowOffsetY = 7;
+      // Dilate white border
+      ctxR.strokeStyle = '#FFFFFF';
+      ctxR.lineWidth = 18;
+      ctxR.lineCap = 'round';
+      ctxR.lineJoin = 'round';
+      ctxR.drawImage(cMask, 0, 0);
+      ctxR.strokeRect(0, 0, 0, 0); // flush
+      ctxR.restore();
+
+      // Stamp thick white die-cut contour
+      ctxR.save();
+      for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 8) {
+        ctxR.drawImage(cMask, Math.cos(angle) * 7, Math.sin(angle) * 7);
+      }
+      ctxR.restore();
+    }
+
+    // Paint the inner background (solid or gradient)
+    const cFill = document.createElement('canvas');
+    cFill.width = w;
+    cFill.height = h;
+    const ctxF = cFill.getContext('2d');
+
     if (fillType === 'solid') {
-      ctxR.fillStyle = fillColor;
-      ctxR.fillRect(0, 0, w, h);
+      ctxF.fillStyle = fillColor;
+      ctxF.fillRect(0, 0, w, h);
     } else {
       const colors = getGradientColors(gradPreset, gradC1, gradC2);
       let x1 = 0, y1 = h;
       if (gradDir === 'horizontal') { x1 = w; y1 = 0; }
       else if (gradDir === 'diagonal') { x1 = w; y1 = h; }
-      ctxR.fillStyle = createCanvasGradient(ctxR, 0, 0, x1, y1, gradType, colors);
-      ctxR.fillRect(0, 0, w, h);
+      ctxF.fillStyle = createCanvasGradient(ctxF, 0, 0, x1, y1, gradType, colors);
+      ctxF.fillRect(0, 0, w, h);
     }
 
-    const bgData = ctxR.getImageData(0, 0, w, h);
+    const bgData = ctxF.getImageData(0, 0, w, h);
     const bd = bgData.data;
     for (let i = 0; i < w * h; i++) {
       if (visited[i] === 1) {
         bd[i * 4 + 3] = 0;
       }
     }
-    ctxR.putImageData(bgData, 0, 0);
-    ctxR.drawImage(baseImg, 0, 0, w, h);
+    ctxF.putImageData(bgData, 0, 0);
+
+    // Composite: fill + contour
+    ctxR.drawImage(cFill, 0, 0);
+    ctxR.drawImage(cContour, 0, 0);
     callback(cResult);
   }
 
@@ -4982,19 +5577,26 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!cleanSvg.includes('xmlns=')) {
       cleanSvg = cleanSvg.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
     }
-    if (!cleanSvg.includes('width=')) {
-      cleanSvg = cleanSvg.replace('<svg', '<svg width="100" height="100"');
-    }
 
     if (isColorable) {
       cleanSvg = cleanSvg.replace(/currentColor/g, currentColor);
     }
 
-    // Embed SVG background shapes when not transparent or inside
-    if (isColorable && fillMode !== 'transparent' && fillMode !== 'inside') {
-      let bgSvgSnippet = '';
+    // Extract viewBox dimensions
+    const vbMatch = cleanSvg.match(/viewBox=["']\s*([\d.-]+)[\s,]+([\d.-]+)[\s,]+([\d.-]+)[\s,]+([\d.-]+)\s*["']/i);
+    let origX = 0, origY = 0, origW = 100, origH = 100;
+    if (vbMatch) {
+      origX = parseFloat(vbMatch[1]);
+      origY = parseFloat(vbMatch[2]);
+      origW = parseFloat(vbMatch[3]);
+      origH = parseFloat(vbMatch[4]);
+    }
+
+    // Embed Background Shapes with padding / perfect circle
+    if (isColorable && fillMode !== 'transparent' && fillMode !== 'inside' && fillMode !== 'sticker') {
       const gradId = `stGrad_${Math.random().toString(36).substring(2, 8)}`;
       let fillAttr = '';
+      let bgSvgSnippet = '';
 
       if (fillType === 'solid') {
         fillAttr = `fill="${bgColor}"`;
@@ -5004,12 +5606,30 @@ document.addEventListener('DOMContentLoaded', () => {
         fillAttr = `fill="url(#${gradId})"`;
       }
 
-      if (fillMode === 'full') {
-        bgSvgSnippet += `<rect width="100%" height="100%" ${fillAttr} />`;
-      } else if (fillMode === 'rounded') {
-        bgSvgSnippet += `<rect width="100%" height="100%" rx="16" ${fillAttr} />`;
+      if (fillMode === 'full' || fillMode === 'rounded') {
+        // Generous padding around the artwork for visual breathing room
+        const padX = origW * 0.16;
+        const padY = origH * 0.16;
+        const pad = Math.max(padX, padY);
+        const newX = origX - pad;
+        const newY = origY - pad;
+        const newW = origW + pad * 2;
+        const newH = origH + pad * 2;
+        const rx = fillMode === 'rounded' ? Math.max(14, Math.round(pad * 0.85)) : 0;
+
+        bgSvgSnippet += `<rect x="${newX}" y="${newY}" width="${newW}" height="${newH}" rx="${rx}" ${fillAttr} />`;
+        cleanSvg = cleanSvg.replace(/viewBox=["'][^"']+["']/i, `viewBox="${newX} ${newY} ${newW} ${newH}"`);
       } else if (fillMode === 'circle') {
-        bgSvgSnippet += `<ellipse cx="50%" cy="50%" rx="48%" ry="48%" ${fillAttr} />`;
+        // True Perfect Circle (not ellipse) centered on artwork with comfortable padding
+        const cx = origX + origW / 2;
+        const cy = origY + origH / 2;
+        const radius = (Math.hypot(origW, origH) / 2) * 1.15;
+        const side = radius * 2;
+        const newX = cx - radius;
+        const newY = cy - radius;
+
+        bgSvgSnippet += `<circle cx="${cx}" cy="${cy}" r="${radius}" ${fillAttr} />`;
+        cleanSvg = cleanSvg.replace(/viewBox=["'][^"']+["']/i, `viewBox="${newX} ${newY} ${side} ${side}"`);
       }
 
       cleanSvg = cleanSvg.replace(/(<svg[^>]*>)/i, `$1${bgSvgSnippet}`);
@@ -5018,10 +5638,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const img = new Image();
     const dataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(cleanSvg)}`;
     img.onload = () => {
-      if (isColorable && fillMode === 'inside') {
-        fillStampInnerSilhouette(img, fillType, bgColor, gradPreset, gradC1, gradC2, gradType, gradDir, (maskedCanvas) => {
-          stampImageCache[cacheKey] = maskedCanvas;
-          callback(maskedCanvas);
+      if (isColorable && (fillMode === 'inside' || fillMode === 'sticker')) {
+        fillStampInnerSilhouette(img, fillType, bgColor, gradPreset, gradC1, gradC2, gradType, gradDir, fillMode === 'sticker', (resultCanvas) => {
+          stampImageCache[cacheKey] = resultCanvas;
+          callback(resultCanvas);
         });
       } else {
         stampImageCache[cacheKey] = img;
@@ -5710,6 +6330,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 'image/png');
   }
 
+
   // Floating Stamp Preview Cursor
   function updateStampPreview() {
     if (state.tool !== 'stamp') {
@@ -5968,12 +6589,18 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'all', label: t('cat_all'), icon: '⭐', count: allStampsList.length }
       ];
 
+      function stripLeadingEmoji(str) {
+        if (!str) return '';
+        return str.replace(/^[\p{Extended_Pictographic}\p{Emoji_Presentation}\p{Emoji}\uFE0F\u200D\s]+/u, '').trim();
+      }
+
       Object.keys(catMeta).forEach(catId => {
         const meta = catMeta[catId];
-        const label = t('cat_' + catId) || (currentLocale === 'en' ? meta.name_en : meta.name_pt);
+        const rawLabel = currentLang.startsWith('en') ? (meta.name_en || t('cat_' + catId)) : (t('cat_' + catId) || meta.name_pt);
+        const cleanName = stripLeadingEmoji(rawLabel);
         categoryList.push({
           id: catId,
-          label: label,
+          label: cleanName,
           icon: meta.icon,
           count: catCounts[catId] || 0
         });
@@ -5982,9 +6609,10 @@ document.addEventListener('DOMContentLoaded', () => {
       // Also append classic categories if present
       ['tux', 'animals', 'vehicles', 'nature', 'food', 'fantasy', 'emojis', 'custom'].forEach(cid => {
         if (catCounts[cid]) {
+          const raw = t('cat_' + cid) || cid;
           categoryList.push({
             id: cid,
-            label: t('cat_' + cid) || cid,
+            label: stripLeadingEmoji(raw),
             icon: cid === 'tux' ? '🐧' : (cid === 'emojis' ? '😀' : (cid === 'custom' ? '💾' : '📦')),
             count: catCounts[cid]
           });
@@ -6040,7 +6668,7 @@ document.addEventListener('DOMContentLoaded', () => {
       categoryList.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c.id;
-        opt.textContent = `${c.label} (${c.count})`;
+        opt.textContent = `${c.icon} ${c.label} (${c.count})`;
         if (state.stampCategory === c.id) opt.selected = true;
         select.appendChild(opt);
       });
@@ -6105,7 +6733,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const pill = document.createElement('button');
         pill.className = `cat-pill-item ${state.stampCategory === c.id ? 'active' : ''}`;
         pill.dataset.catId = c.id;
-        pill.innerHTML = `<span>${c.icon}</span> <span>${c.label}</span>`;
+        pill.innerHTML = `<span style="font-size:13px; line-height:1;">${c.icon}</span> <span>${c.label}</span>`;
         pill.addEventListener('click', () => {
           state.stampCategory = c.id;
           state.stampRenderLimit = 48;
@@ -6141,7 +6769,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       subOptionsPanel.appendChild(navWrapper);
 
-      // Controls Bar: Size (20-1000px), Rotation, Flip, Import, Background & Gradient Fill
+      // Controls Bar: Standard Spacious Layout + Modal Trigger for Fill
       const ctrl = document.createElement('div');
       ctrl.className = 'stamp-controls';
       ctrl.innerHTML = `
@@ -6149,12 +6777,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="slider-container">
           <input type="range" id="stampScaleInput" min="20" max="1000" step="5" value="${state.stampSize || 120}">
         </div>
-        <div class="sub-panel-row" style="margin-top: 2px; margin-bottom: 6px;">
+        <div class="sub-panel-row">
           <button class="sub-btn ${state.stampSize <= 50 ? 'active' : ''}" id="btnStampSzP">P (40px)</button>
           <button class="sub-btn ${state.stampSize > 50 && state.stampSize <= 160 ? 'active' : ''}" id="btnStampSzM">M (120px)</button>
           <button class="sub-btn ${state.stampSize > 160 && state.stampSize <= 350 ? 'active' : ''}" id="btnStampSzG">G (280px)</button>
-          <button class="sub-btn ${state.stampSize > 350 && state.stampSize <= 700 ? 'active' : ''}" id="btnStampSzGG">GG (500px)</button>
-          <button class="sub-btn ${state.stampSize > 700 ? 'active' : ''}" id="btnStampSzMax">MAX (1000px)</button>
+          <button class="sub-btn ${state.stampSize > 350 ? 'active' : ''}" id="btnStampSzGG">GG (500px)</button>
         </div>
 
         <div class="sub-panel-section-title">${t('rotation')}: <span id="stampRotVal">${state.stampRotation}°</span></div>
@@ -6172,65 +6799,20 @@ document.addEventListener('DOMContentLoaded', () => {
             ⇄ ${t('flip')}
           </button>
           <button class="sub-btn active" id="btnOpenImportModal" style="background:#10B981; color:#FFF; border-color:#059669;">
-            ${t('import_btn')}
+            + Importar
           </button>
         </div>
 
-        <!-- Stamp Background & Gradient Fill Section -->
         <div class="sub-panel-section-title" style="margin-top: 10px;">${t('stamp_fill_title')}</div>
-        <div class="stamp-fill-mode-chips" style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px;">
-          <button class="sub-btn stamp-fill-btn ${state.stampFillMode === 'transparent' ? 'active' : ''}" data-fill-mode="transparent">🔲 ${t('stamp_fill_none')}</button>
-          <button class="sub-btn stamp-fill-btn ${state.stampFillMode === 'inside' ? 'active' : ''}" data-fill-mode="inside">🎨 ${t('stamp_fill_inside')}</button>
-          <button class="sub-btn stamp-fill-btn ${state.stampFillMode === 'full' ? 'active' : ''}" data-fill-mode="full">⬛ ${t('stamp_fill_full')}</button>
-          <button class="sub-btn stamp-fill-btn ${state.stampFillMode === 'rounded' ? 'active' : ''}" data-fill-mode="rounded">🎴 ${t('stamp_fill_rounded')}</button>
-          <button class="sub-btn stamp-fill-btn ${state.stampFillMode === 'circle' ? 'active' : ''}" data-fill-mode="circle">⚪ ${t('stamp_fill_circle')}</button>
-        </div>
-
-        <div id="stampFillOptionsBox" style="display: ${state.stampFillMode === 'transparent' ? 'none' : 'block'}; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; padding: 8px; margin-bottom: 8px;">
-          <div style="display: flex; gap: 6px; margin-bottom: 6px;">
-            <button class="sub-btn ${state.stampFillType === 'solid' ? 'active' : ''}" id="btnStampTypeSolid" style="flex:1;">🖌️ ${t('stamp_fill_solid')}</button>
-            <button class="sub-btn ${state.stampFillType === 'gradient' ? 'active' : ''}" id="btnStampTypeGrad" style="flex:1;">🌈 ${t('stamp_fill_gradient')}</button>
-          </div>
-
-          <!-- Solid Color Controls -->
-          <div id="stampSolidColorBox" style="display: ${state.stampFillType === 'solid' ? 'block' : 'none'};">
-            <div style="font-size: 11px; font-weight: bold; margin-bottom: 4px; color: #475569;">${t('stamp_bg_color')}</div>
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <input type="color" id="stampBgColorInput" value="${state.stampBgColor || '#FFFFFF'}" style="width: 38px; height: 32px; border: 1px solid #CBD5E1; border-radius: 6px; cursor: pointer; padding: 2px;">
-              <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-                ${['#FFFFFF', '#FFF9C4', '#BBDEFB', '#F8BBD0', '#C8E6C9', '#FFE082', '#E1BEE7', '#212121'].map(c => `<button class="sub-btn btn-stamp-quick-color" data-color="${c}" style="width: 24px; height: 24px; min-width: 24px; padding: 0; background: ${c}; border: 1.5px solid #94A3B8; border-radius: 4px;"></button>`).join('')}
-              </div>
-            </div>
-          </div>
-
-          <!-- Gradient Controls -->
-          <div id="stampGradBox" style="display: ${state.stampFillType === 'gradient' ? 'block' : 'none'};">
-            <div style="font-size: 11px; font-weight: bold; margin-bottom: 4px; color: #475569;">${t('stamp_grad_preset')}</div>
-            <div class="stamp-grad-preset-list" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; max-height: 100px; overflow-y: auto; margin-bottom: 6px;">
-              ${GRADIENT_PRESETS.map(p => {
-                const bgPreview = p.colors.length > 1 ? `linear-gradient(135deg, ${p.colors.join(', ')})` : (p.colors[0] || '#DDD');
-                const name = currentLang === 'pt-BR' ? p.name_pt : p.name_en;
-                const isActive = state.stampGradPreset === p.id;
-                return `<button class="sub-btn btn-stamp-grad-preset ${isActive ? 'active' : ''}" data-preset="${p.id}" style="display: flex; align-items: center; gap: 4px; padding: 4px 6px; font-size: 10px; text-align: left;"><span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:${bgPreview}; flex-shrink:0;"></span><span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${name}</span></button>`;
-              }).join('')}
-            </div>
-            <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 6px;">
-              <span style="font-size: 11px; font-weight: bold; color: #475569;">${t('stamp_grad_type')}</span>
-              <button class="sub-btn ${state.stampGradType === 'linear' ? 'active' : ''}" id="btnStampGradLin" style="padding: 3px 8px; font-size: 11px;">${t('stamp_grad_linear')}</button>
-              <button class="sub-btn ${state.stampGradType === 'radial' ? 'active' : ''}" id="btnStampGradRad" style="padding: 3px 8px; font-size: 11px;">${t('stamp_grad_radial')}</button>
-            </div>
-            <div id="stampGradDirRow" style="display: ${state.stampGradType === 'linear' ? 'flex' : 'none'}; gap: 4px; align-items: center; margin-bottom: 6px;">
-              <span style="font-size: 11px; font-weight: bold; color: #475569;">${t('stamp_grad_dir')}</span>
-              <button class="sub-btn ${state.stampGradDir === 'vertical' ? 'active' : ''}" data-dir="vertical" style="padding: 3px 6px; font-size: 10px;">${t('stamp_grad_vert')}</button>
-              <button class="sub-btn ${state.stampGradDir === 'horizontal' ? 'active' : ''}" data-dir="horizontal" style="padding: 3px 6px; font-size: 10px;">${t('stamp_grad_horiz')}</button>
-              <button class="sub-btn ${state.stampGradDir === 'diagonal' ? 'active' : ''}" data-dir="diagonal" style="padding: 3px 6px; font-size: 10px;">${t('stamp_grad_diag')}</button>
-            </div>
-            <div style="display: flex; gap: 6px; align-items: center;">
-              <label style="font-size: 10px; display: flex; align-items: center; gap: 3px; color: #475569;">${t('stamp_grad_c1')}: <input type="color" id="stampGradC1Input" value="${state.stampGradColor1 || '#FF512F'}" style="width: 24px; height: 22px; padding: 0; border: none; cursor: pointer;"></label>
-              <label style="font-size: 10px; display: flex; align-items: center; gap: 3px; color: #475569;">${t('stamp_grad_c2')}: <input type="color" id="stampGradC2Input" value="${state.stampGradColor2 || '#F09819'}" style="width: 24px; height: 22px; padding: 0; border: none; cursor: pointer;"></label>
-            </div>
-          </div>
-        </div>
+        <button class="sub-btn" id="btnOpenStampFillModal" style="display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 8px 12px; background: #FFFFFF; border: 1.8px solid #3B82F6; border-radius: 8px; color: #1E293B; font-weight: 700; cursor: pointer; margin-top: 2px;">
+          <span style="display: flex; align-items: center; gap: 8px;">
+            <span id="stampFillBtnIcon" style="font-size: 15px;">${state.stampFillMode === 'transparent' ? '🔲' : (state.stampFillMode === 'inside' ? '🎨' : (state.stampFillMode === 'full' ? '⬛' : (state.stampFillMode === 'rounded' ? '🎴' : '⚪')))}</span>
+            <span style="font-size: 12px;">${t('stamp_fill_btn_label')}</span>
+          </span>
+          <span id="stampFillBtnBadge" style="font-size: 10.5px; font-weight: 800; background: #EFF6FF; color: #2563EB; padding: 2px 8px; border-radius: 4px; border: 1px solid #BFDBFE;">
+            ${state.stampFillMode === 'transparent' ? t('stamp_fill_none') : (state.stampFillType === 'solid' ? t('stamp_fill_solid') : t('stamp_fill_gradient'))} ▾
+          </span>
+        </button>
       `;
       if (pinnedHeader) pinnedHeader.appendChild(ctrl); else subOptionsPanel.appendChild(ctrl);
 
@@ -6242,12 +6824,11 @@ document.addEventListener('DOMContentLoaded', () => {
         state.stampScale = state.stampSize / 80;
         scaleInput.value = state.stampSize;
         scaleVal.textContent = `${state.stampSize}px`;
-        ctrl.querySelectorAll('#btnStampSzP, #btnStampSzM, #btnStampSzG, #btnStampSzGG, #btnStampSzMax').forEach(b => b.classList.remove('active'));
+        ctrl.querySelectorAll('#btnStampSzP, #btnStampSzM, #btnStampSzG, #btnStampSzGG').forEach(b => b.classList.remove('active'));
         if (state.stampSize <= 50) ctrl.querySelector('#btnStampSzP')?.classList.add('active');
         else if (state.stampSize <= 160) ctrl.querySelector('#btnStampSzM')?.classList.add('active');
         else if (state.stampSize <= 350) ctrl.querySelector('#btnStampSzG')?.classList.add('active');
-        else if (state.stampSize <= 700) ctrl.querySelector('#btnStampSzGG')?.classList.add('active');
-        else ctrl.querySelector('#btnStampSzMax')?.classList.add('active');
+        else ctrl.querySelector('#btnStampSzGG')?.classList.add('active');
         updateStampPreview();
       };
 
@@ -6259,117 +6840,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ctrl.querySelector('#btnStampSzM')?.addEventListener('click', () => { setStampSize(120); window.tuxAudio.playPop(520); });
       ctrl.querySelector('#btnStampSzG')?.addEventListener('click', () => { setStampSize(280); window.tuxAudio.playPop(560); });
       ctrl.querySelector('#btnStampSzGG')?.addEventListener('click', () => { setStampSize(500); window.tuxAudio.playPop(600); });
-      ctrl.querySelector('#btnStampSzMax')?.addEventListener('click', () => { setStampSize(1000); window.tuxAudio.playPop(640); });
-
-      // Bind Stamp Fill Mode Chips
-      const fillBox = ctrl.querySelector('#stampFillOptionsBox');
-      ctrl.querySelectorAll('.stamp-fill-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          ctrl.querySelectorAll('.stamp-fill-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          state.stampFillMode = btn.getAttribute('data-fill-mode');
-          if (fillBox) fillBox.style.display = state.stampFillMode === 'transparent' ? 'none' : 'block';
-          window.tuxAudio.playPop(520);
-          updateStampPreview();
-        });
-      });
-
-      // Bind Stamp Fill Type (Solid vs Gradient)
-      const solidBox = ctrl.querySelector('#stampSolidColorBox');
-      const gradBox = ctrl.querySelector('#stampGradBox');
-      const btnSolid = ctrl.querySelector('#btnStampTypeSolid');
-      const btnGrad = ctrl.querySelector('#btnStampTypeGrad');
-
-      btnSolid?.addEventListener('click', () => {
-        state.stampFillType = 'solid';
-        btnSolid.classList.add('active');
-        btnGrad?.classList.remove('active');
-        if (solidBox) solidBox.style.display = 'block';
-        if (gradBox) gradBox.style.display = 'none';
-        window.tuxAudio.playPop(500);
-        updateStampPreview();
-      });
-
-      btnGrad?.addEventListener('click', () => {
-        state.stampFillType = 'gradient';
-        btnGrad.classList.add('active');
-        btnSolid?.classList.remove('active');
-        if (solidBox) solidBox.style.display = 'none';
-        if (gradBox) gradBox.style.display = 'block';
-        window.tuxAudio.playPop(540);
-        updateStampPreview();
-      });
-
-      // Solid color input & quick colors
-      ctrl.querySelector('#stampBgColorInput')?.addEventListener('input', (e) => {
-        state.stampBgColor = e.target.value;
-        updateStampPreview();
-      });
-
-      ctrl.querySelectorAll('.btn-stamp-quick-color').forEach(b => {
-        b.addEventListener('click', () => {
-          const c = b.getAttribute('data-color');
-          state.stampBgColor = c;
-          const inp = ctrl.querySelector('#stampBgColorInput');
-          if (inp) inp.value = c;
-          window.tuxAudio.playPop(520);
-          updateStampPreview();
-        });
-      });
-
-      // Gradient presets & direction
-      ctrl.querySelectorAll('.btn-stamp-grad-preset').forEach(b => {
-        b.addEventListener('click', () => {
-          ctrl.querySelectorAll('.btn-stamp-grad-preset').forEach(x => x.classList.remove('active'));
-          b.classList.add('active');
-          state.stampGradPreset = b.getAttribute('data-preset');
-          window.tuxAudio.playPop(540);
-          updateStampPreview();
-        });
-      });
-
-      const btnLin = ctrl.querySelector('#btnStampGradLin');
-      const btnRad = ctrl.querySelector('#btnStampGradRad');
-      const dirRow = ctrl.querySelector('#stampGradDirRow');
-
-      btnLin?.addEventListener('click', () => {
-        state.stampGradType = 'linear';
-        btnLin.classList.add('active');
-        btnRad?.classList.remove('active');
-        if (dirRow) dirRow.style.display = 'flex';
-        updateStampPreview();
-      });
-
-      btnRad?.addEventListener('click', () => {
-        state.stampGradType = 'radial';
-        btnRad.classList.add('active');
-        btnLin?.classList.remove('active');
-        if (dirRow) dirRow.style.display = 'none';
-        updateStampPreview();
-      });
-
-      ctrl.querySelectorAll('#stampGradDirRow button').forEach(b => {
-        b.addEventListener('click', () => {
-          ctrl.querySelectorAll('#stampGradDirRow button').forEach(x => x.classList.remove('active'));
-          b.classList.add('active');
-          state.stampGradDir = b.getAttribute('data-dir');
-          updateStampPreview();
-        });
-      });
-
-      ctrl.querySelector('#stampGradC1Input')?.addEventListener('input', (e) => {
-        state.stampGradColor1 = e.target.value;
-        state.stampGradPreset = 'custom';
-        ctrl.querySelectorAll('.btn-stamp-grad-preset').forEach(x => x.classList.remove('active'));
-        updateStampPreview();
-      });
-
-      ctrl.querySelector('#stampGradC2Input')?.addEventListener('input', (e) => {
-        state.stampGradColor2 = e.target.value;
-        state.stampGradPreset = 'custom';
-        ctrl.querySelectorAll('.btn-stamp-grad-preset').forEach(x => x.classList.remove('active'));
-        updateStampPreview();
-      });
 
       const rotInput = ctrl.querySelector('#stampRotInput');
       const rotVal = ctrl.querySelector('#stampRotVal');
@@ -6379,19 +6849,19 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStampPreview();
       });
 
-      ctrl.querySelector('#btnRotMinus').addEventListener('click', () => {
+      ctrl.querySelector('#btnRotMinus')?.addEventListener('click', () => {
         state.stampRotation = (state.stampRotation - 45 + 360) % 360;
         rotInput.value = state.stampRotation > 180 ? state.stampRotation - 360 : state.stampRotation;
         rotVal.textContent = `${state.stampRotation}°`;
         updateStampPreview();
       });
-      ctrl.querySelector('#btnRotZero').addEventListener('click', () => {
+      ctrl.querySelector('#btnRotZero')?.addEventListener('click', () => {
         state.stampRotation = 0;
         rotInput.value = 0;
         rotVal.textContent = '0°';
         updateStampPreview();
       });
-      ctrl.querySelector('#btnRotPlus').addEventListener('click', () => {
+      ctrl.querySelector('#btnRotPlus')?.addEventListener('click', () => {
         state.stampRotation = (state.stampRotation + 45) % 360;
         rotInput.value = state.stampRotation > 180 ? state.stampRotation - 360 : state.stampRotation;
         rotVal.textContent = `${state.stampRotation}°`;
@@ -6399,15 +6869,20 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const flipBtn = ctrl.querySelector('#btnFlipStamp');
-      flipBtn.addEventListener('click', () => {
+      flipBtn?.addEventListener('click', () => {
         state.stampFlipped = !state.stampFlipped;
         flipBtn.classList.toggle('active', state.stampFlipped);
         window.tuxAudio.playOfficial('assets/sounds/flip.wav', () => window.tuxAudio.playPop(620));
         updateStampPreview();
       });
 
-      ctrl.querySelector('#btnOpenImportModal').addEventListener('click', () => {
+      ctrl.querySelector('#btnOpenImportModal')?.addEventListener('click', () => {
         openModal('modalImportStamp');
+      });
+
+      // Bind Stamp Fill Modal Trigger
+      ctrl.querySelector('#btnOpenStampFillModal')?.addEventListener('click', () => {
+        openStampFillModal();
       });
 
       // Stamps Count Status Header
@@ -8242,6 +8717,280 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Modals Controller
+  function updateStampFillModalPreview(targetMode, targetType, targetBg, targetPreset, targetC1, targetC2, targetGradType, targetGradDir) {
+    const previewContainer = document.getElementById('modalStampPreviewTarget');
+    const desc = document.getElementById('modalStampCurrentStyleDesc');
+    if (!previewContainer) return;
+    previewContainer.innerHTML = '';
+
+    const all = getAllStamps();
+    const stampObj = all.find(s => s.id === state.activeStamp) || all[0];
+    if (!stampObj) return;
+
+    // Temporary mock state for preview calculation
+    const origMode = state.stampFillMode;
+    const origType = state.stampFillType;
+    const origBg = state.stampBgColor;
+    const origPreset = state.stampGradPreset;
+    const origC1 = state.stampGradColor1;
+    const origC2 = state.stampGradColor2;
+    const origGradType = state.stampGradType;
+    const origGradDir = state.stampGradDir;
+
+    state.stampFillMode = targetMode;
+    state.stampFillType = targetType;
+    state.stampBgColor = targetBg;
+    state.stampGradPreset = targetPreset;
+    state.stampGradColor1 = targetC1;
+    state.stampGradColor2 = targetC2;
+    state.stampGradType = targetGradType;
+    state.stampGradDir = targetGradDir;
+
+    getStampImage(stampObj, state.currentColor, (rendered) => {
+      previewContainer.innerHTML = '';
+      if (rendered instanceof HTMLCanvasElement) {
+        const c = document.createElement('canvas');
+        c.width = 135;
+        c.height = 135;
+        c.getContext('2d').drawImage(rendered, 0, 0, 135, 135);
+        c.style.maxWidth = '100%';
+        c.style.maxHeight = '100%';
+        previewContainer.appendChild(c);
+      } else {
+        const img = document.createElement('img');
+        img.src = rendered.src;
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '100%';
+        previewContainer.appendChild(img);
+      }
+    });
+
+    // Restore original state
+    state.stampFillMode = origMode;
+    state.stampFillType = origType;
+    state.stampBgColor = origBg;
+    state.stampGradPreset = origPreset;
+    state.stampGradColor1 = origC1;
+    state.stampGradColor2 = origC2;
+    state.stampGradType = origGradType;
+    state.stampGradDir = origGradDir;
+
+    if (desc) {
+      if (targetMode === 'transparent') {
+        desc.textContent = t('stamp_fill_none') + ' (' + t('stamp_fill_none_sub') + ')';
+      } else {
+        const modeLabel = targetMode === 'inside' ? t('stamp_fill_inside') : (targetMode === 'full' ? t('stamp_fill_full') : (targetMode === 'rounded' ? t('stamp_fill_rounded') : (targetMode === 'sticker' ? t('stamp_fill_sticker') : t('stamp_fill_circle'))));
+        const typeLabel = targetType === 'solid' ? (t('stamp_fill_solid') + ': ' + targetBg) : (t('stamp_fill_gradient') + ': ' + targetPreset);
+        desc.textContent = modeLabel + ' • ' + typeLabel;
+      }
+    }
+  }
+
+  function openStampFillModal() {
+    let curMode = state.stampFillMode || 'transparent';
+    let curType = state.stampFillType || 'solid';
+    let curBg = state.stampBgColor || '#FFFFFF';
+    let curPreset = state.stampGradPreset || 'sunset';
+    let curC1 = state.stampGradColor1 || '#FF512F';
+    let curC2 = state.stampGradColor2 || '#F09819';
+    let curGradType = state.stampGradType || 'linear';
+    let curGradDir = state.stampGradDir || 'vertical';
+
+    const modal = document.getElementById('modalStampFill');
+    if (!modal) return;
+
+    // Populate gradient presets in modal
+    const presetsContainer = modal.querySelector('#modalGradPresetsContainer');
+    if (presetsContainer) {
+      presetsContainer.innerHTML = '';
+      GRADIENT_PRESETS.forEach(p => {
+        const bgPreview = p.colors.length > 1 ? `linear-gradient(135deg, ${p.colors.join(', ')})` : (p.colors[0] || '#DDD');
+        const name = currentLang.startsWith('en') ? p.name_en : p.name_pt;
+        const btn = document.createElement('button');
+        btn.className = `sub-btn modal-grad-preset-btn ${curPreset === p.id ? 'active' : ''}`;
+        btn.setAttribute('data-preset', p.id);
+        btn.style.cssText = 'display: flex; align-items: center; gap: 5px; padding: 4px 6px; font-size: 10.5px; text-align: left; cursor: pointer;';
+        btn.innerHTML = `<span style="width:14px; height:14px; border-radius:3px; background:${bgPreview}; flex-shrink:0; border:1px solid rgba(0,0,0,0.15);"></span><span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${name}</span>`;
+        btn.addEventListener('click', () => {
+          modal.querySelectorAll('.modal-grad-preset-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          curPreset = p.id;
+          const colors = getGradientColors(p.id, curC1, curC2);
+          if (colors && colors.length >= 2) {
+            curC1 = colors[0];
+            curC2 = colors[colors.length - 1];
+            updateGradSwatches();
+          }
+          updateStampFillModalPreview(curMode, curType, curBg, curPreset, curC1, curC2, curGradType, curGradDir);
+        });
+        presetsContainer.appendChild(btn);
+      });
+    }
+
+    // Set active mode buttons
+    modal.querySelectorAll('.modal-fill-mode-btn').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-mode') === curMode);
+      b.onclick = () => {
+        modal.querySelectorAll('.modal-fill-mode-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        curMode = b.getAttribute('data-mode');
+        const cfgSection = modal.querySelector('#modalFillColorConfigSection');
+        if (cfgSection) cfgSection.style.display = curMode === 'transparent' ? 'none' : 'block';
+        updateStampFillModalPreview(curMode, curType, curBg, curPreset, curC1, curC2, curGradType, curGradDir);
+      };
+    });
+
+    const cfgSection = modal.querySelector('#modalFillColorConfigSection');
+    if (cfgSection) cfgSection.style.display = curMode === 'transparent' ? 'none' : 'block';
+
+    // Type toggles
+    const btnSolid = modal.querySelector('#modalBtnTypeSolid');
+    const btnGrad = modal.querySelector('#modalBtnTypeGrad');
+    const solidPanel = modal.querySelector('#modalSolidColorPanel');
+    const gradPanel = modal.querySelector('#modalGradPanel');
+
+    const updateTypePanels = () => {
+      btnSolid?.classList.toggle('active', curType === 'solid');
+      btnGrad?.classList.toggle('active', curType === 'gradient');
+      if (solidPanel) solidPanel.style.display = curType === 'solid' ? 'block' : 'none';
+      if (gradPanel) gradPanel.style.display = curType === 'gradient' ? 'block' : 'none';
+      updateStampFillModalPreview(curMode, curType, curBg, curPreset, curC1, curC2, curGradType, curGradDir);
+    };
+
+    btnSolid.onclick = () => { curType = 'solid'; updateTypePanels(); };
+    btnGrad.onclick = () => { curType = 'gradient'; updateTypePanels(); };
+    updateTypePanels();
+
+    // Solid Color Native Picker Button & Quick Palette
+    const updateBgSwatch = () => {
+      const swatch = modal.querySelector('#modalBgColorSwatch');
+      const hexLabel = modal.querySelector('#modalBgColorHexLabel');
+      if (swatch) swatch.style.background = curBg;
+      if (hexLabel) hexLabel.textContent = (curBg || '#FFFFFF').toUpperCase();
+    };
+    updateBgSwatch();
+
+    const btnBgPicker = modal.querySelector('#btnOpenModalBgColorPicker');
+    if (btnBgPicker) {
+      btnBgPicker.onclick = () => {
+        openAppColorPicker(curBg, (chosen) => {
+          curBg = chosen;
+          updateBgSwatch();
+          updateStampFillModalPreview(curMode, curType, curBg, curPreset, curC1, curC2, curGradType, curGradDir);
+        });
+      };
+    }
+
+    modal.querySelectorAll('.modal-quick-color-btn').forEach(b => {
+      b.onclick = () => {
+        curBg = b.getAttribute('data-color');
+        updateBgSwatch();
+        updateStampFillModalPreview(curMode, curType, curBg, curPreset, curC1, curC2, curGradType, curGradDir);
+      };
+    });
+
+    // Gradient Type (Linear vs Radial) & Direction
+    const btnLin = modal.querySelector('#modalGradTypeLin');
+    const btnRad = modal.querySelector('#modalGradTypeRad');
+    const dirContainer = modal.querySelector('#modalGradDirContainer');
+
+    btnLin.onclick = () => {
+      curGradType = 'linear';
+      btnLin.classList.add('active');
+      btnRad.classList.remove('active');
+      if (dirContainer) dirContainer.style.display = 'flex';
+      updateStampFillModalPreview(curMode, curType, curBg, curPreset, curC1, curC2, curGradType, curGradDir);
+    };
+
+    btnRad.onclick = () => {
+      curGradType = 'radial';
+      btnRad.classList.add('active');
+      btnLin.classList.remove('active');
+      if (dirContainer) dirContainer.style.display = 'none';
+      updateStampFillModalPreview(curMode, curType, curBg, curPreset, curC1, curC2, curGradType, curGradDir);
+    };
+
+    modal.querySelectorAll('.modal-grad-dir-btn').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-dir') === curGradDir);
+      b.onclick = () => {
+        modal.querySelectorAll('.modal-grad-dir-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        curGradDir = b.getAttribute('data-dir');
+        updateStampFillModalPreview(curMode, curType, curBg, curPreset, curC1, curC2, curGradType, curGradDir);
+      };
+    });
+
+    const updateGradSwatches = () => {
+      const s1 = modal.querySelector('#modalGradC1Swatch');
+      const l1 = modal.querySelector('#modalGradC1HexLabel');
+      const s2 = modal.querySelector('#modalGradC2Swatch');
+      const l2 = modal.querySelector('#modalGradC2HexLabel');
+      if (s1) s1.style.background = curC1;
+      if (l1) l1.textContent = (curC1 || '#FF512F').toUpperCase();
+      if (s2) s2.style.background = curC2;
+      if (l2) l2.textContent = (curC2 || '#F09819').toUpperCase();
+    };
+    updateGradSwatches();
+
+    const btnGradC1 = modal.querySelector('#btnPickGradC1');
+    if (btnGradC1) {
+      btnGradC1.onclick = () => {
+        openAppColorPicker(curC1, (chosen) => {
+          curC1 = chosen;
+          curPreset = 'custom';
+          modal.querySelectorAll('.modal-grad-preset-btn').forEach(b => b.classList.remove('active'));
+          updateGradSwatches();
+          updateStampFillModalPreview(curMode, curType, curBg, curPreset, curC1, curC2, curGradType, curGradDir);
+        });
+      };
+    }
+
+    const btnGradC2 = modal.querySelector('#btnPickGradC2');
+    if (btnGradC2) {
+      btnGradC2.onclick = () => {
+        openAppColorPicker(curC2, (chosen) => {
+          curC2 = chosen;
+          curPreset = 'custom';
+          modal.querySelectorAll('.modal-grad-preset-btn').forEach(b => b.classList.remove('active'));
+          updateGradSwatches();
+          updateStampFillModalPreview(curMode, curType, curBg, curPreset, curC1, curC2, curGradType, curGradDir);
+        });
+      };
+    }
+
+    // Apply Button
+    const applyBtn = modal.querySelector('#btnApplyStampFillModal');
+    if (applyBtn) {
+      applyBtn.onclick = () => {
+        state.stampFillMode = curMode;
+        state.stampFillType = curType;
+        state.stampBgColor = curBg;
+        state.stampGradPreset = curPreset;
+        state.stampGradColor1 = curC1;
+        state.stampGradColor2 = curC2;
+        state.stampGradType = curGradType;
+        state.stampGradDir = curGradDir;
+
+        // Update trigger button badge
+        const badge = document.getElementById('stampFillBtnBadge');
+        const icon = document.getElementById('stampFillBtnIcon');
+        if (badge) {
+          badge.textContent = (curMode === 'transparent' ? t('stamp_fill_none') : (curType === 'solid' ? t('stamp_fill_solid') : t('stamp_fill_gradient'))) + ' ▾';
+        }
+        if (icon) {
+          icon.textContent = curMode === 'transparent' ? '🔲' : (curMode === 'inside' ? '🎨' : (curMode === 'full' ? '⬛' : (curMode === 'rounded' ? '🎴' : (curMode === 'sticker' ? '⭐' : '⚪'))));
+        }
+
+        closeModal('modalStampFill');
+        window.tuxAudio.playMagic('sparkles');
+        updateStampPreview();
+      };
+    }
+
+    updateStampFillModalPreview(curMode, curType, curBg, curPreset, curC1, curC2, curGradType, curGradDir);
+    openModal('modalStampFill');
+  }
+
   function openModal(id) {
     if (typeof closeAllDrawers === 'function') closeAllDrawers(false);
     document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('open'));
@@ -8983,17 +9732,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // App Native Color Picker Delegation
+  let activeColorPickerTarget = null;
+  function openAppColorPicker(initialColor, onColorSelected) {
+    activeColorPickerTarget = onColorSelected;
+    applyHexToPicker(initialColor || '#2563EB');
+    const cpModal = document.getElementById('modalColorPicker');
+    if (cpModal) cpModal.classList.add('open');
+    window.tuxAudio.playPop(500);
+  }
+
   if (btnConfirmColorPicker) {
     btnConfirmColorPicker.addEventListener('click', () => {
-      state.currentColor = tempChosenColor;
-      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-      updateInlineTextStyles();
-      updateSelectedTextLive();
-      updateStampPreview();
-      closeModal('modalColorPicker');
+      const chosen = tempChosenColor || '#2563EB';
+      if (typeof activeColorPickerTarget === 'function') {
+        const cb = activeColorPickerTarget;
+        activeColorPickerTarget = null;
+        closeModal('modalColorPicker');
+        cb(chosen);
+      } else {
+        state.currentColor = chosen;
+        document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+        updateInlineTextStyles();
+        updateSelectedTextLive();
+        updateStampPreview();
+        closeModal('modalColorPicker');
+      }
       window.tuxAudio.playFanfare();
     });
   }
+
+  document.querySelectorAll('[data-close-modal="modalColorPicker"]').forEach(el => {
+    el.addEventListener('click', () => {
+      activeColorPickerTarget = null;
+      closeModal('modalColorPicker');
+    });
+  });
 
   window.addEventListener('resize', () => resizeCanvas(true));
 
