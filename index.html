@@ -2218,6 +2218,12 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
     </div>
 
     <div class="header-actions">
+      <!-- Download App Button -->
+      <button class="header-pill-btn" id="btnDownloadApp" title="Baixar RetuxPaint / Download App">
+        <span>📥</span>
+        <span data-i18n="btn_download">Baixar</span>
+      </button>
+
       <!-- Language Toggle (PT / EN) -->
       <button class="header-pill-btn" id="btnLangToggle" title="Mudar Idioma / Change Language">
         <span id="langFlag">🇧🇷</span>
@@ -2267,6 +2273,9 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
           </button>
           <button class="mobile-action-icon-btn" id="btnMobileSound" title="Alternar Som">
             <span id="mobSoundIcon" style="font-size:18px;">🎵</span>
+          </button>
+          <button class="mobile-action-icon-btn" id="btnMobileDownload" title="Baixar Aplicativo / Download App">
+            <span style="font-size:18px;">📥</span>
           </button>
           <button class="mobile-action-icon-btn" id="btnMobileLang" title="Mudar Idioma">
             <span id="mobLangFlag" style="font-size:18px;">🇧🇷</span>
@@ -2586,6 +2595,49 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
       <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
         <button class="sub-btn" data-close-modal="modalNew" data-i18n="btn_cancel">Cancelar</button>
         <button class="sub-btn active" id="btnConfirmNew" data-i18n="btn_create">Criar Papel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Download App (Offline & Releases) -->
+  <div class="modal-backdrop" id="modalDownloadApp">
+    <div class="modal-card" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title" data-i18n="modal_download_title">📥 Baixar RetuxPaint</h3>
+        <button class="modal-close-btn" data-close-modal="modalDownloadApp">✕</button>
+      </div>
+      <p style="font-size: 13px; color: #64748B; margin-bottom: 14px;" data-i18n="modal_download_desc">
+        Use o RetuxPaint sem precisar de internet ou instale no seu celular / tablet!
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;">
+        <!-- Option 1: Direct Offline ZIP -->
+        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-size: 13px; font-weight: 800; color: #1E293B;" data-i18n="download_zip_title">📦 Baixar Pacote Offline (.ZIP)</div>
+          <div style="font-size: 11.5px; color: #64748B; line-height: 1.4;" data-i18n="download_zip_desc">Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!</div>
+          <a href="https://github.com/uzielweb/retux-paint/archive/refs/tags/v1.0.0.zip" target="_blank" rel="noopener noreferrer" class="sub-btn active" style="text-decoration: none; text-align: center; background: #2563EB; color: #FFF; border-color: #1D4ED8; padding: 8px 12px; font-size: 12px; font-weight: 800; margin-top: 4px; border-radius: 6px;" data-i18n="download_btn_zip">
+            ⬇️ Baixar Versão v1.0.0 (.ZIP)
+          </a>
+        </div>
+
+        <!-- Option 2: GitHub Releases -->
+        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-size: 13px; font-weight: 800; color: #1E293B;" data-i18n="download_gh_title">🐙 Ver Código e Releases no GitHub</div>
+          <div style="font-size: 11.5px; color: #64748B; line-height: 1.4;" data-i18n="download_gh_desc">Acesse o repositório oficial, código-fonte e histórico de versões no GitHub.</div>
+          <a href="https://github.com/uzielweb/retux-paint/releases/latest" target="_blank" rel="noopener noreferrer" class="sub-btn" style="text-decoration: none; text-align: center; background: #0F172A; color: #FFF; border-color: #020617; padding: 8px 12px; font-size: 12px; font-weight: 800; margin-top: 4px; border-radius: 6px;" data-i18n="download_btn_gh">
+            🐙 GitHub Releases
+          </a>
+        </div>
+
+        <!-- Option 3: PWA / Mobile Install Tip -->
+        <div style="background: #F0FDF4; border: 1.5px solid #BBF7D0; border-radius: 10px; padding: 10px 12px;">
+          <div style="font-size: 12px; font-weight: 800; color: #166534; margin-bottom: 3px;" data-i18n="download_pwa_title">📱 Instalar no Celular ou Tablet (PWA)</div>
+          <div style="font-size: 11px; color: #15803D; line-height: 1.4;" data-i18n="download_pwa_desc">No Chrome ou Safari do celular, toque no menu (⋮ ou Compartilhar) e selecione 'Adicionar à tela de início'.</div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button class="sub-btn" data-close-modal="modalDownloadApp" data-i18n="btn_done">Fechar</button>
       </div>
     </div>
   </div>
@@ -4956,14 +5008,13 @@ const I18N = {
     btn_save_stamp: 'Salvar Carimbo',
         cat_search_placeholder: '🔍 Buscar carimbo ou tema...',
     cat_filter_all: 'Todos',
-    cat_filter_colorable: '🎨 Coloríveis',
+    cat_filter_colorable: 'Coloríveis',
     cat_filter_fixed: 'Fixos',
     cat_category_label: 'Categoria:',
     cat_showing_stamps: 'Exibindo {0} de {1} carimbos',
     cat_load_more: 'Carregar mais carimbos (+{0})',
-        cat_search_placeholder: '🔍 Search stamp or topic...',
-    cat_filter_all: 'All',
-    cat_filter_colorable: '🎨 Colorable',
+        cat_filter_all: 'All',
+    cat_filter_colorable: 'Colorable',
     cat_filter_fixed: 'Fixed',
     cat_category_label: 'Category:',
     cat_showing_stamps: 'Showing {0} of {1} stamps',
@@ -5026,6 +5077,19 @@ const I18N = {
     stamps_badge_items: '{0} itens',
     import_btn_short: 'Importar',
     cat_stamps_count: '{0} carimbos',
+    btn_download: 'Baixar',
+    modal_download_title: 'Baixar RetuxPaint (Offline & Desktop)',
+    modal_download_desc: 'Use o RetuxPaint sem precisar de internet ou instale no seu celular / tablet!',
+    download_zip_title: 'Baixar Pacote Offline (.ZIP)',
+    download_zip_desc: 'Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!',
+    download_btn_zip: '⬇️ Baixar Versão v1.0.0 (.ZIP)',
+    download_gh_title: 'Ver Código e Releases no GitHub',
+    download_gh_desc: 'Acesse o repositório oficial, código-fonte e histórico de versões no GitHub.',
+    download_btn_gh: '🐙 GitHub Releases',
+    download_pwa_title: 'Instalar no Celular ou Tablet (PWA)',
+    download_pwa_desc: 'No Chrome ou Safari do celular, toque no menu (⋮ ou Compartilhar) e selecione \'Adicionar à tela de início\'.',
+    cat_filter_colorable_short: 'Color',
+
     rot_normal: '0° Normal',
     import_btn: '+ Importar',
     fullscreen_text: 'Tela Cheia',
@@ -5090,12 +5154,13 @@ const I18N = {
     stamp_fill_rounded_sub: 'Adesivo com cantos suaves',
     stamp_fill_circle_sub: 'Fundo elíptico / circular',
     stamp_fill_type_title: '2. Estilo da Cor:',
-    stamp_fill_btn_label: 'Fundo / Preenchimento',
+    stamp_fill_btn_label: 'Fundo',
     btn_apply_stamp_fill: '✔ Aplicar Preenchimento',
     stamp_fill_sticker: 'Figurinha / Adesivo 3D',
     stamp_fill_sticker_sub: 'Borda branca com sombra projetada'
   },
   'en-US': {
+    cat_search_placeholder: 'Search stamp or topic...',
     tools_title: 'Tools',
     options_title: 'Options',
     tool_brush: 'Paint',
@@ -5157,6 +5222,19 @@ const I18N = {
     stamps_badge_items: '{0} items',
     import_btn_short: 'Import',
     cat_stamps_count: '{0} stamps',
+    btn_download: 'Download',
+    modal_download_title: 'Download RetuxPaint (Offline & Desktop)',
+    modal_download_desc: 'Use RetuxPaint without internet or install it on your mobile / tablet!',
+    download_zip_title: 'Download Offline Package (.ZIP)',
+    download_zip_desc: 'Unzip and double-click index.html directly in your browser. Works 100% offline on Windows, Mac, and Linux!',
+    download_btn_zip: '⬇️ Download Version v1.0.0 (.ZIP)',
+    download_gh_title: 'View Code & Releases on GitHub',
+    download_gh_desc: 'Access the official repository, source code, and release notes on GitHub.',
+    download_btn_gh: '🐙 GitHub Releases',
+    download_pwa_title: 'Install on Phone or Tablet (PWA)',
+    download_pwa_desc: 'In Chrome or Safari on your phone, tap the menu (⋮ or Share) and select \'Add to Home screen\'.',
+    cat_filter_colorable_short: 'Color',
+
     rot_normal: '0° Normal',
     import_btn: '+ Import',
     fullscreen_text: 'Fullscreen',
@@ -5221,7 +5299,7 @@ const I18N = {
     stamp_fill_rounded_sub: 'Smooth rounded sticker',
     stamp_fill_circle_sub: 'Elliptical / circular',
     stamp_fill_type_title: '2. Color Style:',
-    stamp_fill_btn_label: 'Background / Fill',
+    stamp_fill_btn_label: 'Fill',
     btn_apply_stamp_fill: '✔ Apply Fill',
     stamp_fill_sticker: 'Die-Cut Sticker 3D',
     stamp_fill_sticker_sub: 'White border with drop shadow'
@@ -6414,6 +6492,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Dynamic Sub-Options Panel
   function updateSubOptions() {
+    window.updateSubOptions = updateSubOptions;
     updateMobileToolBadge();
     subOptionsPanel.innerHTML = '';
     const pinnedHeader = document.getElementById('optionsPinnedHeader');
@@ -6587,7 +6666,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =======================================================================
     } else if (state.tool === 'stamp') {
       const allStampsList = getAllStamps();
-      const currentLocale = state.currentLang || 'pt';
+      const isEn = typeof currentLang === 'string' && currentLang.startsWith('en');
 
       // Title with dynamic count badge matching FigCraft UX
       const totalCount = allStampsList.length;
@@ -6606,7 +6685,7 @@ document.addEventListener('DOMContentLoaded', () => {
         catCounts[s.category] = (catCounts[s.category] || 0) + 1;
       });
 
-      // Categories list definition
+      // Categories list definition with dynamic localized names
       const catMeta = window.TUX_STAMP_CATEGORIES_META || {};
       const categoryList = [
         { id: 'all', label: t('cat_all'), icon: '⭐', count: allStampsList.length }
@@ -6619,7 +6698,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       Object.keys(catMeta).forEach(catId => {
         const meta = catMeta[catId];
-        const rawLabel = currentLang.startsWith('en') ? (meta.name_en || t('cat_' + catId)) : (t('cat_' + catId) || meta.name_pt);
+        const rawLabel = isEn ? (meta.name_en || t('cat_' + catId)) : (t('cat_' + catId) || meta.name_pt);
         const cleanName = stripLeadingEmoji(rawLabel);
         categoryList.push({
           id: catId,
@@ -6629,7 +6708,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
 
-      // Also append classic categories if present
+      // Classic categories
       ['tux', 'animals', 'vehicles', 'nature', 'food', 'fantasy', 'emojis', 'custom'].forEach(cid => {
         if (catCounts[cid]) {
           const raw = t('cat_' + cid) || cid;
@@ -6667,19 +6746,19 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
 
-          <!-- Linha 2: Acoes Rapidas (Espelhar H/V, Fundo, Importar) -->
-          <div style="display:flex; gap:4px; margin-bottom:6px;">
-            <button class="sub-btn ${state.stampFlippedH ? 'active' : ''}" id="btnFlipStampH" title="${t('flip_h')}" style="flex:1; padding:4px 2px; font-size:10.5px; font-weight:700;">
+          <!-- Linha 2: Acoes Rapidas (Espelhar H/V, Fundo, Importar) - Altura Uniforme 30px -->
+          <div style="display:flex; gap:4px; margin-bottom:6px; align-items:stretch;">
+            <button class="sub-btn ${state.stampFlippedH ? 'active' : ''}" id="btnFlipStampH" title="${t('flip_h')}" style="flex:0.8; height:30px; padding:0 4px; font-size:10.5px; font-weight:700; white-space:nowrap; display:flex; align-items:center; justify-content:center;">
               ↔ H
             </button>
-            <button class="sub-btn ${state.stampFlippedV ? 'active' : ''}" id="btnFlipStampV" title="${t('flip_v')}" style="flex:1; padding:4px 2px; font-size:10.5px; font-weight:700;">
+            <button class="sub-btn ${state.stampFlippedV ? 'active' : ''}" id="btnFlipStampV" title="${t('flip_v')}" style="flex:0.8; height:30px; padding:0 4px; font-size:10.5px; font-weight:700; white-space:nowrap; display:flex; align-items:center; justify-content:center;">
               ↕ V
             </button>
-            <button class="sub-btn" id="btnOpenStampFillModal" title="${t('stamp_fill_btn_label')}" style="flex:1.4; display:flex; align-items:center; justify-content:center; gap:3px; padding:4px 4px; font-size:10.5px; font-weight:700; background:#FFF; border:1px solid #CBD5E1; border-radius:6px; cursor:pointer;">
-              <span id="stampFillBtnIcon" style="font-size:11px;">${state.stampFillMode === 'transparent' ? '🔲' : (state.stampFillMode === 'inside' ? '🎨' : (state.stampFillMode === 'full' ? '⬛' : (state.stampFillMode === 'rounded' ? '🎴' : (state.stampFillMode === 'sticker' ? '⭐' : '⚪'))))}</span>
+            <button class="sub-btn" id="btnOpenStampFillModal" title="${t('stamp_fill_btn_label')}" style="flex:1.4; height:30px; display:flex; align-items:center; justify-content:center; gap:3px; padding:0 2px; font-size:10px; font-weight:700; background:#FFF; border:1px solid #CBD5E1; border-radius:6px; cursor:pointer; white-space:nowrap;">
+              <span id="stampFillBtnIcon" style="font-size:11px; line-height:1; flex-shrink:0;">${state.stampFillMode === 'transparent' ? '🔲' : (state.stampFillMode === 'inside' ? '🎨' : (state.stampFillMode === 'full' ? '⬛' : (state.stampFillMode === 'rounded' ? '🎴' : (state.stampFillMode === 'sticker' ? '⭐' : '⚪'))))}</span>
               <span>${t('stamp_fill_btn_label')} ▾</span>
             </button>
-            <button class="sub-btn active" id="btnOpenImportModal" title="${t('import_btn')}" style="flex:1.2; background:#10B981; color:#FFF; border-color:#059669; padding:4px 4px; font-size:10.5px; font-weight:700;">
+            <button class="sub-btn active" id="btnOpenImportModal" title="${t('import_btn')}" style="flex:1.2; height:30px; background:#10B981; color:#FFF; border-color:#059669; padding:0 6px; font-size:10.5px; font-weight:700; white-space:nowrap; display:flex; align-items:center; justify-content:center; gap:2px;">
               + ${t('import_btn_short') || 'Importar'}
             </button>
           </div>
@@ -6699,7 +6778,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <span style="font-size:9.5px; font-weight:700; color:#64748B;">${t('rotation')}:</span>
               <div style="display:flex; gap:3px;">
                 <button class="sub-btn ${state.stampRotation === -45 ? 'active' : ''}" id="btnRotMinus" title="-45°" style="padding:2px 7px; font-size:10px; min-width:auto;">↺ -45°</button>
-                <button class="sub-btn ${state.stampRotation === 0 ? 'active' : ''}" id="btnRotZero" title="0°" style="padding:2px 7px; font-size:10px; min-width:auto;">${t('rot_normal') || '0° Normal'}</button>
+                <button class="sub-btn ${state.stampRotation === 0 ? 'active' : ''}" id="btnRotZero" title="0°" style="padding:2px 7px; font-size:10px; min-width:auto;">0°</button>
                 <button class="sub-btn ${state.stampRotation === 45 ? 'active' : ''}" id="btnRotPlus" title="+45°" style="padding:2px 7px; font-size:10px; min-width:auto;">↻ +45°</button>
               </div>
             </div>
@@ -6873,25 +6952,28 @@ document.addEventListener('DOMContentLoaded', () => {
       searchRow.appendChild(clearBtn);
       navWrapper.appendChild(searchRow);
 
-      // 3. Filter Chips: Todos | Coloríveis | Fixos (Compact Segmented Control)
+      // 3. Filter Chips: All | Colorable | Fixed (Strict Zero-Wrapping & Clean Alignment)
       const filtersRow = document.createElement('div');
       filtersRow.className = 'stamp-filters-row';
-      filtersRow.style.cssText = 'display:flex; gap:4px; width:100%;';
+      filtersRow.style.cssText = 'display:flex; gap:4px; width:100%; box-sizing:border-box; margin-bottom:4px;';
 
       const colorableCount = allStampsList.filter(s => s.colorable).length;
       const fixedCount = allStampsList.filter(s => !s.colorable).length;
 
       const filterChips = [
-        { id: 'all', label: t('cat_filter_all'), count: allStampsList.length },
-        { id: 'colorable', label: t('cat_filter_colorable'), count: colorableCount },
-        { id: 'fixed', label: t('cat_filter_fixed'), count: fixedCount }
+        { id: 'all', label: isEn ? 'All' : 'Todos', icon: '', count: allStampsList.length },
+        { id: 'colorable', label: 'Color', icon: '🎨', count: colorableCount, title: isEn ? 'Colorable' : 'Coloríveis' },
+        { id: 'fixed', label: isEn ? 'Fixed' : 'Fixos', icon: '', count: fixedCount }
       ];
 
       filterChips.forEach(fc => {
         const chip = document.createElement('button');
         chip.className = `stamp-filter-chip ${state.stampFilter === fc.id ? 'active' : ''}`;
-        chip.style.cssText = 'flex:1; padding:3px 6px; height:25px; border-radius:6px; font-size:10.5px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:3px; cursor:pointer; transition:all 0.15s ease;';
-        chip.innerHTML = `<span>${fc.label}</span> <span style="opacity:0.75; font-size:9.5px;">(${fc.count})</span>`;
+        chip.style.cssText = 'flex:1; min-width:0; height:28px; padding:0 3px; border-radius:6px; font-size:10px; font-weight:700; display:inline-flex; align-items:center; justify-content:center; gap:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer; box-sizing:border-box; transition:all 0.15s ease;';
+        
+        const iconHtml = fc.icon ? `<span style="font-size:11px; line-height:1; flex-shrink:0;">${fc.icon}</span>` : '';
+        chip.innerHTML = `${iconHtml}<span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${fc.label}</span><span style="opacity:0.75; font-size:9px; margin-left:1px; flex-shrink:0;">(${fc.count})</span>`;
+        
         chip.addEventListener('click', () => {
           state.stampFilter = fc.id;
           state.stampRenderLimit = 48;
@@ -6920,7 +7002,6 @@ document.addEventListener('DOMContentLoaded', () => {
       function renderStampGrid() {
         gridContainer.innerHTML = '';
         const all = getAllStamps();
-        const currentLocale = state.currentLang || 'pt';
         const query = (state.stampSearchQuery || '').trim().toLowerCase();
 
         // High performance filtering
@@ -6953,8 +7034,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const showingRatio = `${Math.min(filtered.length, state.stampRenderLimit || 48)} / ${filtered.length}`;
 
         countHeader.innerHTML = `
-          <span>${categoryLabel} (${countText})</span>
-          <span style="font-size:10px; font-weight:800; background:#F1F5F9; color:#475569; padding:1px 6px; border-radius:4px;">${showingRatio}</span>
+          <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:70%;">${categoryLabel} (${countText})</span>
+          <span style="font-size:10px; font-weight:800; background:#F1F5F9; color:#475569; padding:1px 6px; border-radius:4px; flex-shrink:0;">${showingRatio}</span>
         `;
 
         const grid = document.createElement('div');
@@ -6971,7 +7052,7 @@ document.addEventListener('DOMContentLoaded', () => {
             previewSvg = previewSvg.replace(/currentColor/g, state.currentColor);
           }
 
-          const displayName = (currentLocale === 'en' && st.name_en) ? st.name_en : st.name;
+          const displayName = (isEn && st.name_en) ? st.name_en : st.name;
 
           item.innerHTML = `
             <span class="colorable-badge">${st.colorable ? '🎨' : '🖼️'}</span>
@@ -9276,6 +9357,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnMobileSound')?.addEventListener('click', () => {
     btnSoundMode?.click();
   });
+    // Download Modal triggers
+  document.getElementById('btnDownloadApp')?.addEventListener('click', () => {
+    openModal('modalDownloadApp');
+  });
+  document.getElementById('btnMobileDownload')?.addEventListener('click', () => {
+    openModal('modalDownloadApp');
+  });
+
   document.getElementById('btnMobileLang')?.addEventListener('click', () => {
     btnLangToggle?.click();
     const mobFlag = document.getElementById('mobLangFlag');
