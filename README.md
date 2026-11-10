@@ -5,7 +5,7 @@
 > Digital drawing and creativity for kids, educators, and artists of all ages.
 
 [![GitHub Pages](https://img.shields.io/badge/demo-online-brightgreen.svg)](https://uzielweb.github.io/retux-paint/)
-[![Android APK](https://img.shields.io/badge/Android-APK%20v1.0.2-blue.svg)](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.2)
+[![Android APK](https://img.shields.io/badge/Android-APK%20v1.0.3-blue.svg)](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.3)
 [![License: GPL v2+](https://img.shields.io/badge/License-GPL_v2%2B-blue.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![HTML5 Canvas](https://img.shields.io/badge/HTML5-Canvas%202D-orange.svg)](#)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20JS)-success.svg)](#)
@@ -143,7 +143,7 @@ A interface foi projetada para combinar a nostalgia clássica com a sofisticaç�
 #### 9. Aplicativo Android (Download e Instalação)
 ![Download do APK Android](docs/screenshots/08-android-apk-download.png)
 1. No cabeçalho da aplicação web, clique no botão **Baixar App Grátis**.
-2. Baixe o instalador oficial **`RetuxPaint-v1.0.2.apk`** diretamente ou através da [página de Releases do GitHub](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.2).
+2. Baixe o instalador oficial **`RetuxPaint-v1.0.3.apk`** diretamente ou através da [página de Releases do GitHub](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.3).
 3. No smartphone Android, abra o arquivo baixado. Se solicitado, permita a instalação de fontes confiáveis.
 4. Abra o Retux Paint e aproveite a experiência de desenho offline em tela cheia com aceleração gráfica nativa!
 
@@ -277,7 +277,7 @@ The interface marries nostalgic charm with modern design principles (crisp strai
 #### 9. Android App (Download & Installation)
 ![Android APK Download](docs/screenshots/08-android-apk-download.png)
 1. Click the **Download App** button on the top web bar.
-2. Download the official **`RetuxPaint-v1.0.2.apk`** directly or via the [GitHub Releases page](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.2).
+2. Download the official **`RetuxPaint-v1.0.3.apk`** directly or via the [GitHub Releases page](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.3).
 3. Open the APK on your Android device and confirm installation.
 4. Launch Retux Paint to enjoy distraction-free, offline full-screen drawing!
 

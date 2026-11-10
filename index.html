@@ -1450,9 +1450,13 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-backdrop.open {
@@ -1466,12 +1470,32 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
   box-shadow: 0 20px 40px rgba(0,0,0,0.25);
   width: 90%;
   max-width: 480px;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 14px;
+  margin: auto;
   transform: scale(0.92);
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-card::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+.modal-card::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.25);
+  border-radius: 4px;
+}
+.modal-card::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.4);
 }
 
 .modal-backdrop.open .modal-card {
@@ -2269,6 +2293,26 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
     flex-shrink: 0 !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16) !important;
   }
+
+  /* Mobile Modals: Always Scrollable & Perfectly Fitted */
+  .modal-backdrop {
+    padding: 12px 8px !important;
+    align-items: center !important;
+  }
+  .modal-card {
+    width: 95% !important;
+    max-width: 440px !important;
+    max-height: calc(100vh - 24px) !important;
+    max-height: calc(100dvh - 24px) !important;
+    padding: 16px 14px !important;
+    gap: 12px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  #modalDownloadApp .modal-card {
+    max-height: calc(100vh - 20px) !important;
+    max-height: calc(100dvh - 20px) !important;
+  }
 }
 
 /* Update Notification Banner */
@@ -2436,25 +2480,10 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
     </div>
 
     <div class="header-actions">
-      <!-- Download App Button (Colorful Hero with Tux Mascot) -->
+      <!-- Download App Button (Colorful Hero with Universal Download Icon) -->
       <button class="header-btn-download-hero" id="btnDownloadApp" title="Baixar RetuxPaint / Download App">
-        <svg class="tux-dl-mascot" viewBox="0 0 100 100" style="width:24px; height:24px; flex-shrink:0; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));">
-          <ellipse cx="38" cy="90" rx="14" ry="7" fill="#FFA500" stroke="#CC7000" stroke-width="2"/>
-          <ellipse cx="62" cy="90" rx="14" ry="7" fill="#FFA500" stroke="#CC7000" stroke-width="2"/>
-          <ellipse cx="50" cy="55" rx="32" ry="36" fill="#1E293B"/>
-          <ellipse cx="50" cy="58" rx="22" ry="26" fill="#FFFFFF"/>
-          <path d="M 20 48 Q 10 65 24 72 Q 22 58 24 50 Z" fill="#1E293B"/>
-          <path d="M 80 48 Q 90 65 76 72 Q 78 58 76 50 Z" fill="#1E293B"/>
-          <circle cx="50" cy="32" r="22" fill="#1E293B"/>
-          <ellipse cx="43" cy="28" rx="6" ry="8" fill="#FFFFFF"/>
-          <ellipse cx="57" cy="28" rx="6" ry="8" fill="#FFFFFF"/>
-          <circle cx="44" cy="28" r="3" fill="#0F172A"/>
-          <circle cx="58" cy="28" r="3" fill="#0F172A"/>
-          <circle cx="45" cy="26" r="1" fill="#FFFFFF"/>
-          <circle cx="59" cy="26" r="1" fill="#FFFFFF"/>
-          <polygon points="42,34 58,34 50,44" fill="#FFA500" stroke="#D97706" stroke-width="1.5"/>
-          <circle cx="50" cy="62" r="15" fill="#10B981" stroke="#FFFFFF" stroke-width="2"/>
-          <path d="M 50 54 L 50 67 M 44 62 L 50 68 L 56 62 M 43 71 L 57 71" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg viewBox="0 0 24 24" style="width:18px; height:18px; flex-shrink:0; fill:currentColor; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3));">
+          <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
         </svg>
         <span class="btn-download-hero-text" data-i18n="btn_download">BAIXAR APP</span>
         <span class="btn-download-hero-badge" data-i18n="btn_download_badge">GRÁTIS</span>
@@ -2511,24 +2540,9 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
             <span id="mobSoundIcon" style="font-size:18px;">🎵</span>
           </button>
           <button class="mobile-action-icon-btn mobile-btn-download-hero" id="btnMobileDownload" title="Baixar RetuxPaint / Download App">
-            <svg class="tux-dl-mascot" viewBox="0 0 100 100" style="width:24px; height:24px; flex-shrink:0; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));">
-          <ellipse cx="38" cy="90" rx="14" ry="7" fill="#FFA500" stroke="#CC7000" stroke-width="2"/>
-          <ellipse cx="62" cy="90" rx="14" ry="7" fill="#FFA500" stroke="#CC7000" stroke-width="2"/>
-          <ellipse cx="50" cy="55" rx="32" ry="36" fill="#1E293B"/>
-          <ellipse cx="50" cy="58" rx="22" ry="26" fill="#FFFFFF"/>
-          <path d="M 20 48 Q 10 65 24 72 Q 22 58 24 50 Z" fill="#1E293B"/>
-          <path d="M 80 48 Q 90 65 76 72 Q 78 58 76 50 Z" fill="#1E293B"/>
-          <circle cx="50" cy="32" r="22" fill="#1E293B"/>
-          <ellipse cx="43" cy="28" rx="6" ry="8" fill="#FFFFFF"/>
-          <ellipse cx="57" cy="28" rx="6" ry="8" fill="#FFFFFF"/>
-          <circle cx="44" cy="28" r="3" fill="#0F172A"/>
-          <circle cx="58" cy="28" r="3" fill="#0F172A"/>
-          <circle cx="45" cy="26" r="1" fill="#FFFFFF"/>
-          <circle cx="59" cy="26" r="1" fill="#FFFFFF"/>
-          <polygon points="42,34 58,34 50,44" fill="#FFA500" stroke="#D97706" stroke-width="1.5"/>
-          <circle cx="50" cy="62" r="15" fill="#10B981" stroke="#FFFFFF" stroke-width="2"/>
-          <path d="M 50 54 L 50 67 M 44 62 L 50 68 L 56 62 M 43 71 L 57 71" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+            <svg viewBox="0 0 24 24" style="width:17px; height:17px; flex-shrink:0; fill:currentColor;">
+              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+            </svg>
           </button>
           <button class="mobile-action-icon-btn" id="btnMobileLang" title="Mudar Idioma">
             <span id="mobLangFlag" style="font-size:18px;">🇧🇷</span>
@@ -2874,8 +2888,8 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
             <span style="background: #16A34A; color: #FFF; font-size: 10px; font-weight: 900; padding: 2px 7px; border-radius: 999px;" data-i18n="download_apk_badge">NOVO</span>
           </div>
           <div style="font-size: 11.5px; color: #15803D; line-height: 1.4;" data-i18n="download_apk_desc">Instale diretamente no seu smartphone ou tablet Android (Motorola, Samsung, Xiaomi). Sem anúncios e funciona 100% offline!</div>
-          <a href="https://github.com/uzielweb/retux-paint/releases/download/v1.0.2/RetuxPaint-v1.0.2.apk" target="_blank" rel="noopener noreferrer" class="sub-btn active" style="text-decoration: none; text-align: center; background: #16A34A; color: #FFF; border-color: #15803D; padding: 9px 12px; font-size: 12.5px; font-weight: 800; margin-top: 4px; border-radius: 6px; box-shadow: 0 2px 6px rgba(22,163,74,0.3);" data-i18n="download_btn_apk">
-            ⚡ Baixar RetuxPaint v1.0.2 (.APK)
+          <a href="https://github.com/uzielweb/retux-paint/releases/download/v1.0.3/RetuxPaint-v1.0.3.apk" target="_blank" rel="noopener noreferrer" class="sub-btn active" style="text-decoration: none; text-align: center; background: #16A34A; color: #FFF; border-color: #15803D; padding: 9px 12px; font-size: 12.5px; font-weight: 800; margin-top: 4px; border-radius: 6px; box-shadow: 0 2px 6px rgba(22,163,74,0.3);" data-i18n="download_btn_apk">
+            ⚡ Baixar RetuxPaint v1.0.3 (.APK)
           </a>
         </div>
 
@@ -2883,8 +2897,8 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
         <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
           <div style="font-size: 13px; font-weight: 800; color: #1E293B;" data-i18n="download_zip_title">📦 Baixar Pacote Offline (.ZIP)</div>
           <div style="font-size: 11.5px; color: #64748B; line-height: 1.4;" data-i18n="download_zip_desc">Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!</div>
-          <a href="https://github.com/uzielweb/retux-paint/archive/refs/tags/v1.0.2.zip" target="_blank" rel="noopener noreferrer" class="sub-btn" style="text-decoration: none; text-align: center; background: #2563EB; color: #FFF; border-color: #1D4ED8; padding: 8px 12px; font-size: 12px; font-weight: 800; margin-top: 4px; border-radius: 6px;" data-i18n="download_btn_zip">
-            ⬇️ Baixar Versão v1.0.2 (.ZIP)
+          <a href="https://github.com/uzielweb/retux-paint/archive/refs/tags/v1.0.3.zip" target="_blank" rel="noopener noreferrer" class="sub-btn" style="text-decoration: none; text-align: center; background: #2563EB; color: #FFF; border-color: #1D4ED8; padding: 8px 12px; font-size: 12px; font-weight: 800; margin-top: 4px; border-radius: 6px;" data-i18n="download_btn_zip">
+            ⬇️ Baixar Versão v1.0.3 (.ZIP)
           </a>
         </div>
 
@@ -2906,7 +2920,7 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
         <div style="margin-top: 4px; padding: 10px 12px; background: #F1F5F9; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; color: #475569;">
           <div>
             <span data-i18n="version_installed_label">Versão instalada:</span>
-            <strong style="color: #0F172A; margin-left: 4px;">v1.0.2</strong>
+            <strong style="color: #0F172A; margin-left: 4px;">v1.0.3</strong>
           </div>
           <button id="btnCheckUpdateManual" style="background: #FFFFFF; border: 1px solid #CBD5E1; color: #2563EB; font-weight: 700; cursor: pointer; padding: 4px 10px; border-radius: 6px; font-size: 11px; transition: all 0.2s;" data-i18n="check_update_btn">🔍 Verificar Atualizações</button>
         </div>
@@ -5360,10 +5374,10 @@ const I18N = {
     download_apk_title: '📱 Aplicativo Android (.APK)',
     download_apk_badge: 'NOVO',
     download_apk_desc: 'Instale diretamente no seu smartphone ou tablet Android (Motorola, Samsung, Xiaomi). Sem anúncios e funciona 100% offline!',
-    download_btn_apk: '⚡ Baixar RetuxPaint v1.0.2 (.APK)',
+    download_btn_apk: '⚡ Baixar RetuxPaint v1.0.3 (.APK)',
     download_zip_title: 'Baixar Pacote Offline (.ZIP)',
     download_zip_desc: 'Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!',
-    download_btn_zip: '⬇️ Baixar Versão v1.0.2 (.ZIP)',
+    download_btn_zip: '⬇️ Baixar Versão v1.0.3 (.ZIP)',
     download_gh_title: 'Ver Código e Releases no GitHub',
     download_gh_desc: 'Acesse o repositório oficial, código-fonte e histórico de versões no GitHub.',
     download_btn_gh: '🐙 GitHub Releases',
@@ -5517,10 +5531,10 @@ const I18N = {
     download_apk_title: '📱 Android App (.APK)',
     download_apk_badge: 'NEW',
     download_apk_desc: 'Install directly on your Android phone or tablet (Motorola, Samsung, Xiaomi). Ad-free and works 100% offline!',
-    download_btn_apk: '⚡ Download RetuxPaint v1.0.2 (.APK)',
+    download_btn_apk: '⚡ Download RetuxPaint v1.0.3 (.APK)',
     download_zip_title: 'Download Offline Package (.ZIP)',
     download_zip_desc: 'Unzip and double-click index.html directly in your browser. Works 100% offline on Windows, Mac, and Linux!',
-    download_btn_zip: '⬇️ Download Version v1.0.2 (.ZIP)',
+    download_btn_zip: '⬇️ Download Version v1.0.3 (.ZIP)',
     download_gh_title: 'View Code & Releases on GitHub',
     download_gh_desc: 'Access the official repository, source code, and release notes on GitHub.',
     download_btn_gh: '🐙 GitHub Releases',
@@ -10188,7 +10202,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', () => resizeCanvas(true));
 
   // --- Automatic Update Checker ---
-  const CURRENT_APP_VERSION = '1.0.2';
+  const CURRENT_APP_VERSION = '1.0.3';
 
   function compareSemver(v1, v2) {
     const p1 = (v1 || '0').replace(/^v/, '').split('.').map(Number);
