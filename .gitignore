@@ -13,3 +13,6 @@ local.properties
 Thumbs.db
 android/licenses/
 *.idsig
+*.figcraft
+*.designcraft
+*.fig
