@@ -16,9 +16,30 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    packagingOptions {
+        resources {
+            excludes += [
+                'META-INF/*.version',
+                'META-INF/version-control-info.textproto',
+                'META-INF/com/android/build/gradle/app-metadata.properties'
+            ]
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file('retuxpaint-release.keystore')
+            storePassword 'retuxpaint2026'
+            keyAlias 'retuxpaint'
+            keyPassword 'retuxpaint2026'
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
