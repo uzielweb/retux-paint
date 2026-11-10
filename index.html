@@ -218,12 +218,13 @@ body {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
 }
 .mobile-btn-download-hero {
-  background: linear-gradient(135deg, #FF5500 0%, #FFAA00 100%) !important;
-  border: 1.8px solid #FFE082 !important;
-  box-shadow: 0 3px 8px rgba(255, 85, 0, 0.4) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  padding: 0 !important;
 }
 
 
@@ -5431,9 +5432,6 @@ function updateAppLanguage(lang) {
   });
   const dlBadge = document.querySelector('.btn-download-hero-badge');
   if (dlBadge) dlBadge.textContent = t('btn_download_badge');
-    const k = el.dataset.i18n;
-    if (k && t(k)) el.textContent = t(k);
-  });
 
   // Update all data-i18n-title
   document.querySelectorAll('[data-i18n-title]').forEach(el => {
