@@ -65,33 +65,37 @@ jobs:
 
       - name: Prepare APK binary
         run: |
+          VERSION=$(node -p "require('./package.json').version")
+          APK_NAME="RetuxPaint-v${VERSION}.apk"
+          echo "Building binary: $APK_NAME"
           APK_PATH=$(find android/app/build/outputs/apk/debug/ -name "*.apk" | head -n 1)
           echo "Found APK at: $APK_PATH"
-          cp "$APK_PATH" RetuxPaint.apk
-          cp "$APK_PATH" RetuxPaint-v1.0.2.apk
+          cp "$APK_PATH" "$APK_NAME"
           ls -la RetuxPaint*.apk
 
       - name: Upload APK as Workflow Artifact
         uses: actions/upload-artifact@v4
         with:
           name: RetuxPaint-Android-APK
-          path: RetuxPaint-v1.0.2.apk
+          path: RetuxPaint-*.apk
           if-no-files-found: error
 
       - name: Attach APK to GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          VERSION=$(node -p "require('./package.json').version")
+          APK_NAME="RetuxPaint-v${VERSION}.apk"
           TAG="${{ github.ref_name }}"
           # If triggered on a tag, upload directly to that tag's release
           if [[ "${{ github.ref }}" == refs/tags/* ]]; then
-            echo "Uploading APK to release $TAG..."
-            gh release upload "$TAG" RetuxPaint.apk RetuxPaint-v1.0.2.apk --clobber || true
+            echo "Uploading $APK_NAME to release $TAG..."
+            gh release upload "$TAG" "$APK_NAME" --clobber || true
           else
             # If on master or workflow_dispatch, upload to latest release if exists
             LATEST_TAG=$(gh release list --limit 1 | awk '{print $3}')
             if [ -n "$LATEST_TAG" ]; then
-              echo "Uploading APK to latest release $LATEST_TAG..."
-              gh release upload "$LATEST_TAG" RetuxPaint.apk RetuxPaint-v1.0.2.apk --clobber || true
+              echo "Uploading $APK_NAME to latest release $LATEST_TAG..."
+              gh release upload "$LATEST_TAG" "$APK_NAME" --clobber || true
             fi
           fi
