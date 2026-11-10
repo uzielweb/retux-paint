@@ -1739,8 +1739,8 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
   /* Nano Banana Inspired Header: Floating Rounded Card */
   .app-header {
     height: auto !important;
-    min-height: 80px !important;
-    padding: max(6px, env(safe-area-inset-top, 0px)) 10px 6px 10px !important;
+    min-height: 72px !important;
+    padding: max(4px, env(safe-area-inset-top, 0px)) 6px 4px 6px !important;
     border-radius: 0 !important;
     border: none !important;
     background: transparent !important;
@@ -1765,12 +1765,12 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
     flex-direction: column !important;
     width: 100% !important;
     background: #FFFFFF !important;
-    border-radius: 20px !important;
-    padding: 7px 10px 7px 10px !important;
+    border-radius: 18px !important;
+    padding: 5px 6px !important;
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
     border: 1.5px solid rgba(226, 232, 240, 0.85) !important;
     box-sizing: border-box !important;
-    gap: 6px !important;
+    gap: 4px !important;
   }
 
   /* Row 1: Large Clean Icon Buttons */
@@ -1786,10 +1786,10 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
 
   /* Left: Tool Button (Soft Sky Blue Squircle with Subtle Glow) */
   .mobile-top-btn {
-    width: 42px !important;
-    height: 42px !important;
-    min-width: 42px !important;
-    border-radius: 14px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    border-radius: 11px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -1818,26 +1818,30 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
   }
 
   .mobile-top-btn-icon {
-    font-size: 21px !important;
+    font-size: 18px !important;
     line-height: 1 !important;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
   }
 
-  /* Center: Quick Action Icons (Large, Clean Flat, No Rigid Mini-Card Borders) */
+  /* Center: Quick Action Icons - Ultra-Responsive for 360px Viewports (Moto G54) */
   .mobile-top-actions {
     display: flex !important;
     align-items: center !important;
     justify-content: space-evenly !important;
     flex: 1 !important;
-    gap: 2px !important;
+    min-width: 0 !important;
+    gap: 0 !important;
     box-sizing: border-box !important;
+    padding: 0 2px !important;
   }
 
   .mobile-action-icon-btn {
-    width: 36px !important;
-    height: 36px !important;
-    min-width: 34px !important;
-    border-radius: 10px !important;
+    width: 28px !important;
+    height: 32px !important;
+    min-width: 0 !important;
+    max-width: 32px !important;
+    flex: 1 !important;
+    border-radius: 8px !important;
     background: transparent !important;
     border: none !important;
     display: inline-flex !important;
@@ -1855,10 +1859,19 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
     transform: scale(0.92);
   }
   .mobile-action-icon-btn svg {
-    width: 21px !important;
-    height: 21px !important;
+    width: 17px !important;
+    height: 17px !important;
     fill: currentColor !important;
     pointer-events: none !important;
+  }
+  .mobile-action-icon-btn svg.tux-dl-mascot {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  #mobSoundIcon,
+  #mobLangFlag {
+    font-size: 16px !important;
+    line-height: 1 !important;
   }
 
   /* Row 2: Discreet Context Status Bar (Matching Nano Banana Pill Design) */
@@ -2712,8 +2725,8 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
         <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
           <div style="font-size: 13px; font-weight: 800; color: #1E293B;" data-i18n="download_zip_title">📦 Baixar Pacote Offline (.ZIP)</div>
           <div style="font-size: 11.5px; color: #64748B; line-height: 1.4;" data-i18n="download_zip_desc">Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!</div>
-          <a href="https://github.com/uzielweb/retux-paint/archive/refs/tags/v1.0.0.zip" target="_blank" rel="noopener noreferrer" class="sub-btn active" style="text-decoration: none; text-align: center; background: #2563EB; color: #FFF; border-color: #1D4ED8; padding: 8px 12px; font-size: 12px; font-weight: 800; margin-top: 4px; border-radius: 6px;" data-i18n="download_btn_zip">
-            ⬇️ Baixar Versão v1.0.0 (.ZIP)
+          <a href="https://github.com/uzielweb/retux-paint/archive/refs/tags/v1.0.1.zip" target="_blank" rel="noopener noreferrer" class="sub-btn active" style="text-decoration: none; text-align: center; background: #2563EB; color: #FFF; border-color: #1D4ED8; padding: 8px 12px; font-size: 12px; font-weight: 800; margin-top: 4px; border-radius: 6px;" data-i18n="download_btn_zip">
+            ⬇️ Baixar Versão v1.0.1 (.ZIP)
           </a>
         </div>
 
@@ -5180,7 +5193,7 @@ const I18N = {
     modal_download_desc: 'Use o RetuxPaint sem precisar de internet ou instale no seu celular / tablet!',
     download_zip_title: 'Baixar Pacote Offline (.ZIP)',
     download_zip_desc: 'Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!',
-    download_btn_zip: '⬇️ Baixar Versão v1.0.0 (.ZIP)',
+    download_btn_zip: '⬇️ Baixar Versão v1.0.1 (.ZIP)',
     download_gh_title: 'Ver Código e Releases no GitHub',
     download_gh_desc: 'Acesse o repositório oficial, código-fonte e histórico de versões no GitHub.',
     download_btn_gh: '🐙 GitHub Releases',
@@ -5326,7 +5339,7 @@ const I18N = {
     modal_download_desc: 'Use RetuxPaint without internet or install it on your mobile / tablet!',
     download_zip_title: 'Download Offline Package (.ZIP)',
     download_zip_desc: 'Unzip and double-click index.html directly in your browser. Works 100% offline on Windows, Mac, and Linux!',
-    download_btn_zip: '⬇️ Download Version v1.0.0 (.ZIP)',
+    download_btn_zip: '⬇️ Download Version v1.0.1 (.ZIP)',
     download_gh_title: 'View Code & Releases on GitHub',
     download_gh_desc: 'Access the official repository, source code, and release notes on GitHub.',
     download_btn_gh: '🐙 GitHub Releases',
