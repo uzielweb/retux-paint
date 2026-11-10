@@ -1,0 +1,9 @@
+{
+  "version": "1.0.2",
+  "name": "Retux Paint v1.0.2",
+  "notes_pt": "Suporte Nativo Android (.APK) assinado para produção, PWA e Novo Ícone do Tux Pintor!",
+  "notes_en": "Native Android (.APK) release signed, PWA and New Official Tux Painter Icon!",
+  "apk_url": "https://github.com/uzielweb/retux-paint/releases/download/v1.0.2/RetuxPaint-v1.0.2.apk",
+  "release_url": "https://github.com/uzielweb/retux-paint/releases/latest",
+  "published_at": "2026-11-10"
+}

@@ -36,6 +36,7 @@ function copyDir(src, dest) {
 // Copy essential files
 copyFile(path.join(rootDir, 'index.html'), path.join(wwwDir, 'index.html'));
 copyFile(path.join(rootDir, 'manifest.json'), path.join(wwwDir, 'manifest.json'));
+copyFile(path.join(rootDir, 'version.json'), path.join(wwwDir, 'version.json'));
 copyFile(path.join(rootDir, '.nojekyll'), path.join(wwwDir, '.nojekyll'));
 
 // Copy assets

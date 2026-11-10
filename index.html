@@ -2271,6 +2271,124 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
   }
 }
 
+/* Update Notification Banner */
+.retux-update-banner {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-120%);
+  z-index: 99999;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(59, 130, 246, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(37, 99, 235, 0.2);
+  border-radius: 14px;
+  padding: 10px 16px;
+  max-width: 90vw;
+  width: 480px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+.retux-update-banner.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.retux-update-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.retux-update-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+  line-height: 1;
+  animation: retuxBounce 2s infinite ease-in-out;
+}
+@keyframes retuxBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px) scale(1.05); }
+}
+.retux-update-text {
+  flex: 1;
+  min-width: 0;
+}
+.retux-update-title {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.retux-update-desc {
+  font-size: 11.5px;
+  color: #94A3B8;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.retux-update-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.retux-update-btn-action {
+  background: linear-gradient(135deg, #2563EB, #1D4ED8);
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 7px 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.retux-update-btn-action:hover {
+  background: linear-gradient(135deg, #3B82F6, #2563EB);
+  transform: translateY(-1px);
+}
+.retux-update-btn-dismiss {
+  background: transparent;
+  border: none;
+  color: #64748B;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: color 0.2s;
+}
+.retux-update-btn-dismiss:hover {
+  color: #F8FAFC;
+}
+@media (max-width: 500px) {
+  .retux-update-banner {
+    top: 8px;
+    padding: 8px 12px;
+    width: 95vw;
+  }
+  .retux-update-icon {
+    font-size: 22px;
+  }
+  .retux-update-title {
+    font-size: 12.5px;
+  }
+  .retux-update-desc {
+    font-size: 10.5px;
+  }
+  .retux-update-btn-action {
+    padding: 5px 9px;
+    font-size: 10.5px;
+  }
+}
 </style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='55' rx='32' ry='36' fill='%231E293B'/><ellipse cx='50' cy='58' rx='22' ry='26' fill='%23FFFFFF'/><circle cx='50' cy='32' r='22' fill='%231E293B'/><polygon points='42,34 58,34 50,44' fill='%23FFA500'/></svg>">
   <script src="assets/stamps/stamps_part1.js?v=20261109"></script>
@@ -2278,6 +2396,21 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
   <script src="assets/stamps/stamps_part3.js?v=20261109"></script>
 </head>
 <body>
+
+  <!-- Floating Update Notification Banner -->
+  <div id="retuxUpdateBanner" class="retux-update-banner" role="alert" style="display: none;">
+    <div class="retux-update-content">
+      <div class="retux-update-icon">🎉</div>
+      <div class="retux-update-text">
+        <div class="retux-update-title" id="retuxUpdateTitle">Nova versão disponível!</div>
+        <div class="retux-update-desc" id="retuxUpdateDesc">Uma nova versão do Retux Paint está pronta para download.</div>
+      </div>
+      <div class="retux-update-actions">
+        <a id="retuxUpdateBtn" href="#" target="_blank" rel="noopener noreferrer" class="retux-update-btn-action" data-i18n="update_btn_download">Atualizar</a>
+        <button id="retuxUpdateClose" class="retux-update-btn-dismiss" title="Fechar" data-i18n="update_btn_later">✕</button>
+      </div>
+    </div>
+  </div>
 
   <!-- App Header -->
   <header class="app-header">
@@ -2768,6 +2901,14 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
         <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 10px 12px;">
           <div style="font-size: 12px; font-weight: 800; color: #1E293B; margin-bottom: 3px;" data-i18n="download_pwa_title">📱 Instalar no Celular ou Tablet (PWA)</div>
           <div style="font-size: 11px; color: #64748B; line-height: 1.4;" data-i18n="download_pwa_desc">No Chrome ou Safari do celular, toque no menu (⋮ ou Compartilhar) e selecione 'Adicionar à tela de início'.</div>
+        </div>
+        <!-- Version Status & Manual Check -->
+        <div style="margin-top: 4px; padding: 10px 12px; background: #F1F5F9; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; color: #475569;">
+          <div>
+            <span data-i18n="version_installed_label">Versão instalada:</span>
+            <strong style="color: #0F172A; margin-left: 4px;">v1.0.2</strong>
+          </div>
+          <button id="btnCheckUpdateManual" style="background: #FFFFFF; border: 1px solid #CBD5E1; color: #2563EB; font-weight: 700; cursor: pointer; padding: 4px 10px; border-radius: 6px; font-size: 11px; transition: all 0.2s;" data-i18n="check_update_btn">🔍 Verificar Atualizações</button>
         </div>
       </div>
 
@@ -5228,6 +5369,13 @@ const I18N = {
     download_btn_gh: '🐙 GitHub Releases',
     download_pwa_title: 'Instalar no Celular ou Tablet (PWA)',
     download_pwa_desc: 'No Chrome ou Safari do celular, toque no menu (⋮ ou Compartilhar) e selecione \'Adicionar à tela de início\'.',
+    version_installed_label: 'Versão instalada:',
+    check_update_btn: '🔍 Verificar Atualizações',
+    update_available_title: '🎉 Nova versão disponível! ({0})',
+    update_btn_download: '⚡ Atualizar / Baixar',
+    update_btn_later: '✕',
+    update_check_latest: '✅ Você já está usando a versão mais recente do RetuxPaint ({0})!',
+    update_check_offline: '⚠️ Não foi possível verificar atualizações. Verifique sua conexão com a internet.',
     cat_filter_colorable_short: 'Color',
 
     rot_normal: '0° Normal',
@@ -5378,6 +5526,13 @@ const I18N = {
     download_btn_gh: '🐙 GitHub Releases',
     download_pwa_title: 'Install on Phone or Tablet (PWA)',
     download_pwa_desc: 'In Chrome or Safari on your phone, tap the menu (⋮ or Share) and select \'Add to Home screen\'.',
+    version_installed_label: 'Installed version:',
+    check_update_btn: '🔍 Check for Updates',
+    update_available_title: '🎉 New version available! ({0})',
+    update_btn_download: '⚡ Update / Download',
+    update_btn_later: '✕',
+    update_check_latest: '✅ You are already using the latest version of RetuxPaint ({0})!',
+    update_check_offline: '⚠️ Unable to check for updates. Please check your internet connection.',
     cat_filter_colorable_short: 'Color',
 
     rot_normal: '0° Normal',
@@ -10032,6 +10187,88 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('resize', () => resizeCanvas(true));
 
+  // --- Automatic Update Checker ---
+  const CURRENT_APP_VERSION = '1.0.2';
+
+  function compareSemver(v1, v2) {
+    const p1 = (v1 || '0').replace(/^v/, '').split('.').map(Number);
+    const p2 = (v2 || '0').replace(/^v/, '').split('.').map(Number);
+    for (let i = 0; i < Math.max(p1.length, p2.length); i++) {
+      const n1 = p1[i] || 0;
+      const n2 = p2[i] || 0;
+      if (n1 > n2) return 1;
+      if (n1 < n2) return -1;
+    }
+    return 0;
+  }
+
+  function showUpdateNotification(data) {
+    const banner = document.getElementById('retuxUpdateBanner');
+    const titleEl = document.getElementById('retuxUpdateTitle');
+    const descEl = document.getElementById('retuxUpdateDesc');
+    const btnEl = document.getElementById('retuxUpdateBtn');
+    const closeBtn = document.getElementById('retuxUpdateClose');
+    if (!banner || !titleEl || !btnEl) return;
+
+    titleEl.textContent = formatI18n(t('update_available_title'), data.version || 'Nova');
+    const note = currentLang === 'en-US' ? (data.notes_en || data.notes_pt) : (data.notes_pt || data.notes_en);
+    if (descEl) descEl.textContent = note || data.name || '';
+
+    btnEl.href = data.apk_url || data.release_url || 'https://github.com/uzielweb/retux-paint/releases/latest';
+
+    banner.style.display = 'block';
+    requestAnimationFrame(() => {
+      banner.classList.add('visible');
+    });
+
+    closeBtn?.addEventListener('click', () => {
+      banner.classList.remove('visible');
+      setTimeout(() => { banner.style.display = 'none'; }, 400);
+      try {
+        localStorage.setItem('retux_dismiss_update_' + data.version, Date.now().toString());
+      } catch (e) {}
+    }, { once: true });
+  }
+
+  async function checkForAppUpdates(manual = false) {
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      if (manual) {
+        setTuxTip(t('update_check_offline'));
+      }
+      return;
+    }
+    try {
+      const res = await fetch('https://uzielweb.github.io/retux-paint/version.json?t=' + Date.now(), {
+        cache: 'no-cache'
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if (!data || !data.version) throw new Error('Invalid version data');
+
+      if (compareSemver(data.version, CURRENT_APP_VERSION) > 0) {
+        if (!manual) {
+          const dismissed = localStorage.getItem('retux_dismiss_update_' + data.version);
+          if (dismissed && (Date.now() - Number(dismissed) < 86400000)) {
+            return;
+          }
+        }
+        showUpdateNotification(data);
+      } else if (manual) {
+        setTuxTip(formatI18n(t('update_check_latest'), CURRENT_APP_VERSION));
+        window.tuxAudio.playFanfare();
+      }
+    } catch (err) {
+      if (manual) {
+        setTuxTip(t('update_check_offline'));
+      }
+    }
+  }
+
+  document.getElementById('btnCheckUpdateManual')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    checkForAppUpdates(true);
+  });
+
   // Boot Application
   updateAppLanguage(currentLang);
   resizeCanvas(false);
@@ -10040,6 +10277,11 @@ document.addEventListener('DOMContentLoaded', () => {
   updateSubOptions();
   updateMobileToolBadge();
   setTuxTip(t('welcome_tip'));
+
+  // Run soft update check after 3 seconds
+  setTimeout(() => {
+    checkForAppUpdates(false);
+  }, 3000);
 });
   </script>
 </body>
