@@ -5020,6 +5020,13 @@ const I18N = {
     size: 'Tamanho',
     rotation: 'Rotação',
     flip: 'Espelhar',
+    flip_h: 'Espelhar H',
+    flip_v: 'Espelhar V',
+    presets_label: 'Presets',
+    stamps_badge_items: '{0} itens',
+    import_btn_short: 'Importar',
+    cat_stamps_count: '{0} carimbos',
+    rot_normal: '0° Normal',
     import_btn: '+ Importar',
     fullscreen_text: 'Tela Cheia',
     custom_color_title: 'Paleta de Cores Mágica',
@@ -5144,6 +5151,13 @@ const I18N = {
     size: 'Size',
     rotation: 'Rotation',
     flip: 'Flip',
+    flip_h: 'Flip H',
+    flip_v: 'Flip V',
+    presets_label: 'Presets',
+    stamps_badge_items: '{0} items',
+    import_btn_short: 'Import',
+    cat_stamps_count: '{0} stamps',
+    rot_normal: '0° Normal',
     import_btn: '+ Import',
     fullscreen_text: 'Fullscreen',
     custom_color_title: 'Magic Color Palette',
@@ -5289,6 +5303,8 @@ document.addEventListener('DOMContentLoaded', () => {
     gradientMagicColor2: '#00F2FE',
     spatulaDrip: true,
     stampRotation: 0,
+    stampFlippedH: false,
+    stampFlippedV: false,
     stampFlipped: false,
     magicType: 'rainbow',
     magicSize: 26,
@@ -6344,7 +6360,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const baseSize = state.stampSize || (80 * (state.stampScale || 1.0));
     stampPreview.style.width = `${baseSize}px`;
     stampPreview.style.height = `${baseSize}px`;
-    stampPreview.style.transform = `translate(-50%, -50%) scaleX(${state.stampFlipped ? -1 : 1}) rotate(${state.stampRotation}deg)`;
+    const sX = (state.stampFlippedH || state.stampFlipped) ? -1 : 1;
+    const sY = state.stampFlippedV ? -1 : 1;
+    stampPreview.style.transform = `translate(-50%, -50%) scale(${sX}, ${sY}) rotate(${state.stampRotation}deg)`;
 
     getStampImage(stampObj, state.currentColor, (rendered) => {
       stampPreview.innerHTML = '';
@@ -6381,8 +6399,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (state.stampRotation !== 0) {
         ctx.rotate((state.stampRotation * Math.PI) / 180);
       }
-      if (state.stampFlipped) {
-        ctx.scale(-1, 1);
+      const sX = (state.stampFlippedH || state.stampFlipped) ? -1 : 1;
+      const sY = state.stampFlippedV ? -1 : 1;
+      if (sX !== 1 || sY !== 1) {
+        ctx.scale(sX, sY);
       }
       ctx.drawImage(img, -baseSize / 2, -baseSize / 2, baseSize, baseSize);
       ctx.restore();
@@ -6566,16 +6586,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. STAMPS (With High-Fidelity Categories, Instant Search & Colorable Support)
     // =======================================================================
     } else if (state.tool === 'stamp') {
-      subOptionsTitle.textContent = t('tool_stamp');
+      const allStampsList = getAllStamps();
+      const currentLocale = state.currentLang || 'pt';
+
+      // Title with dynamic count badge matching FigCraft UX
+      const totalCount = allStampsList.length;
+      const badgeText = (t('stamps_badge_items') || '{0} itens').replace('{0}', totalCount);
+      subOptionsTitle.innerHTML = `<span style="font-weight:800;">${t('tool_stamp')}</span> <span style="font-size:10.5px; font-weight:800; color:#2563EB; background:#EFF6FF; border:1px solid #BFDBFE; border-radius:12px; padding:2px 8px; margin-left:6px; vertical-align:middle;">${badgeText}</span>`;
 
       // State helpers for stamp browser
       if (!state.stampCategory) state.stampCategory = 'all';
       if (!state.stampFilter) state.stampFilter = 'all'; // 'all' | 'colorable' | 'fixed'
       if (!state.stampSearchQuery) state.stampSearchQuery = '';
       if (!state.stampRenderLimit) state.stampRenderLimit = 48;
-
-      const allStampsList = getAllStamps();
-      const currentLocale = state.currentLang || 'pt';
 
       // Gather categories with real item counts
       const catCounts = { all: allStampsList.length };
@@ -6619,204 +6642,73 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      // Navigation Header Container
-      const navWrapper = document.createElement('div');
-      navWrapper.className = 'stamp-nav-wrapper';
-
-      // 1. Instant Search Row
-      const searchRow = document.createElement('div');
-      searchRow.className = 'stamp-search-row';
-      const searchInput = document.createElement('input');
-      searchInput.type = 'text';
-      searchInput.id = 'stampSearchInput';
-      searchInput.className = 'stamp-search-input';
-      searchInput.placeholder = t('cat_search_placeholder');
-      searchInput.value = state.stampSearchQuery;
-
-      const clearBtn = document.createElement('button');
-      clearBtn.className = 'stamp-search-clear';
-      clearBtn.textContent = '✕';
-      clearBtn.style.display = state.stampSearchQuery ? 'flex' : 'none';
-
-      searchInput.addEventListener('input', (e) => {
-        state.stampSearchQuery = e.target.value.trim().toLowerCase();
-        state.stampRenderLimit = 48;
-        clearBtn.style.display = state.stampSearchQuery ? 'flex' : 'none';
-        renderStampGrid();
-      });
-
-      clearBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        state.stampSearchQuery = '';
-        state.stampRenderLimit = 48;
-        clearBtn.style.display = 'none';
-        renderStampGrid();
-        searchInput.focus();
-      });
-
-      searchRow.appendChild(searchInput);
-      searchRow.appendChild(clearBtn);
-      navWrapper.appendChild(searchRow);
-
-      // 2. Category Select Dropdown Row
-      const dropdownRow = document.createElement('div');
-      dropdownRow.className = 'stamp-dropdown-row';
-      const select = document.createElement('select');
-      select.id = 'stampCategorySelect';
-      select.className = 'stamp-dropdown-select';
-
-      categoryList.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c.id;
-        opt.textContent = `${c.icon} ${c.label} (${c.count})`;
-        if (state.stampCategory === c.id) opt.selected = true;
-        select.appendChild(opt);
-      });
-
-      select.addEventListener('change', (e) => {
-        state.stampCategory = e.target.value;
-        state.stampRenderLimit = 48;
-        syncPillsActive();
-        window.tuxAudio.playPop(520);
-        renderStampGrid();
-      });
-      dropdownRow.appendChild(select);
-      navWrapper.appendChild(dropdownRow);
-
-      // 3. Filter Chips: Todos | Coloríveis | Fixos
-      const filtersRow = document.createElement('div');
-      filtersRow.className = 'stamp-filters-row';
-
-      const colorableCount = allStampsList.filter(s => s.colorable).length;
-      const fixedCount = allStampsList.filter(s => !s.colorable).length;
-
-      const filterChips = [
-        { id: 'all', label: t('cat_filter_all'), count: allStampsList.length },
-        { id: 'colorable', label: t('cat_filter_colorable'), count: colorableCount },
-        { id: 'fixed', label: t('cat_filter_fixed'), count: fixedCount }
-      ];
-
-      filterChips.forEach(fc => {
-        const chip = document.createElement('button');
-        chip.className = `stamp-filter-chip ${state.stampFilter === fc.id ? 'active' : ''}`;
-        chip.innerHTML = `<span>${fc.label}</span> <span style="opacity:0.75; font-size:10px;">(${fc.count})</span>`;
-        chip.addEventListener('click', () => {
-          state.stampFilter = fc.id;
-          state.stampRenderLimit = 48;
-          filtersRow.querySelectorAll('.stamp-filter-chip').forEach(b => b.classList.remove('active'));
-          chip.classList.add('active');
-          window.tuxAudio.playPop(480);
-          renderStampGrid();
-        });
-        filtersRow.appendChild(chip);
-      });
-      navWrapper.appendChild(filtersRow);
-
-      // 4. Horizontal Quick-Pill Carousel with Scroll Buttons
-      const pillsRow = document.createElement('div');
-      pillsRow.className = 'stamp-pills-row';
-
-      const btnPrev = document.createElement('button');
-      btnPrev.className = 'cat-pill-nav';
-      btnPrev.textContent = '‹';
-      btnPrev.title = 'Anterior';
-
-      const pillsScroll = document.createElement('div');
-      pillsScroll.className = 'stamp-pills-scroll';
-
-      const btnNext = document.createElement('button');
-      btnNext.className = 'cat-pill-nav';
-      btnNext.textContent = '›';
-      btnNext.title = 'Próximo';
-
-      categoryList.forEach(c => {
-        const pill = document.createElement('button');
-        pill.className = `cat-pill-item ${state.stampCategory === c.id ? 'active' : ''}`;
-        pill.dataset.catId = c.id;
-        pill.innerHTML = `<span style="font-size:13px; line-height:1;">${c.icon}</span> <span>${c.label}</span>`;
-        pill.addEventListener('click', () => {
-          state.stampCategory = c.id;
-          state.stampRenderLimit = 48;
-          select.value = c.id;
-          syncPillsActive();
-          window.tuxAudio.playPop(520);
-          renderStampGrid();
-        });
-        pillsScroll.appendChild(pill);
-      });
-
-      function syncPillsActive() {
-        pillsScroll.querySelectorAll('.cat-pill-item').forEach(p => {
-          p.classList.toggle('active', p.dataset.catId === state.stampCategory);
-        });
-        const activePill = pillsScroll.querySelector(`.cat-pill-item[data-cat-id="${state.stampCategory}"]`);
-        if (activePill) {
-          activePill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
-      }
-
-      btnPrev.addEventListener('click', () => {
-        pillsScroll.scrollBy({ left: -140, behavior: 'smooth' });
-      });
-      btnNext.addEventListener('click', () => {
-        pillsScroll.scrollBy({ left: 140, behavior: 'smooth' });
-      });
-
-      pillsRow.appendChild(btnPrev);
-      pillsRow.appendChild(pillsScroll);
-      pillsRow.appendChild(btnNext);
-      navWrapper.appendChild(pillsRow);
-
-      subOptionsPanel.appendChild(navWrapper);
-
-      // Controls Bar: Standard Spacious Layout + Modal Trigger for Fill
+      // =======================================================================
+      // Top Controls Bar (Pinned Header): Sliders Duplos + Acoes + Presets
+      // =======================================================================
       const ctrl = document.createElement('div');
       ctrl.className = 'stamp-controls';
       ctrl.innerHTML = `
-        <div class="sub-panel-section-title">${t('stamp_size_title')}: <span id="stampScaleVal">${state.stampSize || 120}px</span></div>
-        <div class="slider-container">
-          <input type="range" id="stampScaleInput" min="20" max="1000" step="5" value="${state.stampSize || 120}">
-        </div>
-        <div class="sub-panel-row">
-          <button class="sub-btn ${state.stampSize <= 50 ? 'active' : ''}" id="btnStampSzP">P (40px)</button>
-          <button class="sub-btn ${state.stampSize > 50 && state.stampSize <= 160 ? 'active' : ''}" id="btnStampSzM">M (120px)</button>
-          <button class="sub-btn ${state.stampSize > 160 && state.stampSize <= 350 ? 'active' : ''}" id="btnStampSzG">G (280px)</button>
-          <button class="sub-btn ${state.stampSize > 350 ? 'active' : ''}" id="btnStampSzGG">GG (500px)</button>
-        </div>
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:7px 9px;">
+          <!-- Linha 1: Sliders Duplos Lado a Lado (Tamanho e Rotacao) -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:6px;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;">
+                <span style="font-size:10.5px; font-weight:700; color:#475569;">📏 ${t('size')}</span>
+                <span id="stampScaleVal" style="font-size:11px; font-weight:800; color:#2563EB;">${state.stampSize || 120}px</span>
+              </div>
+              <input type="range" id="stampScaleInput" min="20" max="1000" step="5" value="${state.stampSize || 120}" style="margin:2px 0; height:4px; width:100%;">
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;">
+                <span style="font-size:10.5px; font-weight:700; color:#475569;">🔄 ${t('rotation')}</span>
+                <span id="stampRotVal" style="font-size:11px; font-weight:800; color:#2563EB;">${state.stampRotation}°</span>
+              </div>
+              <input type="range" id="stampRotInput" min="-180" max="180" step="5" value="${state.stampRotation}" style="margin:2px 0; height:4px; width:100%;">
+            </div>
+          </div>
 
-        <div class="sub-panel-section-title">${t('rotation')}: <span id="stampRotVal">${state.stampRotation}°</span></div>
-        <div class="slider-container">
-          <input type="range" id="stampRotInput" min="-180" max="180" step="5" value="${state.stampRotation}">
-        </div>
-        <div class="sub-panel-row">
-          <button class="sub-btn" id="btnRotMinus">↺ -45°</button>
-          <button class="sub-btn" id="btnRotZero">0°</button>
-          <button class="sub-btn" id="btnRotPlus">↻ +45°</button>
-        </div>
+          <!-- Linha 2: Acoes Rapidas (Espelhar H/V, Fundo, Importar) -->
+          <div style="display:flex; gap:4px; margin-bottom:6px;">
+            <button class="sub-btn ${state.stampFlippedH ? 'active' : ''}" id="btnFlipStampH" title="${t('flip_h')}" style="flex:1; padding:4px 2px; font-size:10.5px; font-weight:700;">
+              ↔ H
+            </button>
+            <button class="sub-btn ${state.stampFlippedV ? 'active' : ''}" id="btnFlipStampV" title="${t('flip_v')}" style="flex:1; padding:4px 2px; font-size:10.5px; font-weight:700;">
+              ↕ V
+            </button>
+            <button class="sub-btn" id="btnOpenStampFillModal" title="${t('stamp_fill_btn_label')}" style="flex:1.4; display:flex; align-items:center; justify-content:center; gap:3px; padding:4px 4px; font-size:10.5px; font-weight:700; background:#FFF; border:1px solid #CBD5E1; border-radius:6px; cursor:pointer;">
+              <span id="stampFillBtnIcon" style="font-size:11px;">${state.stampFillMode === 'transparent' ? '🔲' : (state.stampFillMode === 'inside' ? '🎨' : (state.stampFillMode === 'full' ? '⬛' : (state.stampFillMode === 'rounded' ? '🎴' : (state.stampFillMode === 'sticker' ? '⭐' : '⚪'))))}</span>
+              <span>${t('stamp_fill_btn_label')} ▾</span>
+            </button>
+            <button class="sub-btn active" id="btnOpenImportModal" title="${t('import_btn')}" style="flex:1.2; background:#10B981; color:#FFF; border-color:#059669; padding:4px 4px; font-size:10.5px; font-weight:700;">
+              + ${t('import_btn_short') || 'Importar'}
+            </button>
+          </div>
 
-        <div class="sub-panel-row">
-          <button class="sub-btn ${state.stampFlipped ? 'active' : ''}" id="btnFlipStamp">
-            ⇄ ${t('flip')}
-          </button>
-          <button class="sub-btn active" id="btnOpenImportModal" style="background:#10B981; color:#FFF; border-color:#059669;">
-            + Importar
-          </button>
+          <!-- Linha 3: Presets de Tamanho e Rotacao em Botoes Reais -->
+          <div style="display:flex; flex-direction:column; gap:3px; padding-top:4px; border-top:1px dashed #E2E8F0;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:9.5px; font-weight:700; color:#64748B;">${t('size')}:</span>
+              <div style="display:flex; gap:3px;">
+                <button class="sub-btn ${state.stampSize <= 50 ? 'active' : ''}" id="btnStampSzP" title="P: 40px" style="padding:2px 7px; font-size:10px; min-width:auto;">40px</button>
+                <button class="sub-btn ${state.stampSize > 50 && state.stampSize <= 160 ? 'active' : ''}" id="btnStampSzM" title="M: 120px" style="padding:2px 7px; font-size:10px; min-width:auto;">120px</button>
+                <button class="sub-btn ${state.stampSize > 160 && state.stampSize <= 350 ? 'active' : ''}" id="btnStampSzG" title="G: 280px" style="padding:2px 7px; font-size:10px; min-width:auto;">280px</button>
+                <button class="sub-btn ${state.stampSize > 350 ? 'active' : ''}" id="btnStampSzGG" title="GG: 500px" style="padding:2px 7px; font-size:10px; min-width:auto;">500px</button>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:9.5px; font-weight:700; color:#64748B;">${t('rotation')}:</span>
+              <div style="display:flex; gap:3px;">
+                <button class="sub-btn ${state.stampRotation === -45 ? 'active' : ''}" id="btnRotMinus" title="-45°" style="padding:2px 7px; font-size:10px; min-width:auto;">↺ -45°</button>
+                <button class="sub-btn ${state.stampRotation === 0 ? 'active' : ''}" id="btnRotZero" title="0°" style="padding:2px 7px; font-size:10px; min-width:auto;">${t('rot_normal') || '0° Normal'}</button>
+                <button class="sub-btn ${state.stampRotation === 45 ? 'active' : ''}" id="btnRotPlus" title="+45°" style="padding:2px 7px; font-size:10px; min-width:auto;">↻ +45°</button>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div class="sub-panel-section-title" style="margin-top: 10px;">${t('stamp_fill_title')}</div>
-        <button class="sub-btn" id="btnOpenStampFillModal" style="display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 8px 12px; background: #FFFFFF; border: 1.8px solid #3B82F6; border-radius: 8px; color: #1E293B; font-weight: 700; cursor: pointer; margin-top: 2px;">
-          <span style="display: flex; align-items: center; gap: 8px;">
-            <span id="stampFillBtnIcon" style="font-size: 15px;">${state.stampFillMode === 'transparent' ? '🔲' : (state.stampFillMode === 'inside' ? '🎨' : (state.stampFillMode === 'full' ? '⬛' : (state.stampFillMode === 'rounded' ? '🎴' : '⚪')))}</span>
-            <span style="font-size: 12px;">${t('stamp_fill_btn_label')}</span>
-          </span>
-          <span id="stampFillBtnBadge" style="font-size: 10.5px; font-weight: 800; background: #EFF6FF; color: #2563EB; padding: 2px 8px; border-radius: 4px; border: 1px solid #BFDBFE;">
-            ${state.stampFillMode === 'transparent' ? t('stamp_fill_none') : (state.stampFillType === 'solid' ? t('stamp_fill_solid') : t('stamp_fill_gradient'))} ▾
-          </span>
-        </button>
       `;
       if (pinnedHeader) pinnedHeader.appendChild(ctrl); else subOptionsPanel.appendChild(ctrl);
 
-      // Bind Stamp controls: Size 20-1000px
+      // Eventos dos Controles: Tamanho
       const scaleInput = ctrl.querySelector('#stampScaleInput');
       const scaleVal = ctrl.querySelector('#stampScaleVal');
       const setStampSize = (sz) => {
@@ -6841,37 +6733,62 @@ document.addEventListener('DOMContentLoaded', () => {
       ctrl.querySelector('#btnStampSzG')?.addEventListener('click', () => { setStampSize(280); window.tuxAudio.playPop(560); });
       ctrl.querySelector('#btnStampSzGG')?.addEventListener('click', () => { setStampSize(500); window.tuxAudio.playPop(600); });
 
+      // Eventos dos Controles: Rotacao
       const rotInput = ctrl.querySelector('#stampRotInput');
       const rotVal = ctrl.querySelector('#stampRotVal');
+      const syncRotActive = () => {
+        ctrl.querySelectorAll('#btnRotMinus, #btnRotZero, #btnRotPlus').forEach(b => b.classList.remove('active'));
+        if (state.stampRotation === -45) ctrl.querySelector('#btnRotMinus')?.classList.add('active');
+        else if (state.stampRotation === 0) ctrl.querySelector('#btnRotZero')?.classList.add('active');
+        else if (state.stampRotation === 45) ctrl.querySelector('#btnRotPlus')?.classList.add('active');
+      };
+
       rotInput.addEventListener('input', (e) => {
         state.stampRotation = parseInt(e.target.value);
         rotVal.textContent = `${state.stampRotation}°`;
+        syncRotActive();
         updateStampPreview();
       });
 
       ctrl.querySelector('#btnRotMinus')?.addEventListener('click', () => {
-        state.stampRotation = (state.stampRotation - 45 + 360) % 360;
-        rotInput.value = state.stampRotation > 180 ? state.stampRotation - 360 : state.stampRotation;
-        rotVal.textContent = `${state.stampRotation}°`;
+        state.stampRotation = -45;
+        rotInput.value = -45;
+        rotVal.textContent = `-45°`;
+        syncRotActive();
+        window.tuxAudio.playPop(480);
         updateStampPreview();
       });
       ctrl.querySelector('#btnRotZero')?.addEventListener('click', () => {
         state.stampRotation = 0;
         rotInput.value = 0;
-        rotVal.textContent = '0°';
+        rotVal.textContent = `0°`;
+        syncRotActive();
+        window.tuxAudio.playPop(520);
         updateStampPreview();
       });
       ctrl.querySelector('#btnRotPlus')?.addEventListener('click', () => {
-        state.stampRotation = (state.stampRotation + 45) % 360;
-        rotInput.value = state.stampRotation > 180 ? state.stampRotation - 360 : state.stampRotation;
-        rotVal.textContent = `${state.stampRotation}°`;
+        state.stampRotation = 45;
+        rotInput.value = 45;
+        rotVal.textContent = `45°`;
+        syncRotActive();
+        window.tuxAudio.playPop(560);
         updateStampPreview();
       });
 
-      const flipBtn = ctrl.querySelector('#btnFlipStamp');
-      flipBtn?.addEventListener('click', () => {
-        state.stampFlipped = !state.stampFlipped;
-        flipBtn.classList.toggle('active', state.stampFlipped);
+      // Eventos dos Controles: Espelhar H e V
+      const flipHBtn = ctrl.querySelector('#btnFlipStampH');
+      flipHBtn?.addEventListener('click', () => {
+        state.stampFlippedH = !state.stampFlippedH;
+        state.stampFlipped = state.stampFlippedH;
+        flipHBtn.classList.toggle('active', state.stampFlippedH);
+        window.tuxAudio.playOfficial('assets/sounds/flip.wav', () => window.tuxAudio.playPop(620));
+        updateStampPreview();
+      });
+
+      const flipVBtn = ctrl.querySelector('#btnFlipStampV');
+      flipVBtn?.addEventListener('click', () => {
+        state.stampFlippedV = !state.stampFlippedV;
+        flipVBtn.classList.toggle('active', state.stampFlippedV);
         window.tuxAudio.playOfficial('assets/sounds/flip.wav', () => window.tuxAudio.playPop(620));
         updateStampPreview();
       });
@@ -6880,14 +6797,119 @@ document.addEventListener('DOMContentLoaded', () => {
         openModal('modalImportStamp');
       });
 
-      // Bind Stamp Fill Modal Trigger
       ctrl.querySelector('#btnOpenStampFillModal')?.addEventListener('click', () => {
         openStampFillModal();
       });
 
-      // Stamps Count Status Header
+      // =======================================================================
+      // Navigation Header Container (Clean & Compact UX)
+      // =======================================================================
+      const navWrapper = document.createElement('div');
+      navWrapper.className = 'stamp-nav-wrapper';
+      navWrapper.style.cssText = 'padding:6px 2px; background:transparent; border-bottom:1px solid #E2E8F0; margin-bottom:6px;';
+
+      // 1. Category Select Dropdown (Clean, High Visibility)
+      const dropdownRow = document.createElement('div');
+      dropdownRow.className = 'stamp-dropdown-row';
+      dropdownRow.style.marginBottom = '6px';
+
+      const select = document.createElement('select');
+      select.id = 'stampCategorySelect';
+      select.className = 'stamp-dropdown-select';
+      select.style.cssText = 'width:100%; height:32px; font-size:12px; font-weight:700; border-radius:6px; padding:4px 8px; border:1.5px solid #CBD5E1; color:#1E293B; background:#FFF; cursor:pointer;';
+
+      categoryList.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = `${c.icon} ${c.label} (${c.count})`;
+        if (state.stampCategory === c.id) opt.selected = true;
+        select.appendChild(opt);
+      });
+
+      select.addEventListener('change', (e) => {
+        state.stampCategory = e.target.value;
+        state.stampRenderLimit = 48;
+        window.tuxAudio.playPop(520);
+        renderStampGrid();
+      });
+      dropdownRow.appendChild(select);
+      navWrapper.appendChild(dropdownRow);
+
+      // 2. Instant Search Row (Compact)
+      const searchRow = document.createElement('div');
+      searchRow.className = 'stamp-search-row';
+      searchRow.style.marginBottom = '6px';
+
+      const searchInput = document.createElement('input');
+      searchInput.type = 'text';
+      searchInput.id = 'stampSearchInput';
+      searchInput.className = 'stamp-search-input';
+      searchInput.placeholder = t('cat_search_placeholder');
+      searchInput.value = state.stampSearchQuery;
+      searchInput.style.cssText = 'width:100%; height:30px; font-size:11.5px; border-radius:6px; padding:4px 26px 4px 8px; border:1.5px solid #CBD5E1; box-sizing:border-box;';
+
+      const clearBtn = document.createElement('button');
+      clearBtn.className = 'stamp-search-clear';
+      clearBtn.textContent = '✕';
+      clearBtn.style.cssText = `position:absolute; right:6px; width:18px; height:18px; font-size:10px; background:#E2E8F0; border:none; border-radius:50%; color:#64748B; cursor:pointer; display:${state.stampSearchQuery ? 'flex' : 'none'}; align-items:center; justify-content:center;`;
+
+      searchInput.addEventListener('input', (e) => {
+        state.stampSearchQuery = e.target.value.trim().toLowerCase();
+        state.stampRenderLimit = 48;
+        clearBtn.style.display = state.stampSearchQuery ? 'flex' : 'none';
+        renderStampGrid();
+      });
+
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        state.stampSearchQuery = '';
+        state.stampRenderLimit = 48;
+        clearBtn.style.display = 'none';
+        renderStampGrid();
+        searchInput.focus();
+      });
+
+      searchRow.appendChild(searchInput);
+      searchRow.appendChild(clearBtn);
+      navWrapper.appendChild(searchRow);
+
+      // 3. Filter Chips: Todos | Coloríveis | Fixos (Compact Segmented Control)
+      const filtersRow = document.createElement('div');
+      filtersRow.className = 'stamp-filters-row';
+      filtersRow.style.cssText = 'display:flex; gap:4px; width:100%;';
+
+      const colorableCount = allStampsList.filter(s => s.colorable).length;
+      const fixedCount = allStampsList.filter(s => !s.colorable).length;
+
+      const filterChips = [
+        { id: 'all', label: t('cat_filter_all'), count: allStampsList.length },
+        { id: 'colorable', label: t('cat_filter_colorable'), count: colorableCount },
+        { id: 'fixed', label: t('cat_filter_fixed'), count: fixedCount }
+      ];
+
+      filterChips.forEach(fc => {
+        const chip = document.createElement('button');
+        chip.className = `stamp-filter-chip ${state.stampFilter === fc.id ? 'active' : ''}`;
+        chip.style.cssText = 'flex:1; padding:3px 6px; height:25px; border-radius:6px; font-size:10.5px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:3px; cursor:pointer; transition:all 0.15s ease;';
+        chip.innerHTML = `<span>${fc.label}</span> <span style="opacity:0.75; font-size:9.5px;">(${fc.count})</span>`;
+        chip.addEventListener('click', () => {
+          state.stampFilter = fc.id;
+          state.stampRenderLimit = 48;
+          filtersRow.querySelectorAll('.stamp-filter-chip').forEach(b => b.classList.remove('active'));
+          chip.classList.add('active');
+          window.tuxAudio.playPop(480);
+          renderStampGrid();
+        });
+        filtersRow.appendChild(chip);
+      });
+      navWrapper.appendChild(filtersRow);
+
+      subOptionsPanel.appendChild(navWrapper);
+
+      // Stamps Count Status Header (Compact Sub-header)
       const countHeader = document.createElement('div');
       countHeader.className = 'stamp-count-info';
+      countHeader.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:2px 4px 6px 4px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px dashed #E2E8F0; margin-bottom:6px;';
       subOptionsPanel.appendChild(countHeader);
 
       // Stamps Grid Container
@@ -6924,10 +6946,16 @@ document.addEventListener('DOMContentLoaded', () => {
           return true;
         });
 
-        // Update count banner
-        countHeader.textContent = (t('cat_showing_stamps') || 'Exibindo {0} de {1} carimbos')
-          .replace('{0}', Math.min(filtered.length, state.stampRenderLimit || 48))
-          .replace('{1}', filtered.length);
+        // Update Category Heading with icon and count
+        const currentCatObj = categoryList.find(c => c.id === state.stampCategory) || categoryList[0];
+        const categoryLabel = currentCatObj ? `${currentCatObj.icon} ${currentCatObj.label}` : '';
+        const countText = (t('cat_stamps_count') || '{0} carimbos').replace('{0}', filtered.length);
+        const showingRatio = `${Math.min(filtered.length, state.stampRenderLimit || 48)} / ${filtered.length}`;
+
+        countHeader.innerHTML = `
+          <span>${categoryLabel} (${countText})</span>
+          <span style="font-size:10px; font-weight:800; background:#F1F5F9; color:#475569; padding:1px 6px; border-radius:4px;">${showingRatio}</span>
+        `;
 
         const grid = document.createElement('div');
         grid.className = 'options-grid';
@@ -6981,9 +7009,6 @@ document.addEventListener('DOMContentLoaded', () => {
       renderStampGrid();
       updateStampPreview();
 
-    // =======================================================================
-    // 3. SHAPES (16 Shapes, Rotation, Thickness & Dual Color Support)
-    // =======================================================================
     } else if (state.tool === 'shapes') {
       subOptionsTitle.textContent = t('tool_shapes');
 
