@@ -1,0 +1,11 @@
+{
+  "appId": "com.uzielweb.retuxpaint",
+  "appName": "Retux Paint",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

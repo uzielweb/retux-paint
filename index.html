@@ -35,6 +35,16 @@
   <!-- Favicon SVG -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='55' rx='32' ry='36' fill='%231E293B'/><ellipse cx='50' cy='58' rx='22' ry='26' fill='%23FFFFFF'/><circle cx='50' cy='32' r='22' fill='%231E293B'/><circle cx='44' cy='28' r='3' fill='%230F172A'/><circle cx='58' cy='28' r='3' fill='%230F172A'/><polygon points='42,34 58,34 50,44' fill='%23FFA500'/><path d='M 28 20 Q 50 4 72 16 Q 66 24 38 24 Z' fill='%23EF4444'/></svg>">
   <link rel="canonical" href="https://uzielweb.github.io/retux-paint/">
+
+  <!-- Web App Manifest & Mobile App Icons -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon-512.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="assets/icons/icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Retux Paint">
   <style>
 /* Tux Paint Modern - Stylesheet */
 
@@ -2721,16 +2731,31 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
       </p>
 
       <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;">
-        <!-- Option 1: Direct Offline ZIP -->
-        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
-          <div style="font-size: 13px; font-weight: 800; color: #1E293B;" data-i18n="download_zip_title">📦 Baixar Pacote Offline (.ZIP)</div>
-          <div style="font-size: 11.5px; color: #64748B; line-height: 1.4;" data-i18n="download_zip_desc">Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!</div>
-          <a href="https://github.com/uzielweb/retux-paint/archive/refs/tags/v1.0.1.zip" target="_blank" rel="noopener noreferrer" class="sub-btn active" style="text-decoration: none; text-align: center; background: #2563EB; color: #FFF; border-color: #1D4ED8; padding: 8px 12px; font-size: 12px; font-weight: 800; margin-top: 4px; border-radius: 6px;" data-i18n="download_btn_zip">
-            ⬇️ Baixar Versão v1.0.1 (.ZIP)
+        <!-- Option 1: Direct Android APK -->
+        <div style="background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%); border: 1.5px solid #86EFAC; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="font-size: 13.5px; font-weight: 800; color: #166534; display: flex; align-items: center; gap: 7px;">
+              <img src="assets/icons/icon-48.png" alt="Retux Icon" style="width: 22px; height: 22px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">
+              <span data-i18n="download_apk_title">📱 Aplicativo Android (.APK)</span>
+            </div>
+            <span style="background: #16A34A; color: #FFF; font-size: 10px; font-weight: 900; padding: 2px 7px; border-radius: 999px;" data-i18n="download_apk_badge">NOVO</span>
+          </div>
+          <div style="font-size: 11.5px; color: #15803D; line-height: 1.4;" data-i18n="download_apk_desc">Instale diretamente no seu smartphone ou tablet Android (Motorola, Samsung, Xiaomi). Sem anúncios e funciona 100% offline!</div>
+          <a href="https://github.com/uzielweb/retux-paint/releases/download/v1.0.2/RetuxPaint-v1.0.2.apk" target="_blank" rel="noopener noreferrer" class="sub-btn active" style="text-decoration: none; text-align: center; background: #16A34A; color: #FFF; border-color: #15803D; padding: 9px 12px; font-size: 12.5px; font-weight: 800; margin-top: 4px; border-radius: 6px; box-shadow: 0 2px 6px rgba(22,163,74,0.3);" data-i18n="download_btn_apk">
+            ⚡ Baixar RetuxPaint v1.0.2 (.APK)
           </a>
         </div>
 
-        <!-- Option 2: GitHub Releases -->
+        <!-- Option 2: Direct Offline ZIP -->
+        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-size: 13px; font-weight: 800; color: #1E293B;" data-i18n="download_zip_title">📦 Baixar Pacote Offline (.ZIP)</div>
+          <div style="font-size: 11.5px; color: #64748B; line-height: 1.4;" data-i18n="download_zip_desc">Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!</div>
+          <a href="https://github.com/uzielweb/retux-paint/archive/refs/tags/v1.0.2.zip" target="_blank" rel="noopener noreferrer" class="sub-btn" style="text-decoration: none; text-align: center; background: #2563EB; color: #FFF; border-color: #1D4ED8; padding: 8px 12px; font-size: 12px; font-weight: 800; margin-top: 4px; border-radius: 6px;" data-i18n="download_btn_zip">
+            ⬇️ Baixar Versão v1.0.2 (.ZIP)
+          </a>
+        </div>
+
+        <!-- Option 3: GitHub Releases -->
         <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
           <div style="font-size: 13px; font-weight: 800; color: #1E293B;" data-i18n="download_gh_title">🐙 Ver Código e Releases no GitHub</div>
           <div style="font-size: 11.5px; color: #64748B; line-height: 1.4;" data-i18n="download_gh_desc">Acesse o repositório oficial, código-fonte e histórico de versões no GitHub.</div>
@@ -2739,10 +2764,10 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
           </a>
         </div>
 
-        <!-- Option 3: PWA / Mobile Install Tip -->
-        <div style="background: #F0FDF4; border: 1.5px solid #BBF7D0; border-radius: 10px; padding: 10px 12px;">
-          <div style="font-size: 12px; font-weight: 800; color: #166534; margin-bottom: 3px;" data-i18n="download_pwa_title">📱 Instalar no Celular ou Tablet (PWA)</div>
-          <div style="font-size: 11px; color: #15803D; line-height: 1.4;" data-i18n="download_pwa_desc">No Chrome ou Safari do celular, toque no menu (⋮ ou Compartilhar) e selecione 'Adicionar à tela de início'.</div>
+        <!-- Option 4: PWA / Mobile Install Tip -->
+        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 10px 12px;">
+          <div style="font-size: 12px; font-weight: 800; color: #1E293B; margin-bottom: 3px;" data-i18n="download_pwa_title">📱 Instalar no Celular ou Tablet (PWA)</div>
+          <div style="font-size: 11px; color: #64748B; line-height: 1.4;" data-i18n="download_pwa_desc">No Chrome ou Safari do celular, toque no menu (⋮ ou Compartilhar) e selecione 'Adicionar à tela de início'.</div>
         </div>
       </div>
 
@@ -5189,11 +5214,15 @@ const I18N = {
     cat_stamps_count: '{0} carimbos',
     btn_download: 'BAIXAR APP',
     btn_download_badge: 'GRÁTIS',
-    modal_download_title: 'Baixar RetuxPaint (Offline & Desktop)',
+    modal_download_title: 'Baixar RetuxPaint (Offline & Celular)',
     modal_download_desc: 'Use o RetuxPaint sem precisar de internet ou instale no seu celular / tablet!',
+    download_apk_title: '📱 Aplicativo Android (.APK)',
+    download_apk_badge: 'NOVO',
+    download_apk_desc: 'Instale diretamente no seu smartphone ou tablet Android (Motorola, Samsung, Xiaomi). Sem anúncios e funciona 100% offline!',
+    download_btn_apk: '⚡ Baixar RetuxPaint v1.0.2 (.APK)',
     download_zip_title: 'Baixar Pacote Offline (.ZIP)',
     download_zip_desc: 'Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!',
-    download_btn_zip: '⬇️ Baixar Versão v1.0.1 (.ZIP)',
+    download_btn_zip: '⬇️ Baixar Versão v1.0.2 (.ZIP)',
     download_gh_title: 'Ver Código e Releases no GitHub',
     download_gh_desc: 'Acesse o repositório oficial, código-fonte e histórico de versões no GitHub.',
     download_btn_gh: '🐙 GitHub Releases',
@@ -5335,11 +5364,15 @@ const I18N = {
     cat_stamps_count: '{0} stamps',
     btn_download: 'DOWNLOAD APP',
     btn_download_badge: 'FREE',
-    modal_download_title: 'Download RetuxPaint (Offline & Desktop)',
+    modal_download_title: 'Download RetuxPaint (Offline & Mobile)',
     modal_download_desc: 'Use RetuxPaint without internet or install it on your mobile / tablet!',
+    download_apk_title: '📱 Android App (.APK)',
+    download_apk_badge: 'NEW',
+    download_apk_desc: 'Install directly on your Android phone or tablet (Motorola, Samsung, Xiaomi). Ad-free and works 100% offline!',
+    download_btn_apk: '⚡ Download RetuxPaint v1.0.2 (.APK)',
     download_zip_title: 'Download Offline Package (.ZIP)',
     download_zip_desc: 'Unzip and double-click index.html directly in your browser. Works 100% offline on Windows, Mac, and Linux!',
-    download_btn_zip: '⬇️ Download Version v1.0.1 (.ZIP)',
+    download_btn_zip: '⬇️ Download Version v1.0.2 (.ZIP)',
     download_gh_title: 'View Code & Releases on GitHub',
     download_gh_desc: 'Access the official repository, source code, and release notes on GitHub.',
     download_btn_gh: '🐙 GitHub Releases',
