@@ -166,6 +166,67 @@ body {
   transform: translateY(1px);
 }
 
+/* Hero Download App Button (Colorful, Tux Mascot, High Impact) */
+.header-btn-download-hero {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  background: linear-gradient(135deg, #FF5500 0%, #FF8C00 48%, #FFAA00 100%) !important;
+  color: #FFFFFF !important;
+  border: 1.8px solid #FFE082 !important;
+  border-radius: 22px !important;
+  padding: 4px 12px 4px 7px !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  box-shadow: 0 3px 12px rgba(255, 85, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  position: relative !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+}
+.header-btn-download-hero:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  background: linear-gradient(135deg, #FF6600 0%, #FFA000 100%) !important;
+  box-shadow: 0 6px 18px rgba(255, 85, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+  border-color: #FFFFFF !important;
+}
+.header-btn-download-hero:active {
+  transform: translateY(1px) scale(0.97) !important;
+  box-shadow: 0 2px 6px rgba(255, 85, 0, 0.35) !important;
+}
+.btn-download-hero-text {
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.6px !important;
+  text-transform: uppercase !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(120, 25, 0, 0.6) !important;
+  white-space: nowrap !important;
+}
+.btn-download-hero-badge {
+  font-size: 8.5px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.4px !important;
+  text-transform: uppercase !important;
+  background: rgba(255, 255, 255, 0.28) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 8px !important;
+  padding: 1px 5px !important;
+  margin-left: 2px !important;
+  white-space: nowrap !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+.mobile-btn-download-hero {
+  background: linear-gradient(135deg, #FF5500 0%, #FFAA00 100%) !important;
+  border: 1.8px solid #FFE082 !important;
+  box-shadow: 0 3px 8px rgba(255, 85, 0, 0.4) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+
 .icon-btn {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -2218,10 +2279,28 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
     </div>
 
     <div class="header-actions">
-      <!-- Download App Button -->
-      <button class="header-pill-btn" id="btnDownloadApp" title="Baixar RetuxPaint / Download App">
-        <span>📥</span>
-        <span data-i18n="btn_download">Baixar</span>
+      <!-- Download App Button (Colorful Hero with Tux Mascot) -->
+      <button class="header-btn-download-hero" id="btnDownloadApp" title="Baixar RetuxPaint / Download App">
+        <svg class="tux-dl-mascot" viewBox="0 0 100 100" style="width:24px; height:24px; flex-shrink:0; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));">
+          <ellipse cx="38" cy="90" rx="14" ry="7" fill="#FFA500" stroke="#CC7000" stroke-width="2"/>
+          <ellipse cx="62" cy="90" rx="14" ry="7" fill="#FFA500" stroke="#CC7000" stroke-width="2"/>
+          <ellipse cx="50" cy="55" rx="32" ry="36" fill="#1E293B"/>
+          <ellipse cx="50" cy="58" rx="22" ry="26" fill="#FFFFFF"/>
+          <path d="M 20 48 Q 10 65 24 72 Q 22 58 24 50 Z" fill="#1E293B"/>
+          <path d="M 80 48 Q 90 65 76 72 Q 78 58 76 50 Z" fill="#1E293B"/>
+          <circle cx="50" cy="32" r="22" fill="#1E293B"/>
+          <ellipse cx="43" cy="28" rx="6" ry="8" fill="#FFFFFF"/>
+          <ellipse cx="57" cy="28" rx="6" ry="8" fill="#FFFFFF"/>
+          <circle cx="44" cy="28" r="3" fill="#0F172A"/>
+          <circle cx="58" cy="28" r="3" fill="#0F172A"/>
+          <circle cx="45" cy="26" r="1" fill="#FFFFFF"/>
+          <circle cx="59" cy="26" r="1" fill="#FFFFFF"/>
+          <polygon points="42,34 58,34 50,44" fill="#FFA500" stroke="#D97706" stroke-width="1.5"/>
+          <circle cx="50" cy="62" r="15" fill="#10B981" stroke="#FFFFFF" stroke-width="2"/>
+          <path d="M 50 54 L 50 67 M 44 62 L 50 68 L 56 62 M 43 71 L 57 71" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="btn-download-hero-text" data-i18n="btn_download">BAIXAR APP</span>
+        <span class="btn-download-hero-badge" data-i18n="btn_download_badge">GRÁTIS</span>
       </button>
 
       <!-- Language Toggle (PT / EN) -->
@@ -2274,8 +2353,25 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
           <button class="mobile-action-icon-btn" id="btnMobileSound" title="Alternar Som">
             <span id="mobSoundIcon" style="font-size:18px;">🎵</span>
           </button>
-          <button class="mobile-action-icon-btn" id="btnMobileDownload" title="Baixar Aplicativo / Download App">
-            <span style="font-size:18px;">📥</span>
+          <button class="mobile-action-icon-btn mobile-btn-download-hero" id="btnMobileDownload" title="Baixar RetuxPaint / Download App">
+            <svg class="tux-dl-mascot" viewBox="0 0 100 100" style="width:24px; height:24px; flex-shrink:0; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));">
+          <ellipse cx="38" cy="90" rx="14" ry="7" fill="#FFA500" stroke="#CC7000" stroke-width="2"/>
+          <ellipse cx="62" cy="90" rx="14" ry="7" fill="#FFA500" stroke="#CC7000" stroke-width="2"/>
+          <ellipse cx="50" cy="55" rx="32" ry="36" fill="#1E293B"/>
+          <ellipse cx="50" cy="58" rx="22" ry="26" fill="#FFFFFF"/>
+          <path d="M 20 48 Q 10 65 24 72 Q 22 58 24 50 Z" fill="#1E293B"/>
+          <path d="M 80 48 Q 90 65 76 72 Q 78 58 76 50 Z" fill="#1E293B"/>
+          <circle cx="50" cy="32" r="22" fill="#1E293B"/>
+          <ellipse cx="43" cy="28" rx="6" ry="8" fill="#FFFFFF"/>
+          <ellipse cx="57" cy="28" rx="6" ry="8" fill="#FFFFFF"/>
+          <circle cx="44" cy="28" r="3" fill="#0F172A"/>
+          <circle cx="58" cy="28" r="3" fill="#0F172A"/>
+          <circle cx="45" cy="26" r="1" fill="#FFFFFF"/>
+          <circle cx="59" cy="26" r="1" fill="#FFFFFF"/>
+          <polygon points="42,34 58,34 50,44" fill="#FFA500" stroke="#D97706" stroke-width="1.5"/>
+          <circle cx="50" cy="62" r="15" fill="#10B981" stroke="#FFFFFF" stroke-width="2"/>
+          <path d="M 50 54 L 50 67 M 44 62 L 50 68 L 56 62 M 43 71 L 57 71" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
           </button>
           <button class="mobile-action-icon-btn" id="btnMobileLang" title="Mudar Idioma">
             <span id="mobLangFlag" style="font-size:18px;">🇧🇷</span>
@@ -5077,7 +5173,8 @@ const I18N = {
     stamps_badge_items: '{0} itens',
     import_btn_short: 'Importar',
     cat_stamps_count: '{0} carimbos',
-    btn_download: 'Baixar',
+    btn_download: 'BAIXAR APP',
+    btn_download_badge: 'GRÁTIS',
     modal_download_title: 'Baixar RetuxPaint (Offline & Desktop)',
     modal_download_desc: 'Use o RetuxPaint sem precisar de internet ou instale no seu celular / tablet!',
     download_zip_title: 'Baixar Pacote Offline (.ZIP)',
@@ -5222,7 +5319,8 @@ const I18N = {
     stamps_badge_items: '{0} items',
     import_btn_short: 'Import',
     cat_stamps_count: '{0} stamps',
-    btn_download: 'Download',
+    btn_download: 'DOWNLOAD APP',
+    btn_download_badge: 'FREE',
     modal_download_title: 'Download RetuxPaint (Offline & Desktop)',
     modal_download_desc: 'Use RetuxPaint without internet or install it on your mobile / tablet!',
     download_zip_title: 'Download Offline Package (.ZIP)',
@@ -5328,6 +5426,11 @@ function updateAppLanguage(lang) {
 
   // Update all data-i18n text
   document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.dataset.i18n;
+    if (k && t(k)) el.textContent = t(k);
+  });
+  const dlBadge = document.querySelector('.btn-download-hero-badge');
+  if (dlBadge) dlBadge.textContent = t('btn_download_badge');
     const k = el.dataset.i18n;
     if (k && t(k)) el.textContent = t(k);
   });
