@@ -1,9 +1,9 @@
 {
-  "version": "1.0.3",
-  "name": "Retux Paint v1.0.3",
-  "notes_pt": "Ícone semântico de download, modal responsivo com rolagem suave no mobile e otimizações gerais",
-  "notes_en": "Semantic download icon, responsive scrollable download modal for mobile and general optimizations",
-  "apk_url": "https://github.com/uzielweb/retux-paint/releases/download/v1.0.3/RetuxPaint-v1.0.3.apk",
+  "version": "1.0.4",
+  "name": "Retux Paint v1.0.4",
+  "notes_pt": "Miniaturas ampliadas de carimbos e mágicas, cartões tipográficos com preview real de fontes e tipografia otimizada",
+  "notes_en": "Enlarged stamp and magic thumbnails, typographic preview cards and enhanced body text readability",
+  "apk_url": "https://github.com/uzielweb/retux-paint/releases/download/v1.0.4/RetuxPaint-v1.0.4.apk",
   "release_url": "https://github.com/uzielweb/retux-paint/releases/latest",
   "published_at": "2026-11-10"
 }

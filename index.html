@@ -469,9 +469,9 @@ body {
 
 /* Right Sidebar (Sub-Options) */
 .options-sidebar {
-  width: 280px;
-  min-width: 190px;
-  max-width: 550px;
+  width: 316px;
+  min-width: 200px;
+  max-width: 600px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -507,12 +507,12 @@ body {
 
 /* Sub-panel components */
 .sub-panel-section-title {
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 800;
   text-transform: uppercase;
-  color: #64748B;
+  color: #475569;
   letter-spacing: 0.5px;
-  margin: 6px 0 4px 0;
+  margin: 8px 0 5px 0;
   padding-left: 2px;
 }
 
@@ -530,10 +530,10 @@ body {
 .sub-btn {
   background: #FFFFFF;
   border: 1px solid #CBD5E1;
-  border-radius: 6px;
-  padding: 5px 8px;
+  border-radius: 8px;
+  padding: 6px 10px;
   font-family: var(--font-main);
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
   color: var(--text-main);
   cursor: pointer;
@@ -541,7 +541,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 5px;
   transition: all 0.15s ease;
 }
 
@@ -588,6 +588,11 @@ body {
   background: #F8FAFC;
   border-bottom: 1.5px solid #E2E8F0;
   flex-shrink: 0;
+}
+.options-pinned-header:empty {
+  display: none !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
 .stamp-controls {
@@ -959,29 +964,29 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
   background: #EF4444;
 }
 
-/* Options Grid (Adaptive Auto-Fill) */
+/* Options Grid (Adaptive Auto-Fill - Generous Thumbnails & Clear Typography) */
 .options-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)) !important;
-  gap: 6px;
-  padding: 2px;
+  grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)) !important;
+  gap: 8px;
+  padding: 4px 2px;
   width: 100%;
 }
 
 .option-item {
   background: #FFFFFF;
   border: 1px solid #E2E8F0;
-  border-radius: 8px;
-  padding: 6px 4px;
+  border-radius: 12px;
+  padding: 8px 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 6px;
   cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  transition: all 0.15s ease;
-  min-height: 64px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: all 0.16s ease;
+  min-height: 84px;
   position: relative;
 }
 
@@ -989,27 +994,32 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
   background: #F8FAFC;
   border-color: #3B82F6;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.15);
 }
 
 .option-item.active {
   border-color: #3B82F6;
   background: #EFF6FF;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 0 2.5px rgba(59, 130, 246, 0.5);
 }
 
 .option-item svg {
-  width: 32px;
-  height: 32px;
-  transition: transform 0.2s ease;
+  width: 48px;
+  height: 48px;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.option-item:hover svg {
+  transform: scale(1.08);
 }
 
 .option-label {
-  font-size: 10px;
+  font-size: 11.5px;
   font-weight: 700;
-  color: #475569;
+  color: #334155;
   text-align: center;
-  line-height: 1.1;
+  line-height: 1.2;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1018,11 +1028,13 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
 
 .colorable-badge {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  font-size: 9px;
-  background: #10B981;
-  color: #FFFFFF;
+  top: 4px;
+  right: 4px;
+  font-size: 11px;
+  line-height: 1;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #059669;
   border-radius: 6px;
   padding: 1px 4px;
   font-weight: 800;
@@ -2029,6 +2041,11 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
     border-bottom: 2px solid #E2E8F0 !important;
     box-sizing: border-box !important;
   }
+  .options-pinned-header:empty {
+    display: none !important;
+    padding: 0 !important;
+    border: none !important;
+  }
 
   .stamp-controls {
     display: flex !important;
@@ -2098,10 +2115,19 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
     transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
     display: flex !important;
     flex-direction: column !important;
+    overflow: hidden !important;
     box-shadow: none !important;
   }
   .options-sidebar.is-open {
     transform: translateX(0) !important;
+  }
+
+  .options-sidebar .sidebar-scroll {
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 12px 14px !important;
   }
 
   .options-sidebar .sidebar-header {
@@ -2140,24 +2166,28 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
 
   .options-sidebar .options-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)) !important;
-    gap: 6px !important;
-    padding: 8px !important;
+    grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)) !important;
+    gap: 8px !important;
+    padding: 10px !important;
   }
 
   .options-sidebar .option-item {
-    height: 60px !important;
-    min-height: 60px !important;
-    padding: 3px !important;
-    border-radius: 10px !important;
+    height: 84px !important;
+    min-height: 84px !important;
+    padding: 6px 4px !important;
+    border-radius: 12px !important;
+    gap: 5px !important;
   }
   .options-sidebar .option-item svg {
-    width: 32px !important;
-    height: 32px !important;
+    width: 46px !important;
+    height: 46px !important;
   }
   .options-sidebar .option-label {
-    font-size: 9px !important;
-    max-width: 50px !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    max-width: 100% !important;
+    line-height: 1.2 !important;
+    color: #1E293B !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
   }
@@ -2888,8 +2918,8 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
             <span style="background: #16A34A; color: #FFF; font-size: 10px; font-weight: 900; padding: 2px 7px; border-radius: 999px;" data-i18n="download_apk_badge">NOVO</span>
           </div>
           <div style="font-size: 11.5px; color: #15803D; line-height: 1.4;" data-i18n="download_apk_desc">Instale diretamente no seu smartphone ou tablet Android (Motorola, Samsung, Xiaomi). Sem anúncios e funciona 100% offline!</div>
-          <a href="https://github.com/uzielweb/retux-paint/releases/download/v1.0.3/RetuxPaint-v1.0.3.apk" target="_blank" rel="noopener noreferrer" class="sub-btn active" style="text-decoration: none; text-align: center; background: #16A34A; color: #FFF; border-color: #15803D; padding: 9px 12px; font-size: 12.5px; font-weight: 800; margin-top: 4px; border-radius: 6px; box-shadow: 0 2px 6px rgba(22,163,74,0.3);" data-i18n="download_btn_apk">
-            ⚡ Baixar RetuxPaint v1.0.3 (.APK)
+          <a href="https://github.com/uzielweb/retux-paint/releases/download/v1.0.4/RetuxPaint-v1.0.4.apk" target="_blank" rel="noopener noreferrer" class="sub-btn active" style="text-decoration: none; text-align: center; background: #16A34A; color: #FFF; border-color: #15803D; padding: 9px 12px; font-size: 12.5px; font-weight: 800; margin-top: 4px; border-radius: 6px; box-shadow: 0 2px 6px rgba(22,163,74,0.3);" data-i18n="download_btn_apk">
+            ⚡ Baixar RetuxPaint v1.0.4 (.APK)
           </a>
         </div>
 
@@ -2897,8 +2927,8 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
         <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
           <div style="font-size: 13px; font-weight: 800; color: #1E293B;" data-i18n="download_zip_title">📦 Baixar Pacote Offline (.ZIP)</div>
           <div style="font-size: 11.5px; color: #64748B; line-height: 1.4;" data-i18n="download_zip_desc">Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!</div>
-          <a href="https://github.com/uzielweb/retux-paint/archive/refs/tags/v1.0.3.zip" target="_blank" rel="noopener noreferrer" class="sub-btn" style="text-decoration: none; text-align: center; background: #2563EB; color: #FFF; border-color: #1D4ED8; padding: 8px 12px; font-size: 12px; font-weight: 800; margin-top: 4px; border-radius: 6px;" data-i18n="download_btn_zip">
-            ⬇️ Baixar Versão v1.0.3 (.ZIP)
+          <a href="https://github.com/uzielweb/retux-paint/archive/refs/tags/v1.0.4.zip" target="_blank" rel="noopener noreferrer" class="sub-btn" style="text-decoration: none; text-align: center; background: #2563EB; color: #FFF; border-color: #1D4ED8; padding: 8px 12px; font-size: 12px; font-weight: 800; margin-top: 4px; border-radius: 6px;" data-i18n="download_btn_zip">
+            ⬇️ Baixar Versão v1.0.4 (.ZIP)
           </a>
         </div>
 
@@ -2920,7 +2950,7 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
         <div style="margin-top: 4px; padding: 10px 12px; background: #F1F5F9; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; color: #475569;">
           <div>
             <span data-i18n="version_installed_label">Versão instalada:</span>
-            <strong style="color: #0F172A; margin-left: 4px;">v1.0.3</strong>
+            <strong style="color: #0F172A; margin-left: 4px;">v1.0.4</strong>
           </div>
           <button id="btnCheckUpdateManual" style="background: #FFFFFF; border: 1px solid #CBD5E1; color: #2563EB; font-weight: 700; cursor: pointer; padding: 4px 10px; border-radius: 6px; font-size: 11px; transition: all 0.2s;" data-i18n="check_update_btn">🔍 Verificar Atualizações</button>
         </div>
@@ -5374,10 +5404,10 @@ const I18N = {
     download_apk_title: '📱 Aplicativo Android (.APK)',
     download_apk_badge: 'NOVO',
     download_apk_desc: 'Instale diretamente no seu smartphone ou tablet Android (Motorola, Samsung, Xiaomi). Sem anúncios e funciona 100% offline!',
-    download_btn_apk: '⚡ Baixar RetuxPaint v1.0.3 (.APK)',
+    download_btn_apk: '⚡ Baixar RetuxPaint v1.0.4 (.APK)',
     download_zip_title: 'Baixar Pacote Offline (.ZIP)',
     download_zip_desc: 'Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!',
-    download_btn_zip: '⬇️ Baixar Versão v1.0.3 (.ZIP)',
+    download_btn_zip: '⬇️ Baixar Versão v1.0.4 (.ZIP)',
     download_gh_title: 'Ver Código e Releases no GitHub',
     download_gh_desc: 'Acesse o repositório oficial, código-fonte e histórico de versões no GitHub.',
     download_btn_gh: '🐙 GitHub Releases',
@@ -5531,10 +5561,10 @@ const I18N = {
     download_apk_title: '📱 Android App (.APK)',
     download_apk_badge: 'NEW',
     download_apk_desc: 'Install directly on your Android phone or tablet (Motorola, Samsung, Xiaomi). Ad-free and works 100% offline!',
-    download_btn_apk: '⚡ Download RetuxPaint v1.0.3 (.APK)',
+    download_btn_apk: '⚡ Download RetuxPaint v1.0.4 (.APK)',
     download_zip_title: 'Download Offline Package (.ZIP)',
     download_zip_desc: 'Unzip and double-click index.html directly in your browser. Works 100% offline on Windows, Mac, and Linux!',
-    download_btn_zip: '⬇️ Download Version v1.0.3 (.ZIP)',
+    download_btn_zip: '⬇️ Download Version v1.0.4 (.ZIP)',
     download_gh_title: 'View Code & Releases on GitHub',
     download_gh_desc: 'Access the official repository, source code, and release notes on GitHub.',
     download_btn_gh: '🐙 GitHub Releases',
@@ -7548,8 +7578,14 @@ document.addEventListener('DOMContentLoaded', () => {
           <input type="range" min="16" max="96" step="2" id="textSizeSlider" value="${state.textSize}">
         </div>
         <div class="sub-panel-row">
-          <button class="sub-btn" id="btnTextSmaller">A-</button>
-          <button class="sub-btn" id="btnTextBigger">A+</button>
+          <button class="sub-btn" id="btnTextSmaller">A- Menor</button>
+          <button class="sub-btn" id="btnTextBigger">A+ Maior</button>
+        </div>
+        <div class="sub-panel-row" style="margin-top: 2px;">
+          <button class="sub-btn ${state.textSize <= 24 ? 'active' : ''}" id="btnTextSzP">P (24px)</button>
+          <button class="sub-btn ${state.textSize > 24 && state.textSize <= 40 ? 'active' : ''}" id="btnTextSzM">M (36px)</button>
+          <button class="sub-btn ${state.textSize > 40 && state.textSize <= 60 ? 'active' : ''}" id="btnTextSzG">G (52px)</button>
+          <button class="sub-btn ${state.textSize > 60 ? 'active' : ''}" id="btnTextSzGG">GG (72px)</button>
         </div>
 
         <div class="sub-panel-section-title">${t('rotation')}: <span id="textRotVal">${state.textRotation}°</span></div>
@@ -7575,26 +7611,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <div class="sub-panel-section-title">${t('typography')}</div>
       `;
-      if (pinnedHeader) pinnedHeader.appendChild(ctrl); else subOptionsPanel.appendChild(ctrl);
+      subOptionsPanel.appendChild(ctrl);
 
       const sizeSlider = ctrl.querySelector('#textSizeSlider');
       const sizeVal = ctrl.querySelector('#textSizeVal');
-      sizeSlider.addEventListener('input', (e) => {
-        state.textSize = parseInt(e.target.value);
-        sizeVal.textContent = `${state.textSize}px`;
+      const setTextSize = (sz) => {
+        state.textSize = sz;
+        sizeSlider.value = sz;
+        sizeVal.textContent = `${sz}px`;
+        ['btnTextSzP', 'btnTextSzM', 'btnTextSzG', 'btnTextSzGG'].forEach(id => ctrl.querySelector('#' + id)?.classList.remove('active'));
+        if (sz <= 24) ctrl.querySelector('#btnTextSzP')?.classList.add('active');
+        else if (sz <= 40) ctrl.querySelector('#btnTextSzM')?.classList.add('active');
+        else if (sz <= 60) ctrl.querySelector('#btnTextSzG')?.classList.add('active');
+        else ctrl.querySelector('#btnTextSzGG')?.classList.add('active');
         updateInlineTextStyles();
         updateSelectedTextLive();
+      };
+
+      sizeSlider.addEventListener('input', (e) => {
+        setTextSize(parseInt(e.target.value));
       });
       ctrl.querySelector('#btnTextSmaller').addEventListener('click', () => {
-        state.textSize = Math.max(16, state.textSize - 4);
-        sizeSlider.value = state.textSize; sizeVal.textContent = `${state.textSize}px`;
-        updateInlineTextStyles();
+        setTextSize(Math.max(16, state.textSize - 4));
       });
       ctrl.querySelector('#btnTextBigger').addEventListener('click', () => {
-        state.textSize = Math.min(96, state.textSize + 4);
-        sizeSlider.value = state.textSize; sizeVal.textContent = `${state.textSize}px`;
-        updateInlineTextStyles();
+        setTextSize(Math.min(96, state.textSize + 4));
       });
+      ctrl.querySelector('#btnTextSzP').addEventListener('click', () => { setTextSize(24); window.tuxAudio.playPop(480); });
+      ctrl.querySelector('#btnTextSzM').addEventListener('click', () => { setTextSize(36); window.tuxAudio.playPop(520); });
+      ctrl.querySelector('#btnTextSzG').addEventListener('click', () => { setTextSize(52); window.tuxAudio.playPop(560); });
+      ctrl.querySelector('#btnTextSzGG').addEventListener('click', () => { setTextSize(72); window.tuxAudio.playPop(600); });
 
       const rotSlider = ctrl.querySelector('#textRotSlider');
       const rotVal = ctrl.querySelector('#textRotVal');
@@ -7643,23 +7689,65 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.innerWidth <= 768) closeAllDrawers();
       });
 
-      // Fonts
-      const fonts = ['Fredoka', 'Nunito', 'Arial', 'Georgia', 'Courier New', 'Comic Sans MS', 'Impact'];
+      // Fonts with Rich Typographic Preview & Large Body Text
+      const isPt = (currentLang === 'pt-BR');
+      const fonts = [
+        { name: 'Fredoka', label: 'Fredoka', sub: isPt ? 'Infantil e Arredondada' : 'Playful & Rounded', sample: 'Aa Bb Cc — Tux Paint' },
+        { name: 'Comic Sans MS', label: 'Comic Sans', sub: isPt ? 'Quadrinhos e Diversão' : 'Comics & Fun', sample: 'Aa Bb Cc — Arte Legal' },
+        { name: 'Nunito', label: 'Nunito', sub: isPt ? 'Moderna e Amigável' : 'Modern & Friendly', sample: 'Aa Bb Cc — Letras Vivas' },
+        { name: 'Impact', label: 'Impact', sub: isPt ? 'Pôster e Títulos Fortes' : 'Bold Poster Headings', sample: 'AA BB CC — 100% ARTE' },
+        { name: 'Georgia', label: 'Georgia', sub: isPt ? 'Clássica e Ilustrações' : 'Classic & Storybook', sample: 'Aa Bb Cc — Era uma vez' },
+        { name: 'Arial', label: 'Arial', sub: isPt ? 'Limpa e Neutra' : 'Clean & Sans-Serif', sample: 'Aa Bb Cc — Alfabeto' },
+        { name: 'Courier New', label: 'Courier New', sub: isPt ? 'Máquina de Escrever' : 'Typewriter Monospace', sample: 'Aa Bb Cc — 1 2 3 4 5' }
+      ];
       const fontList = document.createElement('div');
       fontList.style.display = 'flex';
       fontList.style.flexDirection = 'column';
-      fontList.style.gap = '5px';
+      fontList.style.gap = '8px';
       fonts.forEach(f => {
         const b = document.createElement('button');
-        b.className = `sub-btn ${state.textFont === f ? 'active' : ''}`;
-        b.style.fontFamily = `'${f}', sans-serif`;
-        b.textContent = f;
+        const isSelected = state.textFont === f.name;
+        b.className = `font-choice-card ${isSelected ? 'active' : ''}`;
+        b.style.cssText = `
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+          padding: 9px 12px;
+          background: ${isSelected ? '#EFF6FF' : '#FFFFFF'};
+          border: 1.5px solid ${isSelected ? '#3B82F6' : '#E2E8F0'};
+          border-radius: 10px;
+          text-align: left;
+          cursor: pointer;
+          transition: all 0.15s ease;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        `;
+        b.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <strong style="font-size: 13px; color: ${isSelected ? '#1D4ED8' : '#1E293B'};">${f.label}</strong>
+            <span style="font-size: 10.5px; font-weight: 700; color: #64748B;">${f.sub}</span>
+          </div>
+          <div style="font-family: '${f.name}', sans-serif; font-size: 17px; font-weight: 600; color: #0F172A; margin-top: 2px;">
+            ${f.sample}
+          </div>
+        `;
         b.addEventListener('click', () => {
-          state.textFont = f;
-          fontList.querySelectorAll('.sub-btn').forEach(btn => btn.classList.remove('active'));
+          state.textFont = f.name;
+          fontList.querySelectorAll('.font-choice-card').forEach(btn => {
+            btn.classList.remove('active');
+            btn.style.borderColor = '#E2E8F0';
+            btn.style.background = '#FFFFFF';
+            const titleEl = btn.querySelector('strong');
+            if (titleEl) titleEl.style.color = '#1E293B';
+          });
           b.classList.add('active');
+          b.style.borderColor = '#3B82F6';
+          b.style.background = '#EFF6FF';
+          const activeTitle = b.querySelector('strong');
+          if (activeTitle) activeTitle.style.color = '#1D4ED8';
           updateInlineTextStyles();
+          updateSelectedTextLive();
           window.tuxAudio.playPop(520);
+          setTuxTip(isPt ? `Fonte: ${f.name}!` : `Font: ${f.name}!`);
         });
         fontList.appendChild(b);
       });
@@ -10202,7 +10290,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', () => resizeCanvas(true));
 
   // --- Automatic Update Checker ---
-  const CURRENT_APP_VERSION = '1.0.3';
+  const CURRENT_APP_VERSION = '1.0.4';
 
   function compareSemver(v1, v2) {
     const p1 = (v1 || '0').replace(/^v/, '').split('.').map(Number);
