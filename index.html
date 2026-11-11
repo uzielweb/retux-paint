@@ -3126,8 +3126,8 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
             <span style="background: #16A34A; color: #FFF; font-size: 10px; font-weight: 900; padding: 2px 7px; border-radius: 999px;" data-i18n="download_apk_badge">NOVO</span>
           </div>
           <div style="font-size: 11.5px; color: #15803D; line-height: 1.4;" data-i18n="download_apk_desc">Instale diretamente no seu smartphone ou tablet Android (Motorola, Samsung, Xiaomi). Sem anúncios e funciona 100% offline!</div>
-          <a href="https://github.com/uzielweb/retux-paint/releases/download/v1.0.4/RetuxPaint-v1.0.4.apk" target="_blank" rel="noopener noreferrer" class="sub-btn active" style="text-decoration: none; text-align: center; background: #16A34A; color: #FFF; border-color: #15803D; padding: 9px 12px; font-size: 12.5px; font-weight: 800; margin-top: 4px; border-radius: 6px; box-shadow: 0 2px 6px rgba(22,163,74,0.3);" data-i18n="download_btn_apk">
-            ⚡ Baixar RetuxPaint v1.0.4 (.APK)
+          <a id="downloadApkLink" href="https://github.com/uzielweb/retux-paint/releases/download/v1.0.7/RetuxPaint-v1.0.7.apk" target="_blank" rel="noopener noreferrer" class="sub-btn active" style="text-decoration: none; text-align: center; background: #16A34A; color: #FFF; border-color: #15803D; padding: 9px 12px; font-size: 12.5px; font-weight: 800; margin-top: 4px; border-radius: 6px; box-shadow: 0 2px 6px rgba(22,163,74,0.3);" data-i18n="download_btn_apk">
+            ⚡ Baixar RetuxPaint v1.0.7 (.APK)
           </a>
         </div>
 
@@ -3135,8 +3135,8 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
         <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
           <div style="font-size: 13px; font-weight: 800; color: #1E293B;" data-i18n="download_zip_title">📦 Baixar Pacote Offline (.ZIP)</div>
           <div style="font-size: 11.5px; color: #64748B; line-height: 1.4;" data-i18n="download_zip_desc">Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!</div>
-          <a href="https://github.com/uzielweb/retux-paint/archive/refs/tags/v1.0.4.zip" target="_blank" rel="noopener noreferrer" class="sub-btn" style="text-decoration: none; text-align: center; background: #2563EB; color: #FFF; border-color: #1D4ED8; padding: 8px 12px; font-size: 12px; font-weight: 800; margin-top: 4px; border-radius: 6px;" data-i18n="download_btn_zip">
-            ⬇️ Baixar Versão v1.0.4 (.ZIP)
+          <a id="downloadZipLink" href="https://github.com/uzielweb/retux-paint/archive/refs/tags/v1.0.7.zip" target="_blank" rel="noopener noreferrer" class="sub-btn" style="text-decoration: none; text-align: center; background: #2563EB; color: #FFF; border-color: #1D4ED8; padding: 8px 12px; font-size: 12px; font-weight: 800; margin-top: 4px; border-radius: 6px;" data-i18n="download_btn_zip">
+            ⬇️ Baixar Versão v1.0.7 (.ZIP)
           </a>
         </div>
 
@@ -3158,7 +3158,7 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
         <div style="margin-top: 4px; padding: 10px 12px; background: #F1F5F9; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; color: #475569;">
           <div>
             <span data-i18n="version_installed_label">Versão instalada:</span>
-            <strong style="color: #0F172A; margin-left: 4px;">v1.0.4</strong>
+            <strong id="installedAppVersionBadge" style="color: #0F172A; margin-left: 4px;">v1.0.7</strong>
           </div>
           <button id="btnCheckUpdateManual" style="background: #FFFFFF; border: 1px solid #CBD5E1; color: #2563EB; font-weight: 700; cursor: pointer; padding: 4px 10px; border-radius: 6px; font-size: 11px; transition: all 0.2s;" data-i18n="check_update_btn">🔍 Verificar Atualizações</button>
         </div>
@@ -8469,6 +8469,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Touch Pinch-to-Zoom, Multi-Touch Safety & Two-Finger Pan on Mobile (Shared Scope)
+  let touchPinchDist = null;
+  let touchPinchStartZoom = 1.0;
+  let touchPinchMidX = 0;
+  let touchPinchMidY = 0;
+  let isPinching = false;
+  let lastPinchEndTime = 0;
+  let activeTouchCount = 0;
+  let strokeSnapshot = null;
+  let pendingTap = null;
+
   // Mouse Wheel Zoom & Pan Scroll on Canvas Container
   // - Ctrl + Wheel or Cmd + Wheel: Zoom centered at cursor
   // - Shift + Wheel or Alt + Wheel: Horizontal scroll / pan
@@ -8498,19 +8509,8 @@ document.addEventListener('DOMContentLoaded', () => {
       applyCanvasTransform();
     }, { passive: false });
 
-    // Touch Pinch-to-Zoom, Multi-Touch Safety & Two-Finger Pan on Mobile
-    let touchPinchDist = null;
-    let touchPinchStartZoom = 1.0;
-    let touchPinchMidX = 0;
-    let touchPinchMidY = 0;
-    let isPinching = false;
-    let lastPinchEndTime = 0;
-    let activeTouchCount = 0;
-    let strokeSnapshot = null;
-    let pendingTap = null;
-
     container.addEventListener('touchstart', (e) => {
-      activeTouchCount = e.touches.length;
+      activeTouchCount = e.touches ? e.touches.length : 0;
       if (e.touches.length >= 2) {
         isPinching = true;
 
@@ -11073,6 +11073,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Automatic Update Checker ---
   const CURRENT_APP_VERSION = '1.0.7';
+
+  function syncVersionBadges() {
+    const badge = document.getElementById('installedAppVersionBadge');
+    if (badge) badge.textContent = `v${CURRENT_APP_VERSION}`;
+    const apkLink = document.getElementById('downloadApkLink');
+    if (apkLink) {
+      apkLink.href = `https://github.com/uzielweb/retux-paint/releases/download/v${CURRENT_APP_VERSION}/RetuxPaint-v${CURRENT_APP_VERSION}.apk`;
+    }
+    const zipLink = document.getElementById('downloadZipLink');
+    if (zipLink) {
+      zipLink.href = `https://github.com/uzielweb/retux-paint/archive/refs/tags/v${CURRENT_APP_VERSION}.zip`;
+    }
+  }
+  syncVersionBadges();
 
   function compareSemver(v1, v2) {
     const p1 = (v1 || '0').replace(/^v/, '').split('.').map(Number);
