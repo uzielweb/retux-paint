@@ -1,6 +1,6 @@
 {
   "name": "retux-paint",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "RetuxPaint - A modern web and Android mobile recreation of Tux Paint",
   "main": "index.html",
   "scripts": {

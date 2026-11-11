@@ -5,7 +5,7 @@
 > Digital drawing and creativity for kids, educators, and artists of all ages.
 
 [![GitHub Pages](https://img.shields.io/badge/demo-online-brightgreen.svg)](https://uzielweb.github.io/retux-paint/)
-[![Android APK](https://img.shields.io/badge/Android-APK%20v1.0.4-blue.svg)](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.4)
+[![Android APK](https://img.shields.io/badge/Android-APK%20v1.0.5-blue.svg)](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.5)
 [![License: GPL v2+](https://img.shields.io/badge/License-GPL_v2%2B-blue.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![HTML5 Canvas](https://img.shields.io/badge/HTML5-Canvas%202D-orange.svg)](#)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20JS)-success.svg)](#)
@@ -113,13 +113,22 @@ A interface foi projetada para combinar a nostalgia clássica com a sofisticaç�
 4. Digite a sua mensagem. Você pode arrastar a alça pontilhada para reposicionar o texto.
 5. Clique no botão verde `✓ Pronto!` ou clique fora da caixa para carimbar o texto definitivamente.
 
-#### 5. Linhas e Formas Geométricas
+#### 5. Linhas e Formas Geométricas (Geometria Contínua e Fases da Lua)
 1. Selecione **Linhas** ou **Formas**.
-2. Escolha entre formas com contorno ou preenchimento sólido (Retângulo, Círculo, Triângulo, Estrela, Pentágono, etc.).
-3. Pressione e arraste na tela para definir o tamanho e o ângulo de rotação da forma.
-4. Solte o dedo ou o mouse para fixar a geometria.
+2. **Formas Contínuas em Curvas Suaves:** Nuvem em curvas de Bézier orgânicas únicas (sem círculos cruzados) e Raio em zigue-zague estilizado de traço contínuo único.
+3. **Fases Lunares Completas:** Escolha entre **Lua Crescente**, **Lua Minguante** e **Lua Cheia** (com crateras e mares lunares artísticos).
+4. **Cor de Contorno Personalizável:** Alterne entre modo Preenchido, Contorno e Ambos, personalizando a **Cor do Contorno** com a mini-paleta de acesso rápido, cor personalizada no seletor ou sincronizando com a paleta principal.
+5. Pressione e arraste na tela para definir o tamanho e o ângulo de rotação da forma.
+6. Solte o dedo ou o mouse para fixar a geometria.
 
-#### 6. Paleta e Seletor de Cores Mágico
+#### 6. Zoom e Navegação sem Perda de Resolução (Lossless Canvas Zoom)
+- **Gestos de Pinça no Mobile:** Use movimentos naturais de pinça com 2 dedos para aproximar ou afastar o desenho e arrastar o papel sem riscar a tela.
+- **Ctrl + Roda do Mouse no Desktop:** Aumente ou diminua o zoom com precisão centrado no cursor do mouse.
+- **Barra Flutuante de Zoom:** Botões acessíveis de `🔍+`, `🔍-`, badge com percentual (50% a 500%) e botão de reset `⛶` para retornar a 100%.
+- **Navegação (Pan):** Segure a tecla Espaço ou clique com o botão do meio do mouse para navegar pela folha quando aproximada.
+- **100% Sem Perda de Conteúdo:** O buffer de pixels nativo é preservado integralmente, permitindo pintar detalhes minuciosos e retornar à visão geral sem nenhuma distorção.
+
+#### 7. Paleta e Seletor de Cores Mágico
 - **Paleta Rápida:** Clique em qualquer um dos círculos de cores na base da tela para mudar instantaneamente a cor ativa.
 - **Seletor de Cores Mágico:** Clique no botão arco-íris ao final da paleta para abrir o modal avançado:
   - Mapa 2D de Saturação e Brilho.
@@ -127,23 +136,25 @@ A interface foi projetada para combinar a nostalgia clássica com a sofisticaç�
   - Campo para digitação de código HEX (#RRGGBB).
   - Amostras de cores pré-definidas.
 
-#### 7. Gerenciamento de Desenhos (Novo, Abrir, Salvar)
+#### 8. Gerenciamento de Desenhos (Novo, Abrir, Salvar)
 - **Novo:** Abre a galeria de papéis de fundo (páginas em branco com cores diversas ou ilustrações para colorir).
 - **Salvar:** Salva instantaneamente o seu desenho na galeria local do navegador com miniatura gerada automaticamente e efeito sonoro clássico de câmera.
 - **Abrir:** Exibe o carrossel com todas as pinturas salvas, permitindo carregar, continuar pintando, exportar como arquivo PNG ou excluir.
 - **Imprimir / Baixar:** Exporta o desenho em alta resolução diretamente para o seu computador ou celular.
 
-#### 8. Áudio e Idioma
+#### 9. Áudio e Idioma
+- **Controle de Volume Deslizante (0% a 100%):** Ajuste fino do volume geral diretamente no cabeçalho com feedback visual e sonoro.
+- **Sons Sintéticos Amplificados:** Ganho sonoro aprimorado dos sintetizadores procedurais Web Audio API, proporcionando presença rica e no mesmo nível dos sons oficiais.
 - **Controle de Som de 3 Estados:**
   - 🎵 **Sons Oficiais:** Efeitos originais `.wav` do Tux Paint em alta fidelidade.
   - 🎹 **Sons Sintéticos:** Efeitos retrô gerados via sintetizador Web Audio API.
   - 🔇 **Mudo:** Silêncio para salas de aula e locais silenciosos.
 - **Alternador de Idioma (PT / EN):** Alterne entre Português e Inglês com um único clique. Toda a interface, dicas do Tux e nomes das ferramentas são traduzidos instantaneamente.
 
-#### 9. Aplicativo Android (Download e Instalação)
+#### 10. Aplicativo Android (Download e Instalação)
 ![Download do APK Android](docs/screenshots/08-android-apk-download.png)
 1. No cabeçalho da aplicação web, clique no botão **Baixar App Grátis**.
-2. Baixe o instalador oficial **`RetuxPaint-v1.0.4.apk`** diretamente ou através da [página de Releases do GitHub](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.4).
+2. Baixe o instalador oficial **`RetuxPaint-v1.0.5.apk`** diretamente ou através da [página de Releases do GitHub](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.5).
 3. No smartphone Android, abra o arquivo baixado. Se solicitado, permita a instalação de fontes confiáveis.
 4. Abra o Retux Paint e aproveite a experiência de desenho offline em tela cheia com aceleração gráfica nativa!
 
@@ -247,13 +258,22 @@ The interface marries nostalgic charm with modern design principles (crisp strai
 4. Type your message. Drag the dotted handle to reposition the text easily.
 5. Click the green `✓ Done!` button or click outside to seal the text onto your artwork.
 
-#### 5. Lines and Geometric Shapes
+#### 5. Lines and Geometric Shapes (Continuous Outlines & Moon Phases)
 1. Select **Lines** or **Shapes**.
-2. Choose between wireframe outlines or filled solids (Rectangle, Circle, Triangle, Star, Pentagon, etc.).
-3. Click and drag to define scale and angle.
-4. Release to render the geometric shape onto the sheet.
+2. **Smooth Continuous Outlines:** Organic single-path Cloud geometry (no self-intersecting circles) and clean single-polygon Lightning bolt.
+3. **Complete Lunar Phases:** Select between **Waxing Crescent**, **Waning Crescent**, and **Full Moon** (featuring artistic lunar craters and maria).
+4. **Customizable Stroke Colors:** Toggle between Filled, Outline, and Both modes, with a dedicated **Stroke Color** mini-palette, custom picker dialog, or palette sync.
+5. Click and drag to define scale and angle.
+6. Release to render the geometric shape onto the sheet.
 
-#### 6. Palette and Custom Color Picker
+#### 6. Lossless Canvas Zoom & Pan
+- **Mobile Pinch-to-Zoom:** Natural two-finger pinch gesture to zoom in/out and drag paper across the screen without accidental marks.
+- **Desktop Ctrl + Mouse Wheel:** Precision zooming centered directly on your mouse cursor.
+- **Floating Zoom Widget:** Quick-access `🔍+`, `🔍-`, clickable percentage badge (50% to 500%), and `⛶` reset button.
+- **Canvas Panning:** Hold Spacebar or click the middle mouse button to navigate large canvases smoothly.
+- **100% Lossless:** Canvas bitmap resolution is preserved without pixelation or redraw loss.
+
+#### 7. Palette and Custom Color Picker
 - **Quick Palette:** Tap any color circle at the bottom to switch the active hue.
 - **Magic Color Picker:** Tap the rainbow icon at the end of the palette to open the advanced dialog:
   - 2D Saturation and Lightness field.
@@ -261,23 +281,25 @@ The interface marries nostalgic charm with modern design principles (crisp strai
   - Direct HEX code input (#RRGGBB).
   - Quick-pick swatch presets.
 
-#### 7. Artwork Management (New, Open, Save)
+#### 8. Artwork Management (New, Open, Save)
 - **New:** Choose from multiple paper colors or pre-drawn coloring templates.
 - **Save:** Saves instantly to the browser's local gallery with an auto-generated thumbnail and camera shutter sound.
 - **Open:** View previously saved drawings, reload them, export high-res PNG files, or delete old drafts.
 - **Print / Download:** Export high-resolution PNG images directly to your device.
 
-#### 8. Audio and Language Settings
+#### 9. Audio and Language Settings
+- **Smooth Volume Slider (0% to 100%):** Fine-tune overall audio volume directly from the header with live visual and sound feedback.
+- **Boosted Synthetic Audio:** Richer, fuller presence for procedural Web Audio API synthesizers, perfectly balanced with official sounds.
 - **3-State Audio System:**
   - 🎵 **Official Sounds:** Original high-fidelity Tux Paint `.wav` audio cues.
   - 🎹 **Synthetic Retro:** Procedural retro synthesizer tones powered by Web Audio API.
   - 🔇 **Mute:** Quiet mode for classrooms, offices, and quiet spaces.
 - **Language Switcher (PT / EN):** Switch between Portuguese and English on the fly with a single click.
 
-#### 9. Android App (Download & Installation)
+#### 10. Android App (Download & Installation)
 ![Android APK Download](docs/screenshots/08-android-apk-download.png)
 1. Click the **Download App** button on the top web bar.
-2. Download the official **`RetuxPaint-v1.0.4.apk`** directly or via the [GitHub Releases page](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.4).
+2. Download the official **`RetuxPaint-v1.0.5.apk`** directly or via the [GitHub Releases page](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.5).
 3. Open the APK on your Android device and confirm installation.
 4. Launch Retux Paint to enjoy distraction-free, offline full-screen drawing!
 

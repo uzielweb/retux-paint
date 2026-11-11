@@ -1,9 +1,9 @@
 {
-  "version": "1.0.4",
-  "name": "Retux Paint v1.0.4",
-  "notes_pt": "Miniaturas ampliadas de carimbos e mágicas, cartões tipográficos com preview real de fontes e tipografia otimizada",
-  "notes_en": "Enlarged stamp and magic thumbnails, typographic preview cards and enhanced body text readability",
-  "apk_url": "https://github.com/uzielweb/retux-paint/releases/download/v1.0.4/RetuxPaint-v1.0.4.apk",
+  "version": "1.0.5",
+  "name": "Retux Paint v1.0.5",
+  "notes_pt": "Nuvem e raio contínuos, novas fases da lua (crescente, minguante, cheia), cor de contorno nas formas, controle de volume de som com ganho ampliado e zoom no canvas sem perda de resolução",
+  "notes_en": "Continuous cloud and lightning shapes, moon phases (crescent, waning, full), shape stroke color picker, sound volume controls with boosted synth audio and lossless canvas zoom/pan",
+  "apk_url": "https://github.com/uzielweb/retux-paint/releases/download/v1.0.5/RetuxPaint-v1.0.5.apk",
   "release_url": "https://github.com/uzielweb/retux-paint/releases/latest",
-  "published_at": "2026-11-10"
+  "published_at": "2026-11-11"
 }
