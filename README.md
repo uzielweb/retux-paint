@@ -5,7 +5,7 @@
 > Digital drawing and creativity for kids, educators, and artists of all ages.
 
 [![GitHub Pages](https://img.shields.io/badge/demo-online-brightgreen.svg)](https://uzielweb.github.io/retux-paint/)
-[![Android APK](https://img.shields.io/badge/Android-APK%20v1.0.5-blue.svg)](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.5)
+[![Android APK](https://img.shields.io/badge/Android-APK%20v1.0.6-blue.svg)](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.6)
 [![License: GPL v2+](https://img.shields.io/badge/License-GPL_v2%2B-blue.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![HTML5 Canvas](https://img.shields.io/badge/HTML5-Canvas%202D-orange.svg)](#)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20JS)-success.svg)](#)
@@ -122,10 +122,12 @@ A interface foi projetada para combinar a nostalgia clássica com a sofisticaç�
 6. Solte o dedo ou o mouse para fixar a geometria.
 
 #### 6. Zoom e Navegação sem Perda de Resolução (Lossless Canvas Zoom)
+- **Controles no Cabeçalho (Canvas 100% Livre):** Botões de zoom (`−`, `+`, badge com percentual de 50% a 500% e reset `⛶`) localizados na barra superior (desktop) e na barra de status contextual (mobile), mantendo a área do desenho completamente desobstruída.
+- **Ctrl + Roda do Mouse no Desktop:** Aumente ou diminua o zoom com precisão centrado diretamente na posição do cursor do mouse.
+- **Shift + Roda ou Alt + Roda do Mouse:** Rolagem / Pan horizontal fluido pelo desenho.
+- **Roda do Mouse (Rolagem Livre):** Rolagem vertical suave e navegação bidimensional livre com gestos de trackpad.
 - **Gestos de Pinça no Mobile:** Use movimentos naturais de pinça com 2 dedos para aproximar ou afastar o desenho e arrastar o papel sem riscar a tela.
-- **Ctrl + Roda do Mouse no Desktop:** Aumente ou diminua o zoom com precisão centrado no cursor do mouse.
-- **Barra Flutuante de Zoom:** Botões acessíveis de `🔍+`, `🔍-`, badge com percentual (50% a 500%) e botão de reset `⛶` para retornar a 100%.
-- **Navegação (Pan):** Segure a tecla Espaço ou clique com o botão do meio do mouse para navegar pela folha quando aproximada.
+- **Navegação com Teclado (Pan):** Segure a tecla Espaço ou clique com o botão do meio do mouse para navegar livremente pela folha quando aproximada.
 - **100% Sem Perda de Conteúdo:** O buffer de pixels nativo é preservado integralmente, permitindo pintar detalhes minuciosos e retornar à visão geral sem nenhuma distorção.
 
 #### 7. Paleta e Seletor de Cores Mágico
@@ -154,7 +156,7 @@ A interface foi projetada para combinar a nostalgia clássica com a sofisticaç�
 #### 10. Aplicativo Android (Download e Instalação)
 ![Download do APK Android](docs/screenshots/08-android-apk-download.png)
 1. No cabeçalho da aplicação web, clique no botão **Baixar App Grátis**.
-2. Baixe o instalador oficial **`RetuxPaint-v1.0.5.apk`** diretamente ou através da [página de Releases do GitHub](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.5).
+2. Baixe o instalador oficial **`RetuxPaint-v1.0.6.apk`** diretamente ou através da [página de Releases do GitHub](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.6).
 3. No smartphone Android, abra o arquivo baixado. Se solicitado, permita a instalação de fontes confiáveis.
 4. Abra o Retux Paint e aproveite a experiência de desenho offline em tela cheia com aceleração gráfica nativa!
 
@@ -267,9 +269,11 @@ The interface marries nostalgic charm with modern design principles (crisp strai
 6. Release to render the geometric shape onto the sheet.
 
 #### 6. Lossless Canvas Zoom & Pan
-- **Mobile Pinch-to-Zoom:** Natural two-finger pinch gesture to zoom in/out and drag paper across the screen without accidental marks.
+- **Header-Integrated Zoom (100% Canvas Area Free):** Zoom controls (`−`, `+`, percentage badge 50% to 500%, and `⛶` reset) placed cleanly in the top header (desktop) and contextual status bar (mobile), leaving the drawing space completely unobstructed.
 - **Desktop Ctrl + Mouse Wheel:** Precision zooming centered directly on your mouse cursor.
-- **Floating Zoom Widget:** Quick-access `🔍+`, `🔍-`, clickable percentage badge (50% to 500%), and `⛶` reset button.
+- **Shift + Wheel or Alt + Wheel:** Fluid horizontal scrolling and canvas panning.
+- **Mouse Wheel (Free Scroll):** Smooth vertical scroll and 2D free panning via trackpad gestures.
+- **Mobile Pinch-to-Zoom:** Natural two-finger pinch gesture to zoom in/out and drag paper across the screen without accidental marks.
 - **Canvas Panning:** Hold Spacebar or click the middle mouse button to navigate large canvases smoothly.
 - **100% Lossless:** Canvas bitmap resolution is preserved without pixelation or redraw loss.
 
@@ -299,7 +303,7 @@ The interface marries nostalgic charm with modern design principles (crisp strai
 #### 10. Android App (Download & Installation)
 ![Android APK Download](docs/screenshots/08-android-apk-download.png)
 1. Click the **Download App** button on the top web bar.
-2. Download the official **`RetuxPaint-v1.0.5.apk`** directly or via the [GitHub Releases page](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.5).
+2. Download the official **`RetuxPaint-v1.0.6.apk`** directly or via the [GitHub Releases page](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.6).
 3. Open the APK on your Android device and confirm installation.
 4. Launch Retux Paint to enjoy distraction-free, offline full-screen drawing!
 

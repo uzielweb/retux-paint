@@ -435,33 +435,29 @@ body {
   touch-action: none;
 }
 
-/* Floating Canvas Zoom Controls */
-.canvas-zoom-controls {
-  position: absolute;
-  bottom: 14px;
-  right: 14px;
+/* Header Zoom Controls (Cleanly Located in Header, 100% Outside Canvas) */
+.header-zoom-control {
   display: flex;
   align-items: center;
-  gap: 4px;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 4px 6px;
+  gap: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.08);
-  z-index: 20;
+  padding: 2px 6px;
+  height: 32px;
+  color: #FFFFFF;
   user-select: none;
   -webkit-user-select: none;
 }
 
-.zoom-btn {
-  width: 28px;
-  height: 28px;
+.header-zoom-btn {
+  width: 24px;
+  height: 24px;
   border: none;
-  background: #F1F5F9;
-  color: #1E293B;
+  background: rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
   border-radius: 50%;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -471,25 +467,69 @@ body {
   line-height: 1;
 }
 
-.zoom-btn:hover {
+.header-zoom-btn:hover {
   background: #3B82F6;
-  color: #FFFFFF;
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 
-.zoom-val-badge {
+.header-zoom-badge {
   font-size: 11px;
   font-weight: 800;
-  color: #334155;
-  padding: 3px 6px;
-  min-width: 40px;
+  color: #FFFFFF;
+  padding: 2px 5px;
+  min-width: 38px;
   text-align: center;
   cursor: pointer;
   border-radius: 6px;
   transition: background 0.15s ease;
 }
 
-.zoom-val-badge:hover {
+.header-zoom-badge:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Mobile Status Bar Zoom Controls */
+.mobile-status-zoom-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.mobile-status-zoom-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: #FFFFFF;
+  color: #1E293B;
+  font-size: 13px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.mobile-status-zoom-btn:hover {
+  background: #3B82F6;
+  color: #FFFFFF;
+}
+
+.mobile-status-zoom-val {
+  font-size: 11px;
+  font-weight: 800;
+  color: #334155;
+  min-width: 32px;
+  text-align: center;
+  cursor: pointer;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.mobile-status-zoom-val:hover {
   background: #E2E8F0;
 }
 
@@ -2689,6 +2729,14 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
         <span class="header-volume-val" id="headerVolumeVal">85%</span>
       </div>
 
+      <!-- Canvas Zoom Controls in Header (Cleanly Outside Canvas) -->
+      <div class="header-zoom-control" id="headerZoomControl" title="Zoom do Desenho">
+        <button class="header-zoom-btn" id="btnZoomOut" title="Diminuir Zoom (Ctrl + Rolar para baixo)">−</button>
+        <span class="header-zoom-badge" id="zoomValBadge" title="Clique para resetar para 100%">100%</span>
+        <button class="header-zoom-btn" id="btnZoomIn" title="Aumentar Zoom (Ctrl + Rolar para cima)">+</button>
+        <button class="header-zoom-btn" id="btnZoomReset" title="Resetar Zoom (100%)">⛶</button>
+      </div>
+
       <!-- Fullscreen Toggle -->
       <button class="icon-btn" id="btnFullscreen" title="Tela Cheia">
         <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
@@ -2738,10 +2786,17 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
         </button>
       </div>
 
-      <!-- Row 2: Discreet Context Status Bar -->
+      <!-- Row 2: Discreet Context Status Bar + Mobile Zoom Controls -->
       <div class="mobile-header-status-bar" id="mobileHeaderStatusBar">
-        <span class="mobile-status-dot"></span>
-        <span class="mobile-status-text" id="mobileStatusText">🖌️ Pincel • Médio (14px)</span>
+        <div style="display:flex; align-items:center; gap:6px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1;">
+          <span class="mobile-status-dot"></span>
+          <span class="mobile-status-text" id="mobileStatusText">🖌️ Pincel • Médio (14px)</span>
+        </div>
+        <div class="mobile-status-zoom-group">
+          <button class="mobile-status-zoom-btn" id="btnMobileZoomOut" title="Diminuir Zoom">−</button>
+          <span class="mobile-status-zoom-val" id="mobZoomValBadge" title="Resetar Zoom">100%</span>
+          <button class="mobile-status-zoom-btn" id="btnMobileZoomIn" title="Aumentar Zoom">+</button>
+        </div>
       </div>
     </div>
   </header>
@@ -2916,14 +2971,6 @@ body:not([data-active-tool="text"]) .placed-text-item .placed-text-toolbar,
           <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
         </svg>
         <span data-i18n="drop_hint">Solte a imagem aqui para abrir!</span>
-      </div>
-
-      <!-- Canvas Zoom Controls Floating Bar -->
-      <div class="canvas-zoom-controls" id="canvasZoomControls" aria-label="Controles de Zoom">
-        <button class="zoom-btn" id="btnZoomOut" title="Diminuir Zoom (Ctrl + Rolar para baixo)">−</button>
-        <span class="zoom-val-badge" id="zoomValBadge" title="Clique para resetar para 100%">100%</span>
-        <button class="zoom-btn" id="btnZoomIn" title="Aumentar Zoom (Ctrl + Rolar para cima)">+</button>
-        <button class="zoom-btn" id="btnZoomReset" title="Resetar Zoom e Posição (100%)">⛶</button>
       </div>
     </section>
 
@@ -5606,10 +5653,10 @@ const I18N = {
     download_apk_title: '📱 Aplicativo Android (.APK)',
     download_apk_badge: 'NOVO',
     download_apk_desc: 'Instale diretamente no seu smartphone ou tablet Android (Motorola, Samsung, Xiaomi). Sem anúncios e funciona 100% offline!',
-    download_btn_apk: '⚡ Baixar RetuxPaint v1.0.5 (.APK)',
+    download_btn_apk: '⚡ Baixar RetuxPaint v1.0.6 (.APK)',
     download_zip_title: 'Baixar Pacote Offline (.ZIP)',
     download_zip_desc: 'Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!',
-    download_btn_zip: '⬇️ Baixar Versão v1.0.5 (.ZIP)',
+    download_btn_zip: '⬇️ Baixar Versão v1.0.6 (.ZIP)',
     download_gh_title: 'Ver Código e Releases no GitHub',
     download_gh_desc: 'Acesse o repositório oficial, código-fonte e histórico de versões no GitHub.',
     download_btn_gh: '🐙 GitHub Releases',
@@ -5775,10 +5822,10 @@ const I18N = {
     download_apk_title: '📱 Android App (.APK)',
     download_apk_badge: 'NEW',
     download_apk_desc: 'Install directly on your Android phone or tablet (Motorola, Samsung, Xiaomi). Ad-free and works 100% offline!',
-    download_btn_apk: '⚡ Download RetuxPaint v1.0.5 (.APK)',
+    download_btn_apk: '⚡ Download RetuxPaint v1.0.6 (.APK)',
     download_zip_title: 'Download Offline Package (.ZIP)',
     download_zip_desc: 'Unzip and double-click index.html directly in your browser. Works 100% offline on Windows, Mac, and Linux!',
-    download_btn_zip: '⬇️ Download Version v1.0.5 (.ZIP)',
+    download_btn_zip: '⬇️ Download Version v1.0.6 (.ZIP)',
     download_gh_title: 'View Code & Releases on GitHub',
     download_gh_desc: 'Access the official repository, source code, and release notes on GitHub.',
     download_btn_gh: '🐙 GitHub Releases',
@@ -8332,8 +8379,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!paper) return;
     paper.style.transformOrigin = 'center center';
     paper.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.zoom})`;
+    const zoomText = `${Math.round(state.zoom * 100)}%`;
     const badge = document.getElementById('zoomValBadge');
-    if (badge) badge.textContent = `${Math.round(state.zoom * 100)}%`;
+    if (badge) badge.textContent = zoomText;
+    const mobBadge = document.getElementById('mobZoomValBadge');
+    if (mobBadge) mobBadge.textContent = zoomText;
   }
 
   function setZoom(newZoom, centerX = null, centerY = null) {
@@ -8361,7 +8411,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.tuxAudio.playPop(520);
   }
 
-  // Floating Zoom Buttons
+  // Header & Mobile Zoom Controls
   const btnZoomIn = document.getElementById('btnZoomIn');
   const btnZoomOut = document.getElementById('btnZoomOut');
   const btnZoomReset = document.getElementById('btnZoomReset');
@@ -8394,19 +8444,58 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Ctrl + Mouse Wheel Zoom & Pan Scroll on Canvas Container
+  const btnMobileZoomIn = document.getElementById('btnMobileZoomIn');
+  const btnMobileZoomOut = document.getElementById('btnMobileZoomOut');
+  const mobZoomValBadge = document.getElementById('mobZoomValBadge');
+
+  if (btnMobileZoomIn) {
+    btnMobileZoomIn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setZoom(state.zoom * 1.25);
+      window.tuxAudio.playPop(620);
+    });
+  }
+  if (btnMobileZoomOut) {
+    btnMobileZoomOut.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setZoom(state.zoom * 0.8);
+      window.tuxAudio.playPop(480);
+    });
+  }
+  if (mobZoomValBadge) {
+    mobZoomValBadge.addEventListener('click', (e) => {
+      e.stopPropagation();
+      resetZoom();
+    });
+  }
+
+  // Mouse Wheel Zoom & Pan Scroll on Canvas Container
+  // - Ctrl + Wheel or Cmd + Wheel: Zoom centered at cursor
+  // - Shift + Wheel or Alt + Wheel: Horizontal scroll / pan
+  // - Wheel without modifiers: Vertical & 2D free scroll / pan
   if (container) {
     container.addEventListener('wheel', (e) => {
+      e.preventDefault();
+
+      // 1. ZOOM: Ctrl + Wheel, Cmd + Wheel
       if (e.ctrlKey || e.metaKey) {
-        e.preventDefault();
         const factor = e.deltaY < 0 ? 1.15 : 0.87;
         setZoom(state.zoom * factor, e.clientX, e.clientY);
-      } else if (state.zoom > 1.0) {
-        e.preventDefault();
-        state.panX -= e.deltaX;
-        state.panY -= e.deltaY;
-        applyCanvasTransform();
+        return;
       }
+
+      // 2. HORIZONTAL SCROLL: Shift + Wheel ou Alt + Wheel
+      if (e.shiftKey || e.altKey) {
+        const delta = (Math.abs(e.deltaY) > Math.abs(e.deltaX)) ? e.deltaY : e.deltaX;
+        state.panX -= delta * 1.0;
+        applyCanvasTransform();
+        return;
+      }
+
+      // 3. VERTICAL & FREE PAN SCROLL: Wheel normal & trackpad
+      state.panX -= e.deltaX * 1.0;
+      state.panY -= e.deltaY * 1.0;
+      applyCanvasTransform();
     }, { passive: false });
 
     // Touch Pinch-to-Zoom & Two-Finger Pan on Mobile
@@ -10891,7 +10980,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', () => resizeCanvas(true));
 
   // --- Automatic Update Checker ---
-  const CURRENT_APP_VERSION = '1.0.5';
+  const CURRENT_APP_VERSION = '1.0.6';
 
   function compareSemver(v1, v2) {
     const p1 = (v1 || '0').replace(/^v/, '').split('.').map(Number);
