@@ -5653,10 +5653,10 @@ const I18N = {
     download_apk_title: '📱 Aplicativo Android (.APK)',
     download_apk_badge: 'NOVO',
     download_apk_desc: 'Instale diretamente no seu smartphone ou tablet Android (Motorola, Samsung, Xiaomi). Sem anúncios e funciona 100% offline!',
-    download_btn_apk: '⚡ Baixar RetuxPaint v1.0.6 (.APK)',
+    download_btn_apk: '⚡ Baixar RetuxPaint v1.0.7 (.APK)',
     download_zip_title: 'Baixar Pacote Offline (.ZIP)',
     download_zip_desc: 'Descompacte e abra o index.html direto no seu navegador. Funciona 100% offline no Windows, Mac e Linux!',
-    download_btn_zip: '⬇️ Baixar Versão v1.0.6 (.ZIP)',
+    download_btn_zip: '⬇️ Baixar Versão v1.0.7 (.ZIP)',
     download_gh_title: 'Ver Código e Releases no GitHub',
     download_gh_desc: 'Acesse o repositório oficial, código-fonte e histórico de versões no GitHub.',
     download_btn_gh: '🐙 GitHub Releases',
@@ -5822,10 +5822,10 @@ const I18N = {
     download_apk_title: '📱 Android App (.APK)',
     download_apk_badge: 'NEW',
     download_apk_desc: 'Install directly on your Android phone or tablet (Motorola, Samsung, Xiaomi). Ad-free and works 100% offline!',
-    download_btn_apk: '⚡ Download RetuxPaint v1.0.6 (.APK)',
+    download_btn_apk: '⚡ Download RetuxPaint v1.0.7 (.APK)',
     download_zip_title: 'Download Offline Package (.ZIP)',
     download_zip_desc: 'Unzip and double-click index.html directly in your browser. Works 100% offline on Windows, Mac, and Linux!',
-    download_btn_zip: '⬇️ Download Version v1.0.6 (.ZIP)',
+    download_btn_zip: '⬇️ Download Version v1.0.7 (.ZIP)',
     download_gh_title: 'View Code & Releases on GitHub',
     download_gh_desc: 'Access the official repository, source code, and release notes on GitHub.',
     download_btn_gh: '🐙 GitHub Releases',
@@ -8498,17 +8498,33 @@ document.addEventListener('DOMContentLoaded', () => {
       applyCanvasTransform();
     }, { passive: false });
 
-    // Touch Pinch-to-Zoom & Two-Finger Pan on Mobile
+    // Touch Pinch-to-Zoom, Multi-Touch Safety & Two-Finger Pan on Mobile
     let touchPinchDist = null;
     let touchPinchStartZoom = 1.0;
     let touchPinchMidX = 0;
     let touchPinchMidY = 0;
     let isPinching = false;
+    let lastPinchEndTime = 0;
+    let activeTouchCount = 0;
+    let strokeSnapshot = null;
+    let pendingTap = null;
 
     container.addEventListener('touchstart', (e) => {
-      if (e.touches && e.touches.length === 2) {
+      activeTouchCount = e.touches.length;
+      if (e.touches.length >= 2) {
         isPinching = true;
+
+        // Cancela qualquer tap pendente (carimbo, balde, texto) para não disparar durante pinça
+        pendingTap = null;
+
+        // Se o 1º dedo iniciou um ponto de pincel ou mágica antes do 2º encostar, desfaz imediatamente revertendo o canvas
+        if (strokeSnapshot && state.isDrawing) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(strokeSnapshot, 0, 0);
+        }
         state.isDrawing = false;
+        previewSnapshot = null;
+
         const t1 = e.touches[0];
         const t2 = e.touches[1];
         touchPinchDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
@@ -8519,8 +8535,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     container.addEventListener('touchmove', (e) => {
-      if (e.touches && e.touches.length === 2 && isPinching) {
+      activeTouchCount = e.touches ? e.touches.length : 0;
+      if (e.touches && e.touches.length >= 2 && isPinching) {
         e.preventDefault();
+        pendingTap = null;
+        state.isDrawing = false;
+
         const t1 = e.touches[0];
         const t2 = e.touches[1];
         const currentDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
@@ -8542,9 +8562,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: false });
 
     const endPinch = (e) => {
-      if (!e.touches || e.touches.length < 2) {
+      activeTouchCount = e.touches ? e.touches.length : 0;
+      if (activeTouchCount < 2) {
+        if (isPinching) {
+          isPinching = false;
+          touchPinchDist = null;
+          lastPinchEndTime = Date.now();
+        }
+      }
+      if (activeTouchCount === 0) {
         isPinching = false;
         touchPinchDist = null;
+        pendingTap = null;
+        state.isDrawing = false;
       }
     };
     container.addEventListener('touchend', endPinch, { passive: true });
@@ -8583,6 +8613,13 @@ document.addEventListener('DOMContentLoaded', () => {
   canvas.addEventListener('pointerdown', (e) => {
     e.preventDefault();
 
+    // Bloqueia qualquer ação se estiver em pinça, se acabou de sair de pinça (< 500ms) ou se há múltiplos toques
+    if (isPinching || (Date.now() - lastPinchEndTime < 500) || (e.pointerType === 'touch' && activeTouchCount >= 2)) {
+      pendingTap = null;
+      state.isDrawing = false;
+      return;
+    }
+
     if (e.button === 1 || isSpaceDown) {
       state.isPanning = true;
       state.panStartX = e.clientX - state.panX;
@@ -8617,20 +8654,23 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    if (state.tool === 'text') {
-      openInlineTextEditor(x, y);
-      state.isDrawing = false;
-      return;
-    }
+    // Snapshot prévio do canvas antes de qualquer traço (permite desfazer pontinho inicial se virar pinça com 2 dedos)
+    strokeSnapshot = document.createElement('canvas');
+    strokeSnapshot.width = canvas.width;
+    strokeSnapshot.height = canvas.height;
+    strokeSnapshot.getContext('2d').drawImage(canvas, 0, 0);
 
-    if (state.tool === 'stamp') {
-      stampAt(x, y);
-      state.isDrawing = false;
-      return;
-    }
-
-    if (state.tool === 'fill') {
-      floodFill(x, y, state.currentColor);
+    // Ferramentas de clique/tap único (carimbo, balde de tinta, texto):
+    // Não carimbam no pointerdown imediato; aguardam pointerup para garantir que não é gesto de pinça ou arrasto!
+    if (state.tool === 'stamp' || state.tool === 'fill' || state.tool === 'text') {
+      pendingTap = {
+        tool: state.tool,
+        x, y,
+        clientX: e.clientX,
+        clientY: e.clientY,
+        pointerId: e.pointerId,
+        time: Date.now()
+      };
       state.isDrawing = false;
       return;
     }
@@ -8658,6 +8698,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Pointer Move on Canvas
   canvas.addEventListener('pointermove', (e) => {
+    if (isPinching || (Date.now() - lastPinchEndTime < 500) || (e.pointerType === 'touch' && activeTouchCount >= 2)) {
+      return;
+    }
+
     if (state.isPanning) {
       state.panX = e.clientX - state.panStartX;
       state.panY = e.clientY - state.panStartY;
@@ -8665,9 +8709,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // Se o usuário mover mais de 10px antes de soltar, cancela o tap pendente (está arrastando)
+    if (pendingTap) {
+      const dragDist = Math.hypot(e.clientX - pendingTap.clientX, e.clientY - pendingTap.clientY);
+      if (dragDist > 10) {
+        pendingTap = null;
+      }
+    }
+
     const { x, y } = getCoords(e);
 
-    if (state.tool === 'stamp') {
+    if (state.tool === 'stamp' && e.pointerType !== 'touch') {
       stampPreview.style.display = 'block';
       stampPreview.style.left = `${e.clientX}px`;
       stampPreview.style.top = `${e.clientY}px`;
@@ -8706,11 +8758,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  function stopDrawing() {
+  function stopDrawing(e) {
     if (state.isPanning) {
       state.isPanning = false;
       if (paper) paper.style.cursor = isSpaceDown ? 'grab' : 'crosshair';
     }
+
+    // Se estiver em pinça ou acabou de terminar a pinça há menos de 500ms, bloqueia qualquer ação residual
+    if (isPinching || (Date.now() - lastPinchEndTime < 500)) {
+      pendingTap = null;
+      state.isDrawing = false;
+      previewSnapshot = null;
+      return;
+    }
+
+    // Se havia um tap pendente (carimbo, balde de tinta, texto):
+    if (pendingTap) {
+      const tap = pendingTap;
+      pendingTap = null;
+      if (e && e.clientX !== undefined && e.clientY !== undefined) {
+        const dist = Math.hypot(e.clientX - tap.clientX, e.clientY - tap.clientY);
+        if (dist > 12) return; // Arrasto, não é tap!
+      }
+      const { x, y } = tap;
+      if (tap.tool === 'stamp') {
+        stampAt(x, y);
+      } else if (tap.tool === 'fill') {
+        floodFill(x, y, state.currentColor);
+      } else if (tap.tool === 'text') {
+        openInlineTextEditor(x, y);
+      }
+      return;
+    }
+
     if (!state.isDrawing) return;
     state.isDrawing = false;
     if (state.tool === 'lines' || state.tool === 'shapes') {
@@ -8721,7 +8801,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   canvas.addEventListener('pointerup', stopDrawing);
-  canvas.addEventListener('pointercancel', stopDrawing);
+  canvas.addEventListener('pointercancel', (e) => {
+    pendingTap = null;
+    if (strokeSnapshot && state.isDrawing) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(strokeSnapshot, 0, 0);
+    }
+    state.isDrawing = false;
+    previewSnapshot = null;
+    if (state.isPanning) {
+      state.isPanning = false;
+      if (paper) paper.style.cursor = isSpaceDown ? 'grab' : 'crosshair';
+    }
+  });
   canvas.addEventListener('pointerleave', () => {
     stampPreview.style.display = 'none';
     if (state.isPanning) {
@@ -10980,7 +11072,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', () => resizeCanvas(true));
 
   // --- Automatic Update Checker ---
-  const CURRENT_APP_VERSION = '1.0.6';
+  const CURRENT_APP_VERSION = '1.0.7';
 
   function compareSemver(v1, v2) {
     const p1 = (v1 || '0').replace(/^v/, '').split('.').map(Number);

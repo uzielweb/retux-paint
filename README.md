@@ -5,7 +5,7 @@
 > Digital drawing and creativity for kids, educators, and artists of all ages.
 
 [![GitHub Pages](https://img.shields.io/badge/demo-online-brightgreen.svg)](https://uzielweb.github.io/retux-paint/)
-[![Android APK](https://img.shields.io/badge/Android-APK%20v1.0.6-blue.svg)](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.6)
+[![Android APK](https://img.shields.io/badge/Android-APK%20v1.0.7-blue.svg)](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.7)
 [![License: GPL v2+](https://img.shields.io/badge/License-GPL_v2%2B-blue.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![HTML5 Canvas](https://img.shields.io/badge/HTML5-Canvas%202D-orange.svg)](#)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20JS)-success.svg)](#)
@@ -126,7 +126,7 @@ A interface foi projetada para combinar a nostalgia clássica com a sofisticaç�
 - **Ctrl + Roda do Mouse no Desktop:** Aumente ou diminua o zoom com precisão centrado diretamente na posição do cursor do mouse.
 - **Shift + Roda ou Alt + Roda do Mouse:** Rolagem / Pan horizontal fluido pelo desenho.
 - **Roda do Mouse (Rolagem Livre):** Rolagem vertical suave e navegação bidimensional livre com gestos de trackpad.
-- **Gestos de Pinça no Mobile:** Use movimentos naturais de pinça com 2 dedos para aproximar ou afastar o desenho e arrastar o papel sem riscar a tela.
+- **Gestos de Pinça no Mobile com Blindagem Multi-Touch:** Use movimentos naturais de pinça com 2 dedos para aproximar ou afastar o desenho e arrastar o papel com blindagem total contra disparos acidentais de carimbos, pincéis, preenchimentos ou mágicas.
 - **Navegação com Teclado (Pan):** Segure a tecla Espaço ou clique com o botão do meio do mouse para navegar livremente pela folha quando aproximada.
 - **100% Sem Perda de Conteúdo:** O buffer de pixels nativo é preservado integralmente, permitindo pintar detalhes minuciosos e retornar à visão geral sem nenhuma distorção.
 
@@ -156,7 +156,7 @@ A interface foi projetada para combinar a nostalgia clássica com a sofisticaç�
 #### 10. Aplicativo Android (Download e Instalação)
 ![Download do APK Android](docs/screenshots/08-android-apk-download.png)
 1. No cabeçalho da aplicação web, clique no botão **Baixar App Grátis**.
-2. Baixe o instalador oficial **`RetuxPaint-v1.0.6.apk`** diretamente ou através da [página de Releases do GitHub](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.6).
+2. Baixe o instalador oficial **`RetuxPaint-v1.0.7.apk`** diretamente ou através da [página de Releases do GitHub](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.7).
 3. No smartphone Android, abra o arquivo baixado. Se solicitado, permita a instalação de fontes confiáveis.
 4. Abra o Retux Paint e aproveite a experiência de desenho offline em tela cheia com aceleração gráfica nativa!
 
@@ -273,7 +273,7 @@ The interface marries nostalgic charm with modern design principles (crisp strai
 - **Desktop Ctrl + Mouse Wheel:** Precision zooming centered directly on your mouse cursor.
 - **Shift + Wheel or Alt + Wheel:** Fluid horizontal scrolling and canvas panning.
 - **Mouse Wheel (Free Scroll):** Smooth vertical scroll and 2D free panning via trackpad gestures.
-- **Mobile Pinch-to-Zoom:** Natural two-finger pinch gesture to zoom in/out and drag paper across the screen without accidental marks.
+- **Mobile Pinch-to-Zoom with Multi-Touch Safety Shielding:** Natural two-finger pinch gesture to zoom in/out and drag paper across the screen with complete immunity from accidental stamp placements, brush marks, fills, or magic effects.
 - **Canvas Panning:** Hold Spacebar or click the middle mouse button to navigate large canvases smoothly.
 - **100% Lossless:** Canvas bitmap resolution is preserved without pixelation or redraw loss.
 
@@ -303,7 +303,7 @@ The interface marries nostalgic charm with modern design principles (crisp strai
 #### 10. Android App (Download & Installation)
 ![Android APK Download](docs/screenshots/08-android-apk-download.png)
 1. Click the **Download App** button on the top web bar.
-2. Download the official **`RetuxPaint-v1.0.6.apk`** directly or via the [GitHub Releases page](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.6).
+2. Download the official **`RetuxPaint-v1.0.7.apk`** directly or via the [GitHub Releases page](https://github.com/uzielweb/retux-paint/releases/tag/v1.0.7).
 3. Open the APK on your Android device and confirm installation.
 4. Launch Retux Paint to enjoy distraction-free, offline full-screen drawing!
 

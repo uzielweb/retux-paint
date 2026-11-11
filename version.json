@@ -1,9 +1,9 @@
 {
-  "version": "1.0.6",
-  "name": "Retux Paint v1.0.6",
-  "notes_pt": "Controles de zoom realocados para o cabeçalho (canvas 100% livre sem obstruções), suporte completo a Ctrl+Rolar para zoom, Shift+Rolar e Alt+Rolar para pan horizontal e rolagem vertical livre",
-  "notes_en": "Zoom controls moved to header (canvas 100% clear with zero obstructions), full support for Ctrl+Wheel zoom, Shift+Wheel and Alt+Wheel horizontal pan, and free vertical scroll",
-  "apk_url": "https://github.com/uzielweb/retux-paint/releases/download/v1.0.6/RetuxPaint-v1.0.6.apk",
+  "version": "1.0.7",
+  "name": "Retux Paint v1.0.7",
+  "notes_pt": "Blindagem multi-touch contra disparos acidentais de carimbos, pincéis e mágicas durante movimentos de pinça no mobile; rollback instantâneo de traço pré-pinça e janela de segurança de 500ms pós-soltura",
+  "notes_en": "Multi-touch safety shielding against accidental stamps, brushes and magic triggers during mobile pinch-to-zoom; instant pre-pinch stroke rollback and 500ms post-release safety window",
+  "apk_url": "https://github.com/uzielweb/retux-paint/releases/download/v1.0.7/RetuxPaint-v1.0.7.apk",
   "release_url": "https://github.com/uzielweb/retux-paint/releases/latest",
   "published_at": "2026-11-11"
 }
